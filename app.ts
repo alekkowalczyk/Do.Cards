@@ -1,8 +1,9 @@
-class Startup {
-    public static main(): number {
-        console.log('Hello World');
-        return 0;
-    }
-}
-
-Startup.main();
+var express = require('express');
+var app = express();
+ 
+app.get('/', function (req, res) {
+  res.send('Hello World');
+});
+ 
+app.listen(3000);
+console.log("listening");
