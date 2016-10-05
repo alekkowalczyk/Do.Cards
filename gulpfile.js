@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const tslint = require("gulp-tslint");
 const tsc = require("gulp-typescript");
 const sourcemaps = require('gulp-sourcemaps');
-const merge = require('merge2');
+const webpack = require('webpack-stream');
 
 gulp.task("lint", function() {
     return gulp.src([
@@ -25,4 +25,11 @@ gulp.task("build-server", function() {
         .js
         .pipe(sourcemaps.write("./maps", {sourceRoot: '../server_src'}))
         .pipe(gulp.dest("server_build"));
+});
+
+gulp.task("build-client", function() {
+    const stream = gulp.src("./client_build/test.js")
+        .pipe(webpack(require("./webpack.config.js")))
+        .pipe(gulp.dest("./public/js"));
+    return stream;
 });
