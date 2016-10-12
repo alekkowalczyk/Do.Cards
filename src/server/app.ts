@@ -1,3 +1,5 @@
+
+
 import * as express from 'express';
 const app = express();
 
@@ -7,4 +9,4 @@ Routes(app);
 app.use(express.static("public"));
 
 app.listen(3000);
-console.log("listening");
+console.log("listening on port 3000 :-))))");

@@ -45,24 +45,46 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const des_1 = __webpack_require__(1);
-	const button = document.getElementById("testing");
-	if (button !== null) {
-	    (button).addEventListener("click", (ev) => {
-	        des_1.AlertTest();
-	    });
-	}
+	const React = __webpack_require__(1);
+	const ReactDOM = __webpack_require__(2);
+	const Hello_1 = __webpack_require__(3);
+	ReactDOM.render(React.createElement(Hello_1.Hello, {compiler: "TypeScript", framework: "React"}), document.getElementById("example"));
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
+	module.exports = React;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = ReactDOM;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
-	function AlertTest() {
-	    alert("alert test!");
+	const React = __webpack_require__(1);
+	class Hello extends React.Component {
+	    clickedButtonTest() {
+	        alert('hi!hello!');
+	    }
+	    render() {
+	        return React.createElement("div", null, 
+	            React.createElement("h1", null, 
+	                "Hello from ", 
+	                this.props.compiler, 
+	                " and ", 
+	                this.props.framework, 
+	                "!!!!"), 
+	            React.createElement("button", {onClick: this.clickedButtonTest}, "Test"));
+	    }
 	}
-	exports.AlertTest = AlertTest;
+	exports.Hello = Hello;
 
 
 /***/ }

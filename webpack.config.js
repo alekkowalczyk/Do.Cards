@@ -1,5 +1,5 @@
  module.exports = {
-     entry: './client_src/test.ts',
+     entry: './src/client/index.tsx',
      devtool: 'source-map',
      output: {
          path: require("path").resolve("./public/js"),
@@ -13,6 +13,17 @@
             loaders: [
                 // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
                 { test: /\.tsx?$/, loader: "ts-loader" }
+            ],
+            preLoaders: [
+                // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+                { test: /\.js$/, loader: "source-map-loader" }
             ]
-        }
+        },
+    ts: {
+        configFileName: "tsconfig_client.json",
+    },
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
+    },
  };
