@@ -4,6 +4,7 @@
     "express": "registry:npm/express#4.14.0+20160925001530"
   },
   "globalDependencies": {
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
     "node": "registry:dt/node#6.0.0+20160928143418"
   }
 }
