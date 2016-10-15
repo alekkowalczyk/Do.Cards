@@ -7,7 +7,7 @@ type CardParams = {
 
 export class CardModel extends Record({ id: "", title: ""}) {
     public readonly id: string;
-    public readonly value: string;
+    public readonly title: string;
 
     constructor(params?: CardParams) {
         params ? super(params) : super();
