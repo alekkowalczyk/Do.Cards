@@ -10,6 +10,7 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
 
     public render() {
         return  <div style={{border: "solid 1px black"}}>
+                    <p>Card</p>
                     <h3>{this.props.title}</h3>
                     <button onClick={this.props.remove}>X</button>
                 </div>;

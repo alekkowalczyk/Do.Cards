@@ -11,7 +11,7 @@ export class CardListModel extends Record({ cards: List<CardModel>()}) {
     constructor(params?: CardListParams) {
         params ? super(params) : super();
     }
-
+    // Public methods should be only called in reducers!
     public getCard(id: string): CardModel {
         return this.cards.find((c) => c !== undefined && c.id === id);
     }
