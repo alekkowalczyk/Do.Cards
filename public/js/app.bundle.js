@@ -7927,11 +7927,14 @@
 	    function CardModel(params) {
 	        params ? _super.call(this, params) : _super.call(this);
 	    }
+	    CardModel.prototype.setStatus = function (status) {
+	        return this.merge({ status: status });
+	    };
 	    CardModel.prototype.with = function (values) {
 	        return this.merge(values);
 	    };
 	    return CardModel;
-	}(immutable_1.Record({ id: "", title: "" })));
+	}(immutable_1.Record({ id: "", title: "", status: "OK" })));
 	exports.CardModel = CardModel;
 
 
@@ -13095,9 +13098,9 @@
 	"use strict";
 	var BoardPage_1 = __webpack_require__(112);
 	exports.BoardPage = BoardPage_1.default;
-	var App_1 = __webpack_require__(116);
+	var App_1 = __webpack_require__(118);
 	exports.App = App_1.default;
-	var AboutPage_1 = __webpack_require__(117);
+	var AboutPage_1 = __webpack_require__(119);
 	exports.AboutPage = AboutPage_1.default;
 
 
@@ -13120,6 +13123,7 @@
 	}); };
 	var mapDispatchToProps = function (dispatch) { return ({
 	    addEmptyCard: function () { return dispatch(cardActions.addCard("")); },
+	    editCardTitle: function (card, newTitle) { return dispatch(cardActions.editCardTitle(card.id, newTitle)); },
 	    archiveCard: function (card) { return dispatch(cardActions.archiveCard(card.id)); },
 	}); };
 	var BoardPage = (function (_super) {
@@ -13128,8 +13132,8 @@
 	        _super.apply(this, arguments);
 	    }
 	    BoardPage.prototype.render = function () {
-	        var _a = this.props, cardList = _a.cardList, addEmptyCard = _a.addEmptyCard, archiveCard = _a.archiveCard;
-	        return React.createElement(CardGroupComponent_1.CardGroupComponent, {cards: cardList.cards, addEmptyCard: addEmptyCard, removeCard: archiveCard});
+	        var _a = this.props, cardList = _a.cardList, addEmptyCard = _a.addEmptyCard, archiveCard = _a.archiveCard, editCardTitle = _a.editCardTitle;
+	        return React.createElement(CardGroupComponent_1.CardGroupComponent, {cards: cardList.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard});
 	    };
 	    return BoardPage;
 	}(React.Component));
@@ -13189,7 +13193,7 @@
 	        return React.createElement("div", {style: { border: "solid 1px gray" }}, 
 	            this.props.cards.map(function (c) {
 	                return c &&
-	                    React.createElement(CardComponent_1.CardComponent, {title: c.title, remove: function () { return _this.props.removeCard(c); }});
+	                    React.createElement(CardComponent_1.CardComponent, {title: c.title, titleChanged: function (newTitle) { return _this.props.editCardTitle(c, newTitle); }, remove: function () { return _this.props.removeCard(c); }});
 	            }), 
 	            React.createElement("button", {onClick: this.props.addEmptyCard}, "Add"));
 	    };
@@ -13209,16 +13213,24 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
+	var debounce_1 = __webpack_require__(116);
 	var CardComponent = (function (_super) {
 	    __extends(CardComponent, _super);
 	    function CardComponent() {
-	        _super.apply(this, arguments);
+	        _super.call(this);
+	        this.callTitleChangedProps = debounce_1.default(this.callTitleChangedProps, 1000);
 	    }
 	    CardComponent.prototype.render = function () {
 	        return React.createElement("div", {style: { border: "solid 1px black" }}, 
 	            React.createElement("p", null, "Card"), 
-	            React.createElement("h3", null, this.props.title), 
+	            React.createElement("input", {value: this.props.title, onKeyUp: this.titleChanged.bind(this)}), 
 	            React.createElement("button", {onClick: this.props.remove}, "X"));
+	    };
+	    CardComponent.prototype.callTitleChangedProps = function (str) {
+	        this.props.titleChanged(str);
+	    };
+	    CardComponent.prototype.titleChanged = function (e) {
+	        this.callTitleChangedProps(e.target.value);
 	    };
 	    return CardComponent;
 	}(React.Component));
@@ -13227,6 +13239,76 @@
 
 /***/ },
 /* 116 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Module dependencies.
+	 */
+	
+	var now = __webpack_require__(117);
+	
+	/**
+	 * Returns a function, that, as long as it continues to be invoked, will not
+	 * be triggered. The function will be called after it stops being called for
+	 * N milliseconds. If `immediate` is passed, trigger the function on the
+	 * leading edge, instead of the trailing.
+	 *
+	 * @source underscore.js
+	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+	 * @param {Function} function to wrap
+	 * @param {Number} timeout in ms (`100`)
+	 * @param {Boolean} whether to execute at the beginning (`false`)
+	 * @api public
+	 */
+	
+	module.exports = function debounce(func, wait, immediate){
+	  var timeout, args, context, timestamp, result;
+	  if (null == wait) wait = 100;
+	
+	  function later() {
+	    var last = now() - timestamp;
+	
+	    if (last < wait && last > 0) {
+	      timeout = setTimeout(later, wait - last);
+	    } else {
+	      timeout = null;
+	      if (!immediate) {
+	        result = func.apply(context, args);
+	        if (!timeout) context = args = null;
+	      }
+	    }
+	  };
+	
+	  return function debounced() {
+	    context = this;
+	    args = arguments;
+	    timestamp = now();
+	    var callNow = immediate && !timeout;
+	    if (!timeout) timeout = setTimeout(later, wait);
+	    if (callNow) {
+	      result = func.apply(context, args);
+	      context = args = null;
+	    }
+	
+	    return result;
+	  };
+	};
+
+
+/***/ },
+/* 117 */
+/***/ function(module, exports) {
+
+	module.exports = Date.now || now
+	
+	function now() {
+	    return new Date().getTime()
+	}
+
+
+/***/ },
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13256,7 +13338,7 @@
 
 
 /***/ },
-/* 117 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

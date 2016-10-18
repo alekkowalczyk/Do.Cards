@@ -23,6 +23,7 @@
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.17",
     "chai": "^3.5.0",
+    "debounce": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^6.1.2",
