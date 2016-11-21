@@ -4,16 +4,16 @@ import { connect } from "react-redux";
 import * as cardActions from "../actions/cardActions";
 import { CardGroupComponent } from "../components/CardGroupComponent";
 import { Store } from "../reducers/";
-import { CardListModel, CardModel } from "../model/card";
+import { CardGroupState, CardState } from "../state/card";
 
 type OwnProps = {}
 type ConnectedState = {
-    cardList: CardListModel
+    cardList: CardGroupState
 };
 type ConnectedDispatch = {
     addEmptyCard: () => void;
-    editCardTitle: (card: CardModel, newTitle: string) => void;
-    archiveCard: (card: CardModel) => void;
+    editCardTitle: (card: CardState, newTitle: string) => void;
+    archiveCard: (card: CardState) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
@@ -22,8 +22,8 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
     addEmptyCard: () => dispatch(cardActions.addCard("")),
-    editCardTitle: (card: CardModel, newTitle: string) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
-    archiveCard: (card: CardModel) => dispatch(cardActions.archiveCard(card.id)),
+    editCardTitle: (card: CardState, newTitle: string) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
+    archiveCard: (card: CardState) => dispatch(cardActions.archiveCard(card.id)),
 });
 
 class BoardPage extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {

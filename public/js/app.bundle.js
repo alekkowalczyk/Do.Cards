@@ -54,7 +54,7 @@
 	var configureStore_1 = __webpack_require__(102);
 	var routes_1 = __webpack_require__(110);
 	var initialStore = configureStore_1.default({
-	    cardList: new card_1.CardListModel(),
+	    cardList: new card_1.CardGroupState(),
 	});
 	var history = react_router_redux_1.syncHistoryWithStore(react_router_1.browserHistory, initialStore);
 	ReactDOM.render(React.createElement("div", null, 
@@ -7905,10 +7905,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var cardModel_1 = __webpack_require__(99);
-	exports.CardModel = cardModel_1.CardModel;
-	var cardListModel_1 = __webpack_require__(101);
-	exports.CardListModel = cardListModel_1.CardListModel;
+	var cardState_1 = __webpack_require__(99);
+	exports.CardState = cardState_1.CardState;
+	var cardGroupState_1 = __webpack_require__(101);
+	exports.CardGroupState = cardGroupState_1.CardGroupState;
 
 
 /***/ },
@@ -7922,20 +7922,20 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var immutable_1 = __webpack_require__(100);
-	var CardModel = (function (_super) {
-	    __extends(CardModel, _super);
-	    function CardModel(params) {
+	var CardState = (function (_super) {
+	    __extends(CardState, _super);
+	    function CardState(params) {
 	        params ? _super.call(this, params) : _super.call(this);
 	    }
-	    CardModel.prototype.setStatus = function (status) {
+	    CardState.prototype.setStatus = function (status) {
 	        return this.merge({ status: status });
 	    };
-	    CardModel.prototype.with = function (values) {
+	    CardState.prototype.with = function (values) {
 	        return this.merge(values);
 	    };
-	    return CardModel;
+	    return CardState;
 	}(immutable_1.Record({ id: "", title: "", status: "OK" })));
-	exports.CardModel = CardModel;
+	exports.CardState = CardState;
 
 
 /***/ },
@@ -12933,19 +12933,19 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var immutable_1 = __webpack_require__(100);
-	var CardListModel = (function (_super) {
-	    __extends(CardListModel, _super);
-	    function CardListModel(params) {
+	var CardGroupState = (function (_super) {
+	    __extends(CardGroupState, _super);
+	    function CardGroupState(params) {
 	        params ? _super.call(this, params) : _super.call(this);
 	    }
 	    // Public methods should be only called in reducers!
-	    CardListModel.prototype.getCard = function (id) {
+	    CardGroupState.prototype.getCard = function (id) {
 	        return this.cards.find(function (c) { return c !== undefined && c.id === id; });
 	    };
-	    CardListModel.prototype.addCard = function (card) {
+	    CardGroupState.prototype.addCard = function (card) {
 	        return this.merge({ cards: this.cards.push(card) });
 	    };
-	    CardListModel.prototype.updateCard = function (card) {
+	    CardGroupState.prototype.updateCard = function (card) {
 	        if (!card.id) {
 	            throw "cannot update card without id";
 	        }
@@ -12957,16 +12957,16 @@
 	            cards: this.cards.set(index, card),
 	        });
 	    };
-	    CardListModel.prototype.archiveCard = function (id) {
+	    CardGroupState.prototype.archiveCard = function (id) {
 	        var index = this.cards.findIndex(function (c) { return c !== undefined && c.id === id; });
 	        if (index < 0) {
 	            throw "updateCard: no card with id:" + id;
 	        }
 	        return this.merge({ cards: this.cards.remove(index) });
 	    };
-	    return CardListModel;
+	    return CardGroupState;
 	}(immutable_1.Record({ cards: immutable_1.List() })));
-	exports.CardListModel = CardListModel;
+	exports.CardGroupState = CardGroupState;
 
 
 /***/ },
@@ -13008,13 +13008,13 @@
 	var constants_1 = __webpack_require__(105);
 	var card_1 = __webpack_require__(98);
 	var card_2 = __webpack_require__(106);
-	var INITIAL_STATE = new card_1.CardListModel();
-	function cardListReducer(state, action) {
+	var INITIAL_STATE = new card_1.CardGroupState();
+	var cardListReducer = function (state, action) {
 	    if (state === void 0) { state = INITIAL_STATE; }
 	    if (action === void 0) { action = constants_1.OtherAction; }
 	    switch (action.type) {
 	        case card_2.Constants.ADD_CARD:
-	            return state.addCard(new card_1.CardModel({ title: action.title }));
+	            return state.addCard(new card_1.CardState({ title: action.title }));
 	        case card_2.Constants.ARCHIVE_CARD:
 	            return state.archiveCard(action.id);
 	        case card_2.Constants.EDIT_CARD_TITLE:
@@ -13023,7 +13023,7 @@
 	        default:
 	            return state;
 	    }
-	}
+	};
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = cardListReducer;
 

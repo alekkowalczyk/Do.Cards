@@ -1,13 +1,13 @@
 import * as React from "react";
 import { List } from "immutable";
-import { CardModel } from "../model/card/cardModel";
+import { CardState } from "../state/card/cardState";
 import { CardComponent } from "./CardComponent";
 
 export interface ICardGroupComponentProps {
-    cards: List<CardModel>;
+    cards: List<CardState>;
     addEmptyCard: () => void;
-    removeCard: (card: CardModel) => void;
-    editCardTitle: (card: CardModel, newTitle: string) => void;
+    removeCard: (card: CardState) => void;
+    editCardTitle: (card: CardState, newTitle: string) => void;
 }
 
 export class CardGroupComponent extends React.Component<ICardGroupComponentProps, {}> {

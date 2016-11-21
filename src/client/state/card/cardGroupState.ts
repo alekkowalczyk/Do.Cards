@@ -1,26 +1,26 @@
 import { List, Record } from "immutable";
-import { CardModel } from "./cardModel";
+import { CardState } from "./cardState";
 
-type CardListParams = {
-    cards?: List<CardModel>
+type CardGroupParams = {
+    cards?: List<CardState>
 };
 
-export class CardListModel extends Record({ cards: List<CardModel>()}) {
-    public readonly cards: List<CardModel>;
+export class CardGroupState extends Record({ cards: List<CardState>()}) {
+    public readonly cards: List<CardState>;
 
-    constructor(params?: CardListParams) {
+    constructor(params?: CardGroupParams) {
         params ? super(params) : super();
     }
     // Public methods should be only called in reducers!
-    public getCard(id: string): CardModel {
+    public getCard(id: string): CardState {
         return this.cards.find((c) => c !== undefined && c.id === id);
     }
 
-    public addCard(card: CardModel): CardListModel {
+    public addCard(card: CardState): CardGroupState {
         return this.merge({ cards: this.cards.push(card)}) as this;
     }
 
-    public updateCard(card: CardModel): CardListModel {
+    public updateCard(card: CardState): CardGroupState {
         if (!card.id) {
             throw "cannot update card without id";
         }
@@ -33,7 +33,7 @@ export class CardListModel extends Record({ cards: List<CardModel>()}) {
         }) as this;
     }
 
-    public archiveCard(id: string): CardListModel {
+    public archiveCard(id: string): CardGroupState {
         const index = this.cards.findIndex((c) => c !== undefined && c.id === id);
         if (index < 0) {
             throw "updateCard: no card with id:" + id;

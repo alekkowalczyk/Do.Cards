@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\client",
+    "\\src\\client\\model",
+    "\\src\\client\\model\\card",
+    "\\src\\client\\reducers"
+  ],
+  "SelectedNode": "\\src\\client\\reducers\\cardListReducer.ts",
+  "PreviewInSolutionExplorer": false
+}

@@ -7,7 +7,7 @@ type CardParams = {
 };
 export type CardStatus = "OK"|"Saving"|"Saved";
 
-export class CardModel extends Record({ id: "", title: "", status: "OK"}) {
+export class CardState extends Record({ id: "", title: "", status: "OK"}) {
     public readonly id: string;
     public readonly title: string;
     public readonly status: CardStatus;
@@ -16,11 +16,11 @@ export class CardModel extends Record({ id: "", title: "", status: "OK"}) {
         params ? super(params) : super();
     }
 
-    public setStatus(status: CardStatus): CardModel {
+    public setStatus(status: CardStatus): CardState {
         return this.merge({status}) as this;
     }
 
-    public with(values: CardParams): CardModel {
+    public with(values: CardParams): CardState {
         return this.merge(values) as this;
     }
 }
