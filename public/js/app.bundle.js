@@ -56,11 +56,9 @@
 	    cardGroup: { cards: [] },
 	});
 	const history = react_router_redux_1.syncHistoryWithStore(react_router_1.browserHistory, initialStore);
-	ReactDOM.render(React.createElement("div", null, 
-	    React.createElement(react_redux_1.Provider, {store: initialStore}, 
-	        React.createElement(react_router_1.Router, {history: history}, routes_1.default)
-	    )
-	), document.getElementById("root"));
+	ReactDOM.render(React.createElement("div", null,
+	    React.createElement(react_redux_1.Provider, { store: initialStore },
+	        React.createElement(react_router_1.Router, { history: history }, routes_1.default))), document.getElementById("root"));
 
 
 /***/ },
@@ -7933,33 +7931,38 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __assign = (this && this.__assign) || Object.assign || function(t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+	            t[p] = s[p];
+	    }
+	    return t;
+	};
 	const constants_1 = __webpack_require__(101);
 	const card_1 = __webpack_require__(102);
 	const INITIAL_STATE = { cards: [] };
+	let cardId = 0;
 	const cardGroupReducer = (state = INITIAL_STATE, action = constants_1.OtherAction) => {
 	    switch (action.type) {
 	        case card_1.Constants.ADD_CARD:
-	            return Object.assign({}, state, {
-	                cards: [
+	            return __assign({}, state, { cards: [
 	                    ...state.cards,
 	                    {
-	                        id: "123",
+	                        id: (cardId++).toString(),
 	                        title: action.title,
-	                        state: "OK",
-	                    }
-	                ],
-	            });
+	                        status: "OK",
+	                    },
+	                ] });
 	        case card_1.Constants.ARCHIVE_CARD:
 	            const cardToArchive = state.cards.find(c => c.id === action.id);
 	            if (cardToArchive) {
 	                const idxToRemove = state.cards.indexOf(cardToArchive);
 	                if (idxToRemove > -1) {
-	                    return Object.assign({}, state, {
-	                        cards: [
+	                    return __assign({}, state, { cards: [
 	                            ...state.cards.slice(0, idxToRemove),
-	                            ...state.cards.slice(idxToRemove),
-	                        ],
-	                    });
+	                            ...state.cards.slice(idxToRemove + 1),
+	                        ] });
 	                }
 	            }
 	            ;
@@ -7969,15 +7972,11 @@
 	            if (cardToEdit) {
 	                const idxToRemove = state.cards.indexOf(cardToEdit);
 	                if (idxToRemove > -1) {
-	                    return Object.assign({}, state, {
-	                        cards: [
+	                    return __assign({}, state, { cards: [
 	                            ...state.cards.slice(0, idxToRemove),
-	                            Object.assign({}, cardToEdit, {
-	                                title: action.title,
-	                            }),
-	                            ...state.cards.slice(idxToRemove),
-	                        ],
-	                    });
+	                            __assign({}, cardToEdit, { title: action.title }),
+	                            ...state.cards.slice(idxToRemove + 1),
+	                        ] });
 	                }
 	            }
 	            return state;
@@ -8047,9 +8046,9 @@
 	const react_router_1 = __webpack_require__(32);
 	const containers_1 = __webpack_require__(107);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = (React.createElement(react_router_1.Route, {path: "/", component: containers_1.App}, 
-	    React.createElement(react_router_1.IndexRoute, {component: containers_1.BoardPage}), 
-	    React.createElement(react_router_1.Route, {path: "about", component: containers_1.AboutPage})));
+	exports.default = (React.createElement(react_router_1.Route, { path: "/", component: containers_1.App },
+	    React.createElement(react_router_1.IndexRoute, { component: containers_1.BoardPage }),
+	    React.createElement(react_router_1.Route, { path: "about", component: containers_1.AboutPage })));
 
 
 /***/ },
@@ -8085,7 +8084,7 @@
 	class BoardPage extends React.Component {
 	    render() {
 	        const { cardGroup, addEmptyCard, archiveCard, editCardTitle } = this.props;
-	        return React.createElement(CardGroupComponent_1.CardGroupComponent, {cards: cardGroup.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard});
+	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cardGroup.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -8131,10 +8130,10 @@
 	const CardComponent_1 = __webpack_require__(111);
 	class CardGroupComponent extends React.Component {
 	    render() {
-	        return React.createElement("div", {style: { border: "solid 1px gray" }}, 
+	        return React.createElement("div", { style: { border: "solid 1px gray" } },
 	            this.props.cards.map((c) => c &&
-	                React.createElement(CardComponent_1.CardComponent, {title: c.title, titleChanged: (newTitle) => this.props.editCardTitle(c, newTitle), remove: () => this.props.removeCard(c)})), 
-	            React.createElement("button", {onClick: this.props.addEmptyCard}, "Add"));
+	                React.createElement(CardComponent_1.CardComponent, { key: c.id, title: c.title, titleChanged: (newTitle) => this.props.editCardTitle(c, newTitle), remove: () => this.props.removeCard(c) })),
+	            React.createElement("button", { onClick: this.props.addEmptyCard }, "Add"));
 	    }
 	}
 	exports.CardGroupComponent = CardGroupComponent;
@@ -8153,10 +8152,10 @@
 	        this.callTitleChangedProps = _.debounce(this.callTitleChangedProps, 1000);
 	    }
 	    render() {
-	        return React.createElement("div", {style: { border: "solid 1px black" }}, 
-	            React.createElement("p", null, "Card"), 
-	            React.createElement("input", {value: this.props.title, onChange: this.titleChanged.bind(this)}), 
-	            React.createElement("button", {onClick: this.props.remove}, "X"));
+	        return React.createElement("div", { style: { border: "solid 1px black" } },
+	            React.createElement("p", null, "Card"),
+	            React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
+	            React.createElement("button", { onClick: this.props.remove }, "X"));
 	    }
 	    callTitleChangedProps(str) {
 	        this.props.titleChanged(str);
@@ -25251,8 +25250,8 @@
 	const mapDispatchToProps = (dispatch) => ({});
 	class App extends React.Component {
 	    render() {
-	        return React.createElement("div", null, 
-	            React.createElement("h3", null, "Do.Cards"), 
+	        return React.createElement("div", null,
+	            React.createElement("h3", null, "Do.Cards"),
 	            React.createElement("div", null, this.props.children));
 	    }
 	}

@@ -3,4 +3,5 @@ export interface ICardModel {
     readonly id: string;
     readonly title: string;
     readonly status: CardStatus;
-}
+};
+

@@ -16,7 +16,8 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                     {
                         this.props.cards.map((c) =>
                             c &&
-                            <CardComponent title={c.title}
+                            <CardComponent key={c.id}
+                                           title={c.title}
                                            titleChanged={(newTitle) => this.props.editCardTitle(c, newTitle)}
                                            remove={() => this.props.removeCard(c)} />
                         )
