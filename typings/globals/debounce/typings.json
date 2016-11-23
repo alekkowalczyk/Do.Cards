@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3a605075a65f9d994c0878ca16f0151085a9db55/debounce/debounce.d.ts",
-    "raw": "registry:dt/debounce#0.0.0+20151130120024",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/3a605075a65f9d994c0878ca16f0151085a9db55/debounce/debounce.d.ts"
-  }
-}

@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
-import { CardGroupState } from "../state/card";
-import cardList from "./cardListReducer";
+import { ICardGroupModel } from "../model/card";
+import cardGroup from "./cardGroupReducer";
 
 export type Store = {
-    cardList: CardGroupState,
+    cardGroup: ICardGroupModel,
 };
 
 export default combineReducers<Store>({
-    cardList,
+    cardGroup,
     routing: routerReducer,
 });

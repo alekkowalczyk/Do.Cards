@@ -1,5 +1,5 @@
 import * as React from "react";
-import debounce from "debounce";
+import * as _ from "lodash";
 
 export interface ICardComponentProps {
     title: string;
@@ -10,13 +10,13 @@ export interface ICardComponentProps {
 export class CardComponent extends React.Component<ICardComponentProps, {}> {
     constructor() {
         super();
-        this.callTitleChangedProps = debounce(this.callTitleChangedProps, 1000);
+        this.callTitleChangedProps = _.debounce(this.callTitleChangedProps, 1000);
     }
 
     public render() {
         return  <div style={{border: "solid 1px black"}}>
                     <p>Card</p>
-                    <input value={this.props.title} onKeyUp={this.titleChanged.bind(this)}/>
+                    <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
                     <button onClick={this.props.remove}>X</button>
                 </div>;
     }

@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node server/app.js",
     "test": "later"
   },
   "repository": {
@@ -23,12 +24,11 @@
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.17",
     "chai": "^3.5.0",
-    "debounce": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^6.1.2",
     "gulp-typescript": "^3.0.2",
-    "immutable": "^3.8.1",
+    "lodash": "^4.17.2",
     "mocha": "^3.1.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

@@ -1,2 +1,2 @@
-export { default as cardListReducer } from "./cardListReducer";
+export { default as cardGroupReducer } from "./cardGroupReducer";
 export { default as rootReducer, Store } from "./rootReducer";
