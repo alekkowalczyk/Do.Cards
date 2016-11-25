@@ -51,7 +51,7 @@
 	const react_router_1 = __webpack_require__(32);
 	const react_router_redux_1 = __webpack_require__(93);
 	const configureStore_1 = __webpack_require__(98);
-	const routes_1 = __webpack_require__(106);
+	const routes_1 = __webpack_require__(107);
 	const initialStore = configureStore_1.default({
 	    cardGroup: { cards: [] },
 	});
@@ -7939,13 +7939,13 @@
 	    }
 	    return t;
 	};
-	const constants_1 = __webpack_require__(101);
-	const card_1 = __webpack_require__(102);
+	const common_1 = __webpack_require__(101);
+	const actions_1 = __webpack_require__(103);
 	const INITIAL_STATE = { cards: [] };
 	let cardId = 0;
-	const cardGroupReducer = (state = INITIAL_STATE, action = constants_1.OtherAction) => {
+	const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) => {
 	    switch (action.type) {
-	        case card_1.Constants.ADD_CARD:
+	        case actions_1.ActionConstants.ADD_CARD:
 	            return __assign({}, state, { cards: [
 	                    ...state.cards,
 	                    {
@@ -7954,7 +7954,7 @@
 	                        status: "OK",
 	                    },
 	                ] });
-	        case card_1.Constants.ARCHIVE_CARD:
+	        case actions_1.ActionConstants.ARCHIVE_CARD:
 	            const cardToArchive = state.cards.find(c => c.id === action.id);
 	            if (cardToArchive) {
 	                const idxToRemove = state.cards.indexOf(cardToArchive);
@@ -7967,7 +7967,7 @@
 	            }
 	            ;
 	            return state;
-	        case card_1.Constants.EDIT_CARD_TITLE:
+	        case actions_1.ActionConstants.EDIT_CARD_TITLE:
 	            const cardToEdit = state.cards.find(c => c.id === action.id);
 	            if (cardToEdit) {
 	                const idxToRemove = state.cards.indexOf(cardToEdit);
@@ -7993,33 +7993,29 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	function __export(m) {
-	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-	}
-	const Card = __webpack_require__(102);
-	exports.Card = Card;
-	__export(__webpack_require__(105));
+	var baseActionConstants_1 = __webpack_require__(102);
+	exports.OtherAction = baseActionConstants_1.OtherAction;
 
 
 /***/ },
 /* 102 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
-	const Constants = __webpack_require__(103);
-	exports.Constants = Constants;
-	const ActionDefs = __webpack_require__(104);
-	exports.ActionDefs = ActionDefs;
+	exports.OtherAction = { type: "" };
 
 
 /***/ },
 /* 103 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	exports.ADD_CARD = "Card/ADD_CARD";
-	exports.EDIT_CARD_TITLE = "Card/EDIT_CARD_TITLE";
-	exports.ARCHIVE_CARD = "Card/ARCHIVE_CARD";
+	const ActionDefs = __webpack_require__(104);
+	exports.ActionDefs = ActionDefs;
+	const Actions = __webpack_require__(105);
+	exports.Actions = Actions;
+	const ActionConstants = __webpack_require__(106);
+	exports.ActionConstants = ActionConstants;
 
 
 /***/ },
@@ -8031,82 +8027,20 @@
 
 /***/ },
 /* 105 */
-/***/ function(module, exports) {
-
-	"use strict";
-	exports.OtherAction = { type: "" };
-
-
-/***/ },
-/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const React = __webpack_require__(1);
-	const react_router_1 = __webpack_require__(32);
-	const containers_1 = __webpack_require__(107);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = (React.createElement(react_router_1.Route, { path: "/", component: containers_1.App },
-	    React.createElement(react_router_1.IndexRoute, { component: containers_1.BoardPage }),
-	    React.createElement(react_router_1.Route, { path: "about", component: containers_1.AboutPage })));
-
-
-/***/ },
-/* 107 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var BoardPage_1 = __webpack_require__(108);
-	exports.BoardPage = BoardPage_1.default;
-	var App_1 = __webpack_require__(113);
-	exports.App = App_1.default;
-	var AboutPage_1 = __webpack_require__(114);
-	exports.AboutPage = AboutPage_1.default;
-
-
-/***/ },
-/* 108 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	const React = __webpack_require__(1);
-	const react_redux_1 = __webpack_require__(3);
-	const cardActions = __webpack_require__(109);
-	const CardGroupComponent_1 = __webpack_require__(110);
-	const mapStateToProps = (state, ownProps) => ({
-	    cardGroup: state.cardGroup,
-	});
-	const mapDispatchToProps = (dispatch) => ({
-	    addEmptyCard: () => dispatch(cardActions.addCard("")),
-	    editCardTitle: (card, newTitle) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
-	    archiveCard: (card) => dispatch(cardActions.archiveCard(card.id)),
-	});
-	class BoardPage extends React.Component {
-	    render() {
-	        const { cardGroup, addEmptyCard, archiveCard, editCardTitle } = this.props;
-	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cardGroup.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
-	    }
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardPage);
-
-
-/***/ },
-/* 109 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	const card_1 = __webpack_require__(102);
+	const Constants = __webpack_require__(106);
 	function addCard(title) {
 	    return {
-	        type: card_1.Constants.ADD_CARD,
+	        type: Constants.ADD_CARD,
 	        title: title,
 	    };
 	}
 	exports.addCard = addCard;
 	function editCardTitle(id, title) {
 	    return {
-	        type: card_1.Constants.EDIT_CARD_TITLE,
+	        type: Constants.EDIT_CARD_TITLE,
 	        id: id,
 	        title: title,
 	    };
@@ -8114,11 +8048,67 @@
 	exports.editCardTitle = editCardTitle;
 	function archiveCard(id) {
 	    return {
-	        type: card_1.Constants.ARCHIVE_CARD,
+	        type: Constants.ARCHIVE_CARD,
 	        id: id,
 	    };
 	}
 	exports.archiveCard = archiveCard;
+
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.ADD_CARD = "Card/ADD_CARD";
+	exports.EDIT_CARD_TITLE = "Card/EDIT_CARD_TITLE";
+	exports.ARCHIVE_CARD = "Card/ARCHIVE_CARD";
+
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const React = __webpack_require__(1);
+	const react_router_1 = __webpack_require__(32);
+	const containers_1 = __webpack_require__(108);
+	const containers_2 = __webpack_require__(111);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = (React.createElement(react_router_1.Route, { path: "/", component: containers_1.App },
+	    React.createElement(react_router_1.IndexRoute, { component: containers_2.CardGroupContainer }),
+	    React.createElement(react_router_1.Route, { path: "about", component: containers_1.AboutPage })));
+
+
+/***/ },
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const app_1 = __webpack_require__(109);
+	exports.App = app_1.default;
+	const aboutPage_1 = __webpack_require__(110);
+	exports.AboutPage = aboutPage_1.default;
+
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const React = __webpack_require__(1);
+	const react_redux_1 = __webpack_require__(3);
+	const mapStateToProps = (state, ownProps) => ({});
+	const mapDispatchToProps = (dispatch) => ({});
+	class App extends React.Component {
+	    render() {
+	        return React.createElement("div", null,
+	            React.createElement("h3", null, "Do.Cards"),
+	            React.createElement("div", null, this.props.children));
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(App);
 
 
 /***/ },
@@ -8127,7 +8117,57 @@
 
 	"use strict";
 	const React = __webpack_require__(1);
-	const CardComponent_1 = __webpack_require__(111);
+	;
+	function AboutPage(props) {
+	    return (React.createElement("h2", null, "About page"));
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = AboutPage;
+
+
+/***/ },
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const cardGroupContainer_1 = __webpack_require__(112);
+	exports.CardGroupContainer = cardGroupContainer_1.default;
+
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const React = __webpack_require__(1);
+	const react_redux_1 = __webpack_require__(3);
+	const cardActions = __webpack_require__(105);
+	const CardGroupComponent_1 = __webpack_require__(113);
+	const mapStateToProps = (state, ownProps) => ({
+	    cardGroup: state.cardGroup,
+	});
+	const mapDispatchToProps = (dispatch) => ({
+	    addEmptyCard: () => dispatch(cardActions.addCard("")),
+	    editCardTitle: (card, newTitle) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
+	    archiveCard: (card) => dispatch(cardActions.archiveCard(card.id)),
+	});
+	class CardGroupContainer extends React.Component {
+	    render() {
+	        const { cardGroup, addEmptyCard, archiveCard, editCardTitle } = this.props;
+	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cardGroup.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(CardGroupContainer);
+
+
+/***/ },
+/* 113 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	const React = __webpack_require__(1);
+	const CardComponent_1 = __webpack_require__(114);
 	class CardGroupComponent extends React.Component {
 	    render() {
 	        return React.createElement("div", { style: { border: "solid 1px gray" } },
@@ -8140,12 +8180,12 @@
 
 
 /***/ },
-/* 111 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	const React = __webpack_require__(1);
-	const _ = __webpack_require__(112);
+	const _ = __webpack_require__(115);
 	class CardComponent extends React.Component {
 	    constructor() {
 	        super();
@@ -8168,7 +8208,7 @@
 
 
 /***/ },
-/* 112 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -25238,40 +25278,6 @@
 	}.call(this));
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(19)(module)))
-
-/***/ },
-/* 113 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	const React = __webpack_require__(1);
-	const react_redux_1 = __webpack_require__(3);
-	const mapStateToProps = (state, ownProps) => ({});
-	const mapDispatchToProps = (dispatch) => ({});
-	class App extends React.Component {
-	    render() {
-	        return React.createElement("div", null,
-	            React.createElement("h3", null, "Do.Cards"),
-	            React.createElement("div", null, this.props.children));
-	    }
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(App);
-
-
-/***/ },
-/* 114 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	const React = __webpack_require__(1);
-	;
-	function AboutPage(props) {
-	    return (React.createElement("h2", null, "About page"));
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = AboutPage;
-
 
 /***/ }
 /******/ ]);

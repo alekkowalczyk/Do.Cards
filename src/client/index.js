@@ -4,8 +4,8 @@ const ReactDOM = require("react-dom");
 const react_redux_1 = require("react-redux");
 const react_router_1 = require("react-router");
 const react_router_redux_1 = require("react-router-redux");
-const configureStore_1 = require("./store/configureStore");
-const routes_1 = require("./store/routes");
+const configureStore_1 = require("./app/store/configureStore");
+const routes_1 = require("./app/store/routes");
 const initialStore = configureStore_1.default({
     cardGroup: { cards: [] },
 });

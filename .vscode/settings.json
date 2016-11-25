@@ -9,7 +9,7 @@
         "**/*.js.map": true,
         "node_modules": true,
         "typings": true,
-        ".vs": true,
+        ".vs": true
     },
     "typescript.tsdk": "./node_modules/typescript/lib"
 }
