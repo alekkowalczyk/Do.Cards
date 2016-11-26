@@ -22,7 +22,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
     addEmptyCard: () => dispatch(cardActions.addCard("")),
-    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
+    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(cardActions.cardTitleChanged(card.id, newTitle)),
     archiveCard: (card: ICardModel) => dispatch(cardActions.archiveCard(card.id)),
 });
 

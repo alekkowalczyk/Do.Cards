@@ -29,4 +29,45 @@ describe("cardGroupReducer", () => {
             expect(state.cards).to.have.length(0);
         });
     });
+
+    describe("CHANGE_CARD_TITLE dispatched", () => {
+        it("set's the new title in the card", () => {
+            const initialstate: ICardGroupModel = {
+                cards: [{
+                    id: "0",
+                    title: "some title0",
+                    status: "OK",
+                },
+                {
+                    id: "1",
+                    title: "some title1",
+                    status: "OK",
+                },
+                {
+                    id: "2",
+                    title: "some title2",
+                    status: "OK",
+                }],
+            };
+            const expectedState: ICardGroupModel = {
+                cards: [{
+                    id: "0",
+                    title: "some title0",
+                    status: "OK",
+                },
+                {
+                    id: "1",
+                    title: "some title1 - CHANGED",
+                    status: "OK",
+                },
+                {
+                    id: "2",
+                    title: "some title2",
+                    status: "OK",
+                }],
+            };
+            const resultingState = cardGroupReducer(initialstate, cardActions.changeCardTitle("1", "some title1 - CHANGED"));
+            expect(resultingState).to.deep.equal(expectedState);
+        });
+    });
 });

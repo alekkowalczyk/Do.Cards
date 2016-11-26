@@ -5,7 +5,7 @@ import { ICardGroupModel } from "../model";
 type CardAction =
     ActionDefs.AddCardAction |
     ActionDefs.ArchiveCardAction |
-    ActionDefs.EditCardTitleAction |
+    ActionDefs.ChangeCardTitleAction |
     OtherAction;
 
 const INITIAL_STATE: ICardGroupModel = { cards: [] };
@@ -40,7 +40,7 @@ const cardGroupReducer = (state: ICardGroupModel = INITIAL_STATE, action: CardAc
                 }
             };
             return state;
-        case ActionConstants.EDIT_CARD_TITLE:
+        case ActionConstants.CHANGE_CARD_TITLE:
             const cardToEdit = state.cards.find(c => c.id === action.id);
             if (cardToEdit) {
                 const idxToRemove = state.cards.indexOf(cardToEdit);

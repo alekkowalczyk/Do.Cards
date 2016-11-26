@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     addEmptyCard: () => dispatch(cardActions.addCard("")),
-    editCardTitle: (card, newTitle) => dispatch(cardActions.editCardTitle(card.id, newTitle)),
+    editCardTitle: (card, newTitle) => dispatch(cardActions.cardTitleChanged(card.id, newTitle)),
     archiveCard: (card) => dispatch(cardActions.archiveCard(card.id)),
 });
 class CardGroupContainer extends React.Component {

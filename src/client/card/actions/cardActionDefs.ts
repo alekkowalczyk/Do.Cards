@@ -6,10 +6,16 @@ export type AddCardAction = {
             title: string,
         };
 
-export type EditCardTitleAction = {
-            type: Constants.EDIT_CARD_TITLE,
+export type CardTitleChangedAction = {
+            type: Constants.CARD_TITLE_CHANGED,
             title: string,
         } & QId;
+
+export type ChangeCardTitleAction = {
+            type: Constants.CHANGE_CARD_TITLE,
+            title: string,
+        } & QId;
+
 
 export type ArchiveCardAction = {
             type: Constants.ARCHIVE_CARD,

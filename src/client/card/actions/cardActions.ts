@@ -8,9 +8,17 @@ export function addCard(title: string): ActionDefs.AddCardAction {
     };
 }
 
-export function editCardTitle(id: string, title: string): ActionDefs.EditCardTitleAction {
+export function cardTitleChanged(id: string, title: string): ActionDefs.CardTitleChangedAction {
     return {
-        type: Constants.EDIT_CARD_TITLE,
+        type: Constants.CARD_TITLE_CHANGED,
+        id: id,
+        title: title,
+    };
+}
+
+export function changeCardTitle(id: string, title: string): ActionDefs.ChangeCardTitleAction {
+    return {
+        type: Constants.CHANGE_CARD_TITLE,
         id: id,
         title: title,
     };

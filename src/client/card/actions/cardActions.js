@@ -7,14 +7,22 @@ function addCard(title) {
     };
 }
 exports.addCard = addCard;
-function editCardTitle(id, title) {
+function cardTitleChanged(id, title) {
     return {
-        type: Constants.EDIT_CARD_TITLE,
+        type: Constants.CARD_TITLE_CHANGED,
         id: id,
         title: title,
     };
 }
-exports.editCardTitle = editCardTitle;
+exports.cardTitleChanged = cardTitleChanged;
+function changeCardTitle(id, title) {
+    return {
+        type: Constants.CHANGE_CARD_TITLE,
+        id: id,
+        title: title,
+    };
+}
+exports.changeCardTitle = changeCardTitle;
 function archiveCard(id) {
     return {
         type: Constants.ARCHIVE_CARD,

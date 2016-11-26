@@ -35,7 +35,7 @@ const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) 
             }
             ;
             return state;
-        case actions_1.ActionConstants.EDIT_CARD_TITLE:
+        case actions_1.ActionConstants.CHANGE_CARD_TITLE:
             const cardToEdit = state.cards.find(c => c.id === action.id);
             if (cardToEdit) {
                 const idxToRemove = state.cards.indexOf(cardToEdit);
