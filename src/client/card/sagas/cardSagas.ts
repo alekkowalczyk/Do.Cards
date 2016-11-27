@@ -3,8 +3,8 @@ import { call, put } from "redux-saga/effects";
 import { ActionConstants, Actions } from "../actions";
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-function * handleCardTitleChanged(options: {id: string, title: string}) {
+export { delay };
+export function* handleCardTitleChanged(options: {id: string, title: string}) {
     yield put(Actions.changeCardTitle(options.id, options.title));
     yield call(delay, 500);
     console.log("AJAX CALL!!!", options);
