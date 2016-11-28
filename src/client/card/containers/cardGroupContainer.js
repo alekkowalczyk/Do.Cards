@@ -1,15 +1,15 @@
 "use strict";
 const React = require("react");
 const react_redux_1 = require("react-redux");
-const cardActions = require("../actions/cardActions");
+const actions_1 = require("../actions");
 const CardGroupComponent_1 = require("../components/CardGroupComponent");
 const mapStateToProps = (state, ownProps) => ({
     cardGroup: state.cardGroup,
 });
 const mapDispatchToProps = (dispatch) => ({
-    addEmptyCard: () => dispatch(cardActions.addCard("")),
-    editCardTitle: (card, newTitle) => dispatch(cardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card) => dispatch(cardActions.archiveCard(card.id)),
+    addEmptyCard: () => dispatch(actions_1.CardGroupActions.addCard("")),
+    editCardTitle: (card, newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(card.id, newTitle)),
+    archiveCard: (card) => dispatch(actions_1.CardGroupActions.archiveCard(card.id)),
 });
 class CardGroupContainer extends React.Component {
     render() {

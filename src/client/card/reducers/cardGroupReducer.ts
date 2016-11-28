@@ -1,11 +1,12 @@
 import { OtherAction } from "../../common";
-import { ActionDefs, ActionConstants } from "../actions";
+import { CardGroupActionDefs, CardGroupActionConstants, CardActionDefs, CardActionConstants } from "../actions";
 import { ICardGroupModel } from "../model";
+import cardReducer from "./cardReducer";
 
 type CardAction =
-    ActionDefs.AddCardAction |
-    ActionDefs.ArchiveCardAction |
-    ActionDefs.ChangeCardTitleAction |
+    CardGroupActionDefs.AddCardAction |
+    CardGroupActionDefs.ArchiveCardAction |
+    CardActionDefs.CardAction |
     OtherAction;
 
 const INITIAL_STATE: ICardGroupModel = { cards: [] };
@@ -13,7 +14,7 @@ let cardId = 0;
 
 const cardGroupReducer = (state: ICardGroupModel = INITIAL_STATE, action: CardAction = OtherAction): ICardGroupModel => {
     switch (action.type) {
-        case ActionConstants.ADD_CARD:
+        case CardGroupActionConstants.ADD_CARD:
             return {
                 ...state,
                 cards: [
@@ -25,7 +26,7 @@ const cardGroupReducer = (state: ICardGroupModel = INITIAL_STATE, action: CardAc
                     },
                 ],
             };
-        case ActionConstants.ARCHIVE_CARD:
+        case CardGroupActionConstants.ARCHIVE_CARD:
             const cardToArchive = state.cards.find(c => c.id === action.id);
             if (cardToArchive) {
                 const idxToRemove = state.cards.indexOf(cardToArchive);
@@ -40,7 +41,7 @@ const cardGroupReducer = (state: ICardGroupModel = INITIAL_STATE, action: CardAc
                 }
             };
             return state;
-        case ActionConstants.CHANGE_CARD_TITLE:
+        case CardActionConstants.CARD_ACTION:
             const cardToEdit = state.cards.find(c => c.id === action.id);
             if (cardToEdit) {
                 const idxToRemove = state.cards.indexOf(cardToEdit);
@@ -49,10 +50,7 @@ const cardGroupReducer = (state: ICardGroupModel = INITIAL_STATE, action: CardAc
                         ...state,
                         cards: [
                             ...state.cards.slice(0, idxToRemove),
-                            {
-                                ...cardToEdit,
-                                title: action.title,
-                            },
+                            cardReducer(cardToEdit, <any>action),
                             ...state.cards.slice(idxToRemove + 1),
                         ],
                     };

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import * as cardActions from "../actions/cardActions";
+import { CardGroupActions, CardActions } from "../actions";
 import { CardGroupComponent } from "../components/CardGroupComponent";
 import { Store } from "../../app/";
 import { ICardGroupModel, ICardModel } from "../model";
@@ -21,9 +21,9 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
-    addEmptyCard: () => dispatch(cardActions.addCard("")),
-    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(cardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card: ICardModel) => dispatch(cardActions.archiveCard(card.id)),
+    addEmptyCard: () => dispatch(CardGroupActions.addCard("")),
+    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(CardActions.cardTitleChanged(card.id, newTitle)),
+    archiveCard: (card: ICardModel) => dispatch(CardGroupActions.archiveCard(card.id)),
 });
 
 class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {

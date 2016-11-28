@@ -9,11 +9,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 const common_1 = require("../../common");
 const actions_1 = require("../actions");
+const cardReducer_1 = require("./cardReducer");
 const INITIAL_STATE = { cards: [] };
 let cardId = 0;
 const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) => {
     switch (action.type) {
-        case actions_1.ActionConstants.ADD_CARD:
+        case actions_1.CardGroupActionConstants.ADD_CARD:
             return __assign({}, state, { cards: [
                     ...state.cards,
                     {
@@ -22,7 +23,7 @@ const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) 
                         status: "OK",
                     },
                 ] });
-        case actions_1.ActionConstants.ARCHIVE_CARD:
+        case actions_1.CardGroupActionConstants.ARCHIVE_CARD:
             const cardToArchive = state.cards.find(c => c.id === action.id);
             if (cardToArchive) {
                 const idxToRemove = state.cards.indexOf(cardToArchive);
@@ -35,14 +36,14 @@ const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) 
             }
             ;
             return state;
-        case actions_1.ActionConstants.CHANGE_CARD_TITLE:
+        case actions_1.CardActionConstants.CARD_ACTION:
             const cardToEdit = state.cards.find(c => c.id === action.id);
             if (cardToEdit) {
                 const idxToRemove = state.cards.indexOf(cardToEdit);
                 if (idxToRemove > -1) {
                     return __assign({}, state, { cards: [
                             ...state.cards.slice(0, idxToRemove),
-                            __assign({}, cardToEdit, { title: action.title }),
+                            cardReducer_1.default(cardToEdit, action),
                             ...state.cards.slice(idxToRemove + 1),
                         ] });
                 }

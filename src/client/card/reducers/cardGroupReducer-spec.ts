@@ -1,6 +1,6 @@
 import { ICardGroupModel } from "../model/cardGroupModel";
 import cardGroupReducer from "./cardGroupReducer";
-import * as cardActions from "../actions/cardActions";
+import { CardGroupActions, CardActions } from "../actions";
 
 import * as chai from "chai";
 const expect = chai.expect;
@@ -9,7 +9,7 @@ describe("cardGroupReducer", () => {
     describe("ADD_CARD dispatched", () => {
         it("initial state contains added card", () => {
             const testTitle = "some title";
-            const state = cardGroupReducer(undefined, cardActions.addCard(testTitle))
+            const state = cardGroupReducer(undefined, CardGroupActions.addCard(testTitle))
             expect(state.cards).to.have.length(1);
             expect(state.cards[0].title).to.equal(testTitle);
         });
@@ -25,13 +25,13 @@ describe("cardGroupReducer", () => {
                     status: "OK",
                 }],
             };
-            const state = cardGroupReducer(initialstate, cardActions.archiveCard(testId));
+            const state = cardGroupReducer(initialstate, CardGroupActions.archiveCard(testId));
             expect(state.cards).to.have.length(0);
         });
     });
 
     describe("CHANGE_CARD_TITLE dispatched", () => {
-        it("set's the new title in the card", () => {
+        it("set's the new title in the card by passing the action to the cardReducer", () => {
             const initialstate: ICardGroupModel = {
                 cards: [{
                     id: "0",
@@ -66,7 +66,7 @@ describe("cardGroupReducer", () => {
                     status: "OK",
                 }],
             };
-            const resultingState = cardGroupReducer(initialstate, cardActions.changeCardTitle("1", "some title1 - CHANGED"));
+            const resultingState = cardGroupReducer(initialstate, CardActions.changeCardTitle("1", "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });
