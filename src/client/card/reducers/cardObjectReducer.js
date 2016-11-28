@@ -21,4 +21,4 @@ const cardReducer = (state, action) => {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = cardReducer;
-//# sourceMappingURL=cardReducer.js.map
+//# sourceMappingURL=cardObjectReducer.js.map

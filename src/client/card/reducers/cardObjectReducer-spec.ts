@@ -1,5 +1,5 @@
 import { ICardGroupModel, ICardModel } from "../model";
-import cardReducer from "./cardReducer";
+import cardReducer from "./cardObjectReducer";
 import { CardActions } from "../actions";
 
 import * as chai from "chai";
@@ -10,11 +10,13 @@ describe("cardReducer", () => {
         it("set's the new title in the card", () => {
             const initialstate: ICardModel = {
                     id: "1",
+                    cardGroupId: "1",
                     title: "some title1",
                     status: "OK",
             };
             const expectedState: ICardModel = {
                     id: "1",
+                    cardGroupId: "1",
                     title: "some title1 - CHANGED",
                     status: "OK",
             };

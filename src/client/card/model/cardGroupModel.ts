@@ -1,5 +1,4 @@
-import { ICardModel } from "./cardModel";
-
 export interface ICardGroupModel {
-    cards: ICardModel[];
+    readonly id: string;
+    readonly title: string;
 };

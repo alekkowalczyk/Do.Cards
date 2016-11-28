@@ -51,9 +51,10 @@
 	const react_router_1 = __webpack_require__(32);
 	const react_router_redux_1 = __webpack_require__(93);
 	const configureStore_1 = __webpack_require__(98);
-	const routes_1 = __webpack_require__(126);
+	const routes_1 = __webpack_require__(124);
 	const initialStore = configureStore_1.default({
-	    cardGroup: { cards: [] },
+	    cardGroups: [],
+	    cards: [],
 	});
 	const history = react_router_redux_1.syncHistoryWithStore(react_router_1.browserHistory, initialStore);
 	ReactDOM.render(React.createElement("div", null,
@@ -7907,7 +7908,7 @@
 	const react_router_redux_1 = __webpack_require__(93);
 	const redux_saga_1 = __webpack_require__(99);
 	const rootReducer_1 = __webpack_require__(111);
-	const sagas_1 = __webpack_require__(123);
+	const sagas_1 = __webpack_require__(121);
 	function* rootSaga() {
 	    yield [
 	        sagas_1.default(),
@@ -10117,9 +10118,11 @@
 	const redux_1 = __webpack_require__(11);
 	const react_router_redux_1 = __webpack_require__(93);
 	const cardGroupReducer_1 = __webpack_require__(112);
+	const cardsReducer_1 = __webpack_require__(115);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
-	    cardGroup: cardGroupReducer_1.default,
+	    cardGroups: cardGroupReducer_1.default,
+	    cards: cardsReducer_1.default,
 	    routing: react_router_redux_1.routerReducer,
 	});
 
@@ -10129,59 +10132,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var __assign = (this && this.__assign) || Object.assign || function(t) {
-	    for (var s, i = 1, n = arguments.length; i < n; i++) {
-	        s = arguments[i];
-	        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-	            t[p] = s[p];
-	    }
-	    return t;
-	};
 	const common_1 = __webpack_require__(113);
-	const actions_1 = __webpack_require__(115);
-	const cardReducer_1 = __webpack_require__(122);
-	const INITIAL_STATE = { cards: [] };
-	let cardId = 0;
+	const INITIAL_STATE = [];
 	const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) => {
-	    switch (action.type) {
-	        case actions_1.CardGroupActionConstants.ADD_CARD:
-	            return __assign({}, state, { cards: [
-	                    ...state.cards,
-	                    {
-	                        id: (cardId++).toString(),
-	                        title: action.title,
-	                        status: "OK",
-	                    },
-	                ] });
-	        case actions_1.CardGroupActionConstants.ARCHIVE_CARD:
-	            const cardToArchive = state.cards.find(c => c.id === action.id);
-	            if (cardToArchive) {
-	                const idxToRemove = state.cards.indexOf(cardToArchive);
-	                if (idxToRemove > -1) {
-	                    return __assign({}, state, { cards: [
-	                            ...state.cards.slice(0, idxToRemove),
-	                            ...state.cards.slice(idxToRemove + 1),
-	                        ] });
-	                }
-	            }
-	            ;
-	            return state;
-	        case actions_1.CardActionConstants.CARD_ACTION:
-	            const cardToEdit = state.cards.find(c => c.id === action.id);
-	            if (cardToEdit) {
-	                const idxToRemove = state.cards.indexOf(cardToEdit);
-	                if (idxToRemove > -1) {
-	                    return __assign({}, state, { cards: [
-	                            ...state.cards.slice(0, idxToRemove),
-	                            cardReducer_1.default(cardToEdit, action),
-	                            ...state.cards.slice(idxToRemove + 1),
-	                        ] });
-	                }
-	            }
-	            return state;
-	        default:
-	            return state;
-	    }
+	    return state;
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = cardGroupReducer;
@@ -10209,36 +10163,88 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const CardGroupActionDefs = __webpack_require__(116);
-	exports.CardGroupActionDefs = CardGroupActionDefs;
-	const CardGroupActions = __webpack_require__(117);
-	exports.CardGroupActions = CardGroupActions;
-	const CardGroupActionConstants = __webpack_require__(118);
-	exports.CardGroupActionConstants = CardGroupActionConstants;
-	const CardActionDefs = __webpack_require__(119);
-	exports.CardActionDefs = CardActionDefs;
-	const CardActions = __webpack_require__(120);
-	exports.CardActions = CardActions;
-	const CardActionConstants = __webpack_require__(121);
-	exports.CardActionConstants = CardActionConstants;
+	const actions_1 = __webpack_require__(116);
+	const cardObjectReducer_1 = __webpack_require__(120);
+	let cardId = 0;
+	const INITIAL_STATE = [];
+	const cardListReducer = (state = INITIAL_STATE, action) => {
+	    switch (action.type) {
+	        case actions_1.CardActionConstants.ADD_CARD:
+	            return [
+	                ...state,
+	                {
+	                    id: (cardId++).toString(),
+	                    cardGroupId: action.cardGroupId,
+	                    title: action.title,
+	                    status: "OK",
+	                },
+	            ];
+	        case actions_1.CardActionConstants.ARCHIVE_CARD:
+	            const cardToArchive = state.find(c => c.id === action.id);
+	            if (cardToArchive) {
+	                const idxToRemove = state.indexOf(cardToArchive);
+	                if (idxToRemove > -1) {
+	                    return [
+	                        ...state.slice(0, idxToRemove),
+	                        ...state.slice(idxToRemove + 1),
+	                    ];
+	                }
+	            }
+	            ;
+	            return state;
+	        case actions_1.CardActionConstants.CARD_ACTION:
+	            const cardToEdit = state.find(c => c.id === action.id);
+	            if (cardToEdit) {
+	                const idxToRemove = state.indexOf(cardToEdit);
+	                if (idxToRemove > -1) {
+	                    return [
+	                        ...state.slice(0, idxToRemove),
+	                        cardObjectReducer_1.default(cardToEdit, action),
+	                        ...state.slice(idxToRemove + 1),
+	                    ];
+	                }
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = cardListReducer;
 
 
 /***/ },
 /* 116 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	//import * as CardGroupActionConstants from "./cardGroupActionConstants";
+	// export { CardGroupActionDefs, CardGroupActions, CardGroupActionConstants };
+	const CardActionDefs = __webpack_require__(117);
+	exports.CardActionDefs = CardActionDefs;
+	const CardActions = __webpack_require__(118);
+	exports.CardActions = CardActions;
+	const CardActionConstants = __webpack_require__(119);
+	exports.CardActionConstants = CardActionConstants;
+
+
+/***/ },
+/* 117 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const Constants = __webpack_require__(118);
-	function addCard(title) {
+	const Constants = __webpack_require__(119);
+	function addCard(cardGroupId, title) {
 	    return {
 	        type: Constants.ADD_CARD,
+	        cardGroupId: cardGroupId,
 	        title: title,
 	    };
 	}
@@ -10250,30 +10256,6 @@
 	    };
 	}
 	exports.archiveCard = archiveCard;
-
-
-/***/ },
-/* 118 */
-/***/ function(module, exports) {
-
-	"use strict";
-	exports.ADD_CARD = "CardGroup/ADD_CARD";
-	exports.ARCHIVE_CARD = "CardGroup/ARCHIVE_CARD";
-
-
-/***/ },
-/* 119 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-
-/***/ },
-/* 120 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	const Constants = __webpack_require__(121);
 	function cardTitleChanged(id, title) {
 	    return {
 	        type: Constants.CARD_ACTION,
@@ -10295,17 +10277,19 @@
 
 
 /***/ },
-/* 121 */
+/* 119 */
 /***/ function(module, exports) {
 
 	"use strict";
+	exports.ADD_CARD = "CardGroup/ADD_CARD";
+	exports.ARCHIVE_CARD = "CardGroup/ARCHIVE_CARD";
 	exports.CARD_ACTION = "CardGroup/CardAction";
 	exports.CARD_TITLE_CHANGED = "Card/CARD_TITLE_CHANGED";
 	exports.CHANGE_CARD_TITLE = "Card/CHANGE_CARD_TITLE";
 
 
 /***/ },
-/* 122 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -10317,7 +10301,7 @@
 	    }
 	    return t;
 	};
-	const actions_1 = __webpack_require__(115);
+	const actions_1 = __webpack_require__(116);
 	const cardReducer = (state, action) => {
 	    if (action.type !== actions_1.CardActionConstants.CARD_ACTION) {
 	        return state;
@@ -10334,11 +10318,11 @@
 
 
 /***/ },
-/* 123 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const cardSagas_1 = __webpack_require__(124);
+	const cardSagas_1 = __webpack_require__(122);
 	function* rootSaga() {
 	    yield [
 	        cardSagas_1.default(),
@@ -10349,13 +10333,13 @@
 
 
 /***/ },
-/* 124 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	const redux_saga_1 = __webpack_require__(99);
-	const effects_1 = __webpack_require__(125);
-	const actions_1 = __webpack_require__(115);
+	const effects_1 = __webpack_require__(123);
+	const actions_1 = __webpack_require__(116);
 	const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 	exports.delay = delay;
 	function* handleCardTitleChanged(options) {
@@ -10379,20 +10363,20 @@
 
 
 /***/ },
-/* 125 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(109)
 
 /***/ },
-/* 126 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	const React = __webpack_require__(1);
 	const react_router_1 = __webpack_require__(32);
-	const containers_1 = __webpack_require__(127);
-	const containers_2 = __webpack_require__(130);
+	const containers_1 = __webpack_require__(125);
+	const containers_2 = __webpack_require__(128);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = (React.createElement(react_router_1.Route, { path: "/", component: containers_1.App },
 	    React.createElement(react_router_1.IndexRoute, { component: containers_2.CardGroupContainer }),
@@ -10400,18 +10384,18 @@
 
 
 /***/ },
-/* 127 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const app_1 = __webpack_require__(128);
+	const app_1 = __webpack_require__(126);
 	exports.App = app_1.default;
-	const aboutPage_1 = __webpack_require__(129);
+	const aboutPage_1 = __webpack_require__(127);
 	exports.AboutPage = aboutPage_1.default;
 
 
 /***/ },
-/* 128 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -10431,7 +10415,7 @@
 
 
 /***/ },
-/* 129 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -10445,35 +10429,35 @@
 
 
 /***/ },
-/* 130 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const cardGroupContainer_1 = __webpack_require__(131);
+	const cardGroupContainer_1 = __webpack_require__(129);
 	exports.CardGroupContainer = cardGroupContainer_1.default;
 
 
 /***/ },
-/* 131 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	const React = __webpack_require__(1);
 	const react_redux_1 = __webpack_require__(3);
-	const actions_1 = __webpack_require__(115);
-	const CardGroupComponent_1 = __webpack_require__(132);
+	const actions_1 = __webpack_require__(116);
+	const CardGroupComponent_1 = __webpack_require__(130);
 	const mapStateToProps = (state, ownProps) => ({
-	    cardGroup: state.cardGroup,
+	    cards: state.cards,
 	});
 	const mapDispatchToProps = (dispatch) => ({
-	    addEmptyCard: () => dispatch(actions_1.CardGroupActions.addCard("")),
+	    addEmptyCard: () => dispatch(actions_1.CardActions.addCard("", "")),
 	    editCardTitle: (card, newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(card.id, newTitle)),
-	    archiveCard: (card) => dispatch(actions_1.CardGroupActions.archiveCard(card.id)),
+	    archiveCard: (card) => dispatch(actions_1.CardActions.archiveCard(card.id)),
 	});
 	class CardGroupContainer extends React.Component {
 	    render() {
-	        const { cardGroup, addEmptyCard, archiveCard, editCardTitle } = this.props;
-	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cardGroup.cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
+	        const { cards, addEmptyCard, archiveCard, editCardTitle } = this.props;
+	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -10481,12 +10465,12 @@
 
 
 /***/ },
-/* 132 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	const React = __webpack_require__(1);
-	const CardComponent_1 = __webpack_require__(133);
+	const CardComponent_1 = __webpack_require__(131);
 	class CardGroupComponent extends React.Component {
 	    render() {
 	        return React.createElement("div", { style: { border: "solid 1px gray" } },
@@ -10499,7 +10483,7 @@
 
 
 /***/ },
-/* 133 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

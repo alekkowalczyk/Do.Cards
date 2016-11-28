@@ -3,12 +3,12 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { Router, browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
-import { ICardGroupModel } from "./card/model";
 import configureStore from "./app/store/configureStore";
 import routes from "./app/store/routes";
 
 const initialStore = configureStore({
-    cardGroup: { cards: [] },
+    cardGroups: [],
+    cards: [],
 });
 const history = syncHistoryWithStore(browserHistory, initialStore);
 
