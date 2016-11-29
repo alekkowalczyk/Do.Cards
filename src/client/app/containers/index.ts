@@ -1,3 +1,5 @@
 import App from "./app";
 import AboutPage from "./aboutPage";
-export { App, AboutPage }
+import CardBoardPage from "./cardBoardPage";
+
+export { App, AboutPage, CardBoardPage };

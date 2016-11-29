@@ -4,7 +4,7 @@ const actions_1 = require("../actions");
 const cardGroupObjectReducer_1 = require("./cardGroupObjectReducer");
 let cardGroupId = 0;
 const INITIAL_STATE = [];
-const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) => {
+const cardGroupsReducer = (state = INITIAL_STATE, action = common_1.OtherAction) => {
     switch (action.type) {
         case actions_1.CardGroupActionConstants.ADD_CARDGROUP:
             return [
@@ -46,5 +46,5 @@ const cardGroupReducer = (state = INITIAL_STATE, action = common_1.OtherAction) 
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = cardGroupReducer;
-//# sourceMappingURL=cardGroupReducer.js.map
+exports.default = cardGroupsReducer;
+//# sourceMappingURL=cardGroupsReducer.js.map

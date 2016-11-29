@@ -7,8 +7,10 @@ import configureStore from "./app/store/configureStore";
 import routes from "./app/store/routes";
 
 const initialStore = configureStore({
-    cardGroups: [],
-    cards: [],
+    cardsRoot: {
+        cards: [],
+        cardGroups: [],
+    },
 });
 const history = syncHistoryWithStore(browserHistory, initialStore);
 

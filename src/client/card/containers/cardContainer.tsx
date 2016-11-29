@@ -7,10 +7,10 @@ import { Store } from "../../app/";
 import { ICardModel } from "../model";
 
 type OwnProps = {
-    cardId: string;
+    card: ICardModel;
 }
 type ConnectedState = {
-    card?: ICardModel
+    card: ICardModel
 };
 type ConnectedDispatch = {
     editCardTitle: (card: ICardModel, newTitle: string) => void;
@@ -18,7 +18,7 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    card: state.cards.find(c => c.id === ownProps.cardId),
+    card: ownProps.card,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({

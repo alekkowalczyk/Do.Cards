@@ -1,15 +1,15 @@
 import { ICardGroupModel } from "../model/cardGroupModel";
-import cardGroupReducer from "./cardGroupReducer";
+import cardGroupsReducer from "./cardGroupsReducer";
 import { CardGroupActions } from "../actions";
 
 import * as chai from "chai";
 const { expect } = chai;
 
-describe("cardGroupReducer", () => {
+describe("cardGroupsReducer", () => {
     describe("ADD_CARDGROUP dispatched", () => {
         it("initial state contains added cardgroup", () => {
             const testTitle = "some title";
-            const state = cardGroupReducer(undefined, CardGroupActions.addCardGroup(testTitle));
+            const state = cardGroupsReducer(undefined, CardGroupActions.addCardGroup(testTitle));
             expect(state).to.have.length(1);
             expect(state[0].title).to.equal(testTitle);
         });
@@ -23,7 +23,7 @@ describe("cardGroupReducer", () => {
                     title: "some title",
                     status: "OK",
                 }];
-            const state = cardGroupReducer(initialstate, CardGroupActions.archiveCardGroup(testId));
+            const state = cardGroupsReducer(initialstate, CardGroupActions.archiveCardGroup(testId));
             expect(state).to.have.length(0);
         });
     });
@@ -60,7 +60,7 @@ describe("cardGroupReducer", () => {
                     title: "some title2",
                     status: "OK",
                 }];
-            const resultingState = cardGroupReducer(initialstate, CardGroupActions.changeCardGroupTitle("1", "some title1 - CHANGED"));
+            const resultingState = cardGroupsReducer(initialstate, CardGroupActions.changeCardGroupTitle("1", "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });

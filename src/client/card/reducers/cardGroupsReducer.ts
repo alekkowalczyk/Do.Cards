@@ -12,7 +12,7 @@ type CardGroupAction =
 let cardGroupId = 0;
 const INITIAL_STATE: ICardGroupModel[] = [];
 
-const cardGroupReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: CardGroupAction = OtherAction): ICardGroupModel[] => {
+const cardGroupsReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: CardGroupAction = OtherAction): ICardGroupModel[] => {
     switch (action.type) {
             case CardGroupActionConstants.ADD_CARDGROUP:
                 return [
@@ -53,4 +53,4 @@ const cardGroupReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: Card
         }
 };
 
-export default cardGroupReducer;
+export default cardGroupsReducer;

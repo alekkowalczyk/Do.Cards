@@ -1,13 +1,13 @@
 "use strict";
-const cardGroupReducer_1 = require("./cardGroupReducer");
+const cardGroupsReducer_1 = require("./cardGroupsReducer");
 const actions_1 = require("../actions");
 const chai = require("chai");
 const { expect } = chai;
-describe("cardGroupReducer", () => {
+describe("cardGroupsReducer", () => {
     describe("ADD_CARDGROUP dispatched", () => {
         it("initial state contains added cardgroup", () => {
             const testTitle = "some title";
-            const state = cardGroupReducer_1.default(undefined, actions_1.CardGroupActions.addCardGroup(testTitle));
+            const state = cardGroupsReducer_1.default(undefined, actions_1.CardGroupActions.addCardGroup(testTitle));
             expect(state).to.have.length(1);
             expect(state[0].title).to.equal(testTitle);
         });
@@ -20,7 +20,7 @@ describe("cardGroupReducer", () => {
                     title: "some title",
                     status: "OK",
                 }];
-            const state = cardGroupReducer_1.default(initialstate, actions_1.CardGroupActions.archiveCardGroup(testId));
+            const state = cardGroupsReducer_1.default(initialstate, actions_1.CardGroupActions.archiveCardGroup(testId));
             expect(state).to.have.length(0);
         });
     });
@@ -56,9 +56,9 @@ describe("cardGroupReducer", () => {
                     title: "some title2",
                     status: "OK",
                 }];
-            const resultingState = cardGroupReducer_1.default(initialstate, actions_1.CardGroupActions.changeCardGroupTitle("1", "some title1 - CHANGED"));
+            const resultingState = cardGroupsReducer_1.default(initialstate, actions_1.CardGroupActions.changeCardGroupTitle("1", "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });
 });
-//# sourceMappingURL=cardGroupReducer-spec.js.map
+//# sourceMappingURL=cardGroupsReducer-spec.js.map
