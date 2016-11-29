@@ -6,6 +6,7 @@
   "scripts": {
     "pretest": "tsc",
     "test": "mocha \"./src/client/**/*-spec.js\"",
+    "prestart": "gulp build-client",
     "start": "node server/app.js"
   },
   "repository": {

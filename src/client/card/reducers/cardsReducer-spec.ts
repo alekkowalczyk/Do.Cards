@@ -5,7 +5,7 @@ import { CardActions } from "../actions";
 import * as chai from "chai";
 const expect = chai.expect;
 
-describe("cardGroupReducer", () => {
+describe("cardsReducer", () => {
     describe("ADD_CARD dispatched", () => {
         it("initial state contains added card", () => {
             const testTitle = "some title";
@@ -30,7 +30,7 @@ describe("cardGroupReducer", () => {
     });
 
     describe("CHANGE_CARD_TITLE dispatched", () => {
-        it("set's the new title in the card by passing the action to the cardReducer", () => {
+        it("set's the new title in the card by passing the action to the cardObjectReducer", () => {
             const initialstate: ICardModel[] = [{
                     id: "0",
                     cardGroupId: "1",

@@ -1,12 +1,10 @@
 import * as React from "react";
 import { ICardModel } from "../model/cardModel";
-import { CardComponent } from "./CardComponent";
+import CardContainer from "../containers/CardContainer";
 
 export interface ICardGroupComponentProps {
     cards: ICardModel[];
     addEmptyCard: () => void;
-    removeCard: (card: ICardModel) => void;
-    editCardTitle: (card: ICardModel, newTitle: string) => void;
 }
 
 export class CardGroupComponent extends React.Component<ICardGroupComponentProps, {}> {
@@ -16,10 +14,9 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                     {
                         this.props.cards.map((c) =>
                             c &&
-                            <CardComponent key={c.id}
-                                           title={c.title}
-                                           titleChanged={(newTitle) => this.props.editCardTitle(c, newTitle)}
-                                           remove={() => this.props.removeCard(c)} />
+                            <CardContainer  key={c.id}
+                                            cardId={c.id}
+                                           />
                         )
                     }
                     <button onClick={this.props.addEmptyCard}>Add</button>

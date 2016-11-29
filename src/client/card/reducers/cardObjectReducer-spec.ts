@@ -1,11 +1,11 @@
 import { ICardGroupModel, ICardModel } from "../model";
-import cardReducer from "./cardObjectReducer";
+import cardObjectReducer from "./cardObjectReducer";
 import { CardActions } from "../actions";
 
 import * as chai from "chai";
 const expect = chai.expect;
 
-describe("cardReducer", () => {
+describe("cardObjectReducer", () => {
     describe("CHANGE_CARD_TITLE dispatched", () => {
         it("set's the new title in the card", () => {
             const initialstate: ICardModel = {
@@ -20,7 +20,7 @@ describe("cardReducer", () => {
                     title: "some title1 - CHANGED",
                     status: "OK",
             };
-            const resultingState = cardReducer(initialstate, CardActions.changeCardTitle("1", "some title1 - CHANGED"));
+            const resultingState = cardObjectReducer(initialstate, CardActions.changeCardTitle("1", "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });

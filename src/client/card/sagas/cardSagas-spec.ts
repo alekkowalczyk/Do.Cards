@@ -1,8 +1,10 @@
-import { handleCardTitleChanged, delay } from "./cardSagas";
+import { handleCardTitleChanged } from "./cardSagas";
+import { sagaUtils } from "../../common";
 import { CardActions } from "../actions";
 import { call, put } from "redux-saga/effects";
 import * as chai from "chai";
-const expect = chai.expect;
+const { expect } = chai;
+const { delay } = sagaUtils;
 
 describe("cardSagas", () => {
     describe("handleCardTitleChanged", () => {

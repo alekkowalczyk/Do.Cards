@@ -1,9 +1,9 @@
 "use strict";
 const redux_saga_1 = require("redux-saga");
 const effects_1 = require("redux-saga/effects");
+const common_1 = require("../../common");
 const actions_1 = require("../actions");
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-exports.delay = delay;
+const { delay } = common_1.sagaUtils;
 function* handleCardTitleChanged(options) {
     yield effects_1.put(actions_1.CardActions.changeCardTitle(options.id, options.title));
     yield effects_1.call(delay, 500);

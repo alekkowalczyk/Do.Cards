@@ -8,13 +8,11 @@ const mapStateToProps = (state, ownProps) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     addEmptyCard: () => dispatch(actions_1.CardActions.addCard("", "")),
-    editCardTitle: (card, newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card) => dispatch(actions_1.CardActions.archiveCard(card.id)),
 });
 class CardGroupContainer extends React.Component {
     render() {
-        const { cards, addEmptyCard, archiveCard, editCardTitle } = this.props;
-        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cards, editCardTitle: editCardTitle, addEmptyCard: addEmptyCard, removeCard: archiveCard });
+        const { cards, addEmptyCard } = this.props;
+        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cards, addEmptyCard: addEmptyCard });
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,6 +1,10 @@
 "use strict";
-//import * as CardGroupActionConstants from "./cardGroupActionConstants";
-// export { CardGroupActionDefs, CardGroupActions, CardGroupActionConstants };
+const CardGroupActionDefs = require("./cardGroupActionDefs");
+exports.CardGroupActionDefs = CardGroupActionDefs;
+const CardGroupActions = require("./cardGroupActions");
+exports.CardGroupActions = CardGroupActions;
+const CardGroupActionConstants = require("./cardGroupActionConstants");
+exports.CardGroupActionConstants = CardGroupActionConstants;
 const CardActionDefs = require("./cardActionDefs");
 exports.CardActionDefs = CardActionDefs;
 const CardActions = require("./cardActions");

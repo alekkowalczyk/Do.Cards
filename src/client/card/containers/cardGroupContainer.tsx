@@ -12,8 +12,6 @@ type ConnectedState = {
 };
 type ConnectedDispatch = {
     addEmptyCard: () => void;
-    editCardTitle: (card: ICardModel, newTitle: string) => void;
-    archiveCard: (card: ICardModel) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
@@ -22,17 +20,13 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
     addEmptyCard: () => dispatch(CardActions.addCard("", "")),
-    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(CardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card: ICardModel) => dispatch(CardActions.archiveCard(card.id)),
 });
 
 class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { cards, addEmptyCard, archiveCard, editCardTitle } = this.props;
+        const { cards, addEmptyCard } = this.props;
         return <CardGroupComponent cards={cards}
-                                    editCardTitle={editCardTitle}
-                                    addEmptyCard={addEmptyCard}
-                                    removeCard={archiveCard} />;
+                                    addEmptyCard={addEmptyCard} />;
     }
 }
 

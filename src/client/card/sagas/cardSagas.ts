@@ -1,9 +1,10 @@
 import { takeLatest } from "redux-saga";
 import { call, put } from "redux-saga/effects";
+import { sagaUtils } from "../../common";
 import { CardActionConstants, CardActions, CardActionDefs } from "../actions";
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-export { delay };
+const { delay } = sagaUtils;
+
 export function* handleCardTitleChanged(options: {id: string, title: string}) {
     yield put(CardActions.changeCardTitle(options.id, options.title));
     yield call(delay, 500);

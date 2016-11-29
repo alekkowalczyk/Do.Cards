@@ -9,8 +9,8 @@ export type AddCardAction = {
 };
 
 export type ArchiveCardAction = {
-            type: Constants.ARCHIVE_CARD,
-        } & QId;
+        type: Constants.ARCHIVE_CARD,
+    } & QId;
 
 export type CardAction = {
     type: Constants.CARD_ACTION,
