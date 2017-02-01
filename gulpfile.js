@@ -22,7 +22,7 @@ gulp.task("build-server", () =>
         .pipe(sourcemaps.init())
         .pipe(tsProject())
         .js
-        .pipe(sourcemaps.write("./maps", {sourceRoot: 'src/server'}))
+        .pipe(sourcemaps.write("./maps", {sourceRoot: '../../src/server'}))
         .pipe(gulp.dest("server"))
 );
 

@@ -18,7 +18,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
 class App extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         return <div>
-            <h3>Do.Cards</h3>
+            <div className="app-bar">
+                <h3>Do.Cards</h3>
+            </div>
             <div>{this.props.children}</div>
         </div>;
     }

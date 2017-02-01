@@ -1,3 +1,4 @@
+/// <reference path="globals/express-session/index.d.ts" />
 /// <reference path="globals/mocha/index.d.ts" />
 /// <reference path="globals/node/index.d.ts" />
 /// <reference path="globals/redux/index.d.ts" />

@@ -1,7 +1,8 @@
 "use strict";
 function Routes(app) {
     app.get("/api/", (req, res) => {
-        res.send("Hello World");
+        console.log(req.session);
+        res.send("Hello World2");
     });
     // TODO: forward routes to react
     // app.get("*", (req: express.Request, res: express.Response) => {

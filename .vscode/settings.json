@@ -6,9 +6,9 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/*.js": { "when": "$(basename).ts"},
-        "**/*.js.map": true,
+        "**/*.js.map": false,
         "node_modules": true,
-        "typings": true,
+        "typings": false,
         ".vs": true
     },
     "typescript.tsdk": "./node_modules/typescript/lib"

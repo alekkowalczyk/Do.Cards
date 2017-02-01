@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/alekkowalczyk/Do.Cards#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "express-session": "^1.15.0",
+    "pg-promise": "^5.4.7"
   },
   "devDependencies": {
     "@types/react": "^0.14.41",
