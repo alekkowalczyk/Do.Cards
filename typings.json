@@ -13,7 +13,6 @@
   "devDependencies": {
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
     "react-redux": "registry:npm/react-redux#4.4.0+20160614222153",
-    "react-router": "registry:npm/react-router#2.4.0+20160915183637",
     "react-router-redux": "registry:npm/react-router-redux#4.0.0+20160602212457"
   }
 }

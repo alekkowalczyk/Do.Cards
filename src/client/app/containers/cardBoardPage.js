@@ -3,9 +3,7 @@ const React = require("react");
 const CardBoardContainer_1 = require("../../card/containers/CardBoardContainer");
 ;
 function CardBoardPage(props) {
-    return (React.createElement("div", null,
-        React.createElement("h3", null, "..."),
-        React.createElement(CardBoardContainer_1.default, null)));
+    return (React.createElement(CardBoardContainer_1.default, null));
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CardBoardPage;

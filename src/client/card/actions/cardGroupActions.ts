@@ -1,10 +1,11 @@
 import * as ActionDefs from "./cardGroupActionDefs";
 import * as Constants from "./cardGroupActionConstants";
 
-export function addCardGroup(title: string): ActionDefs.AddCardGroupAction {
+export function addCardGroup(title: string, parentId? :string): ActionDefs.AddCardGroupAction {
     return {
         type: Constants.ADD_CARDGROUP,
         title: title,
+        parentId: parentId,
     };
 }
 

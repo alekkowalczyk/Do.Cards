@@ -5,6 +5,7 @@ import * as Constants from "./cardGroupActionConstants";
 export type AddCardGroupAction = {
     type: Constants.ADD_CARDGROUP,
     title: string,
+    parentId?: string,
 };
 
 export type ArchiveCardGroupAction = {

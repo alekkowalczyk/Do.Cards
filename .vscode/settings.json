@@ -6,7 +6,7 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/*.js": { "when": "$(basename).ts"},
-        "**/*.js.map": false,
+        "**/*.js.map": true,
         "node_modules": true,
         "typings": false,
         ".vs": true

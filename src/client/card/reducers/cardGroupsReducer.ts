@@ -20,6 +20,7 @@ const cardGroupsReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: Car
                         {
                             id: (cardGroupId++).toString(),
                             title: action.title,
+                            parentId: action.parentId,
                             status: "OK",
                         },
                     ];

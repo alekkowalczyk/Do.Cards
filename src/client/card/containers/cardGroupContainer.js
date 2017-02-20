@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
     cardGroup: ownProps.cardGroup,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    addEmptyCard: () => dispatch(actions_1.CardActions.addCard("", "")),
+    addEmptyCard: () => dispatch(actions_1.CardActions.addCard(ownProps.cardGroup.id, "")),
     cardGroupTitleChanged: (newTitle) => dispatch(actions_1.CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
     archiveCardGroup: () => dispatch(actions_1.CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
 });

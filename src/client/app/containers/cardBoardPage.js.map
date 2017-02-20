@@ -1,1 +1,1 @@
-{"version":3,"file":"cardBoardPage.js","sourceRoot":"","sources":["cardBoardPage.tsx"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,iFAA0E;AAEjB,CAAC;AAE1D,uBAAsC,KAA0B;IAChE,MAAM,CAAC,CACH;QACI,sCAAY;QACZ,oBAAC,4BAAkB,OAAG,CACpB,CACP,CAAC;AACJ,CAAC;;AAPD,gCAOC"}
+{"version":3,"file":"cardBoardPage.js","sourceRoot":"","sources":["cardBoardPage.tsx"],"names":[],"mappings":";AAAA,+BAA+B;AAC/B,iFAA0E;AAEjB,CAAC;AAE1D,uBAAsC,KAA0B;IAChE,MAAM,CAAC,CACH,oBAAC,4BAAkB,OAAG,CACvB,CAAC;AACJ,CAAC;;AAJD,gCAIC"}
