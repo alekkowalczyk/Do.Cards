@@ -10,13 +10,15 @@ describe("cardObjectReducer", () => {
         it("set's the new title in the card", () => {
             const initialstate: ICardModel = {
                     id: "1",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title1",
                     status: "OK",
             };
             const expectedState: ICardModel = {
                     id: "1",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title1 - CHANGED",
                     status: "OK",
             };

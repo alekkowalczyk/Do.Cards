@@ -4,35 +4,41 @@ import { connect } from "react-redux";
 import { CardActions } from "../actions";
 import { CardComponent } from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardModel } from "../model";
+import { ICardModel, CardParent_Card } from "../model";
 
 type OwnProps = {
     card: ICardModel;
 }
 type ConnectedState = {
-    card: ICardModel
+    card: ICardModel,
+    subCards: ICardModel[],
 };
 type ConnectedDispatch = {
-    editCardTitle: (card: ICardModel, newTitle: string) => void;
-    archiveCard: (card: ICardModel) => void;
+    editCardTitle: (newTitle: string) => void;
+    archiveCard: () => void;
+    addSubCard: () => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
     card: ownProps.card,
+    subCards: state.cardsRoot.cards.filter(c => c.parentType == CardParent_Card && c.parentId == ownProps.card.id),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
-    editCardTitle: (card: ICardModel, newTitle: string) => dispatch(CardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card: ICardModel) => dispatch(CardActions.archiveCard(card.id)),
+const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
+    editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
+    addSubCard: () => dispatch(CardActions.addCard(CardParent_Card, ownProps.card.id, "")),
+    archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { card, archiveCard, editCardTitle } = this.props;
+        const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent title={card.title}
-                                           titleChanged={(newTitle) => editCardTitle(card, newTitle)}
-                                           remove={() => archiveCard(card)}  />
+                                           subCards={subCards}
+                                           addSubCard={addSubCard}
+                                           titleChanged={(newTitle) => editCardTitle(newTitle)}
+                                           remove={archiveCard}  />
                 : <div/>;
     }
 }

@@ -9,7 +9,7 @@ describe("cardsReducer", () => {
     describe("ADD_CARD dispatched", () => {
         it("initial state contains added card", () => {
             const testTitle = "some title";
-            const state = cardsReducer(undefined, CardActions.addCard("1", testTitle));
+            const state = cardsReducer(undefined, CardActions.addCard("CardGroup", "1", testTitle));
             expect(state).to.have.length(1);
             expect(state[0].title).to.equal(testTitle);
         });
@@ -20,7 +20,8 @@ describe("cardsReducer", () => {
             const testId = "1";
             const initialstate: ICardModel[] = [{
                     id: testId,
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId: "1",
                     title: "some title",
                     status: "OK",
                 }];
@@ -33,37 +34,43 @@ describe("cardsReducer", () => {
         it("set's the new title in the card by passing the action to the cardObjectReducer", () => {
             const initialstate: ICardModel[] = [{
                     id: "0",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title0",
                     status: "OK",
                 },
                 {
                     id: "1",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title1",
                     status: "OK",
                 },
                 {
                     id: "2",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title2",
                     status: "OK",
                 }];
             const expectedState: ICardModel[] = [{
                     id: "0",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title0",
                     status: "OK",
                 },
                 {
                     id: "1",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId:  "1",
                     title: "some title1 - CHANGED",
                     status: "OK",
                 },
                 {
                     id: "2",
-                    cardGroupId: "1",
+                    parentType: "CardGroup",
+                    parentId: "1",
                     title: "some title2",
                     status: "OK",
                 }];

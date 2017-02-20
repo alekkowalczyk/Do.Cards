@@ -10207,7 +10207,8 @@
 	                ...state,
 	                {
 	                    id: (cardId++).toString(),
-	                    cardGroupId: action.cardGroupId,
+	                    parentId: action.parentId,
+	                    parentType: action.parentType,
 	                    title: action.title,
 	                    status: "OK",
 	                },
@@ -10228,12 +10229,12 @@
 	        case actions_1.CardActionConstants.CARD_ACTION:
 	            const cardToEdit = state.find(c => c.id === action.id);
 	            if (cardToEdit) {
-	                const idxToRemove = state.indexOf(cardToEdit);
-	                if (idxToRemove > -1) {
+	                const idxToEdit = state.indexOf(cardToEdit);
+	                if (idxToEdit > -1) {
 	                    return [
-	                        ...state.slice(0, idxToRemove),
+	                        ...state.slice(0, idxToEdit),
 	                        cardObjectReducer_1.default(cardToEdit, action),
-	                        ...state.slice(idxToRemove + 1),
+	                        ...state.slice(idxToEdit + 1),
 	                    ];
 	                }
 	            }
@@ -10338,10 +10339,11 @@
 
 	"use strict";
 	const Constants = __webpack_require__(125);
-	function addCard(cardGroupId, title) {
+	function addCard(parentType, parentId, title) {
 	    return {
 	        type: Constants.ADD_CARD,
-	        cardGroupId: cardGroupId,
+	        parentType: parentType,
+	        parentId: parentId,
 	        title: title,
 	    };
 	}
@@ -10705,13 +10707,14 @@
 	const react_redux_1 = __webpack_require__(3);
 	const actions_1 = __webpack_require__(119);
 	const CardGroupComponent_1 = __webpack_require__(141);
+	const model_1 = __webpack_require__(144);
 	const mapStateToProps = (state, ownProps) => ({
-	    cards: state.cardsRoot.cards.filter(c => c.cardGroupId === ownProps.cardGroup.id),
+	    cards: state.cardsRoot.cards.filter(c => c.parentId === ownProps.cardGroup.id),
 	    subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId == ownProps.cardGroup.id),
 	    cardGroup: ownProps.cardGroup,
 	});
 	const mapDispatchToProps = (dispatch, ownProps) => ({
-	    addEmptyCard: () => dispatch(actions_1.CardActions.addCard(ownProps.cardGroup.id, "")),
+	    addEmptyCard: () => dispatch(actions_1.CardActions.addCard(model_1.CardParent_CardGroup, ownProps.cardGroup.id, "")),
 	    addSubCardGroup: () => dispatch(actions_1.CardGroupActions.addCardGroup("", ownProps.cardGroup.id)),
 	    cardGroupTitleChanged: (newTitle) => dispatch(actions_1.CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
 	    archiveCardGroup: () => dispatch(actions_1.CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
@@ -10772,18 +10775,21 @@
 	const react_redux_1 = __webpack_require__(3);
 	const actions_1 = __webpack_require__(119);
 	const CardComponent_1 = __webpack_require__(143);
+	const model_1 = __webpack_require__(144);
 	const mapStateToProps = (state, ownProps) => ({
 	    card: ownProps.card,
+	    subCards: state.cardsRoot.cards.filter(c => c.parentType == model_1.CardParent_Card && c.parentId == ownProps.card.id),
 	});
-	const mapDispatchToProps = (dispatch) => ({
-	    editCardTitle: (card, newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(card.id, newTitle)),
-	    archiveCard: (card) => dispatch(actions_1.CardActions.archiveCard(card.id)),
+	const mapDispatchToProps = (dispatch, ownProps) => ({
+	    editCardTitle: (newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
+	    addSubCard: () => dispatch(actions_1.CardActions.addCard(model_1.CardParent_Card, ownProps.card.id, "")),
+	    archiveCard: () => dispatch(actions_1.CardActions.archiveCard(ownProps.card.id)),
 	});
 	class CardContainer extends React.Component {
 	    render() {
-	        const { card, archiveCard, editCardTitle } = this.props;
+	        const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
 	        return (card)
-	            ? React.createElement(CardComponent_1.CardComponent, { title: card.title, titleChanged: (newTitle) => editCardTitle(card, newTitle), remove: () => archiveCard(card) })
+	            ? React.createElement(CardComponent_1.CardComponent, { title: card.title, subCards: subCards, addSubCard: addSubCard, titleChanged: (newTitle) => editCardTitle(newTitle), remove: archiveCard })
 	            : React.createElement("div", null);
 	    }
 	}
@@ -10802,21 +10808,47 @@
 
 	"use strict";
 	const React = __webpack_require__(1);
+	const CardContainer_1 = __webpack_require__(142);
 	class CardComponent extends React.Component {
 	    constructor() {
 	        super();
 	    }
 	    render() {
+	        const subCards = this.props.subCards.map((c) => c &&
+	            React.createElement("li", null,
+	                React.createElement(CardContainer_1.default, { key: c.id, card: c })));
 	        return React.createElement("div", { style: { border: "solid 1px black", margin: "5px", padding: "5px" } },
 	            React.createElement("div", null, "Card"),
 	            React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
-	            React.createElement("button", { onClick: this.props.remove }, "X"));
+	            React.createElement("button", { onClick: this.props.remove }, "X"),
+	            React.createElement("ul", null, subCards),
+	            React.createElement("button", { onClick: this.props.addSubCard }, "Add sub card"));
 	    }
 	    titleChanged(e) {
 	        this.props.titleChanged(e.target.value);
 	    }
 	}
 	exports.CardComponent = CardComponent;
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var cardModel_1 = __webpack_require__(145);
+	exports.CardParent_Card = cardModel_1.CardParent_Card;
+	exports.CardParent_CardGroup = cardModel_1.CardParent_CardGroup;
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.CardParent_CardGroup = "CardGroup";
+	exports.CardParent_Card = "Card";
+	;
 
 
 /***/ }

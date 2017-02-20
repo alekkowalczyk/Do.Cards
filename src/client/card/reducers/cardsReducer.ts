@@ -19,7 +19,8 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                         ...state,
                         {
                             id: (cardId++).toString(),
-                            cardGroupId: action.cardGroupId,
+                            parentId: action.parentId,
+                            parentType: action.parentType,
                             title: action.title,
                             status: "OK",
                         },
@@ -39,12 +40,12 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
             case CardActionConstants.CARD_ACTION:
                 const cardToEdit = state.find(c => c.id === action.id);
                 if (cardToEdit) {
-                    const idxToRemove = state.indexOf(cardToEdit);
-                    if (idxToRemove > -1) {
+                    const idxToEdit = state.indexOf(cardToEdit);
+                    if (idxToEdit > -1) {
                         return [
-                                ...state.slice(0, idxToRemove),
+                                ...state.slice(0, idxToEdit),
                                 cardObjectReducer(cardToEdit, <any>action),
-                                ...state.slice(idxToRemove + 1),
+                                ...state.slice(idxToEdit + 1),
                             ];
                     }
                 }

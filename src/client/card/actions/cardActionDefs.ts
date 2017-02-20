@@ -1,10 +1,12 @@
 import { QId } from "../../common";
+import { CardParentType } from "../model/cardModel";
 import * as Constants from "./cardActionConstants";
 
 // Main actions:
 export type AddCardAction = {
     type: Constants.ADD_CARD,
-    cardGroupId: string,
+    parentType: CardParentType,
+    parentId: string,
     title: string,
 };
 

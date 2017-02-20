@@ -5,7 +5,7 @@ import { CardActions, CardGroupActions } from "../actions";
 
 import { CardGroupComponent } from "../components/CardGroupComponent";
 import { Store } from "../../app/";
-import { ICardModel, ICardGroupModel } from "../model";
+import { ICardModel, ICardGroupModel, CardParent_CardGroup } from "../model";
 
 type OwnProps = {
     cardGroup: ICardGroupModel;
@@ -23,13 +23,13 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    cards: state.cardsRoot.cards.filter(c => c.cardGroupId === ownProps.cardGroup.id),
+    cards: state.cardsRoot.cards.filter(c => c.parentId === ownProps.cardGroup.id),
     subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId == ownProps.cardGroup.id),
     cardGroup: ownProps.cardGroup,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
-    addEmptyCard: () => dispatch(CardActions.addCard(ownProps.cardGroup.id, "")),
+    addEmptyCard: () => dispatch(CardActions.addCard(CardParent_CardGroup, ownProps.cardGroup.id, "")),
     addSubCardGroup: () => dispatch(CardGroupActions.addCardGroup("", ownProps.cardGroup.id)),
     cardGroupTitleChanged: (newTitle) => dispatch(CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
     archiveCardGroup: () => dispatch(CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
