@@ -1,4 +1,4 @@
-import { ICardModel } from "../model/cardModel";
+import { ICardModel, CardParent_CardGroup } from "../model/cardModel";
 import cardsReducer from "./cardsReducer";
 import { CardActions } from "../actions";
 
@@ -17,11 +17,13 @@ describe("cardsReducer", () => {
 
     describe("ARCHIVE_CARD dispatched", () => {
         it("state doesnt contain removed card", () => {
-            const testId = "1";
+            const testId = {
+                        id: "1",
+                        parentType: CardParent_CardGroup,
+                        parentId:  "1",
+                    };
             const initialstate: ICardModel[] = [{
                     id: testId,
-                    parentType: "CardGroup",
-                    parentId: "1",
                     title: "some title",
                     status: "OK",
                 }];
@@ -33,48 +35,53 @@ describe("cardsReducer", () => {
     describe("CHANGE_CARD_TITLE dispatched", () => {
         it("set's the new title in the card by passing the action to the cardObjectReducer", () => {
             const initialstate: ICardModel[] = [{
-                    id: "0",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: { id: "0",
+                    parentType: CardParent_CardGroup,
+                    parentId:  "1" },
                     title: "some title0",
                     status: "OK",
                 },
                 {
-                    id: "1",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: { id: "1",
+                    parentType: CardParent_CardGroup,
+                    parentId:  "1" },
                     title: "some title1",
                     status: "OK",
                 },
                 {
-                    id: "2",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: { id: "2",
+                    parentType: CardParent_CardGroup,
+                    parentId:  "1" },
                     title: "some title2",
                     status: "OK",
                 }];
             const expectedState: ICardModel[] = [{
-                    id: "0",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: { id: "0",
+                    parentType: CardParent_CardGroup,
+                    parentId:  "1" },
                     title: "some title0",
                     status: "OK",
                 },
                 {
-                    id: "1",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: { id: "1",
+                    parentType: CardParent_CardGroup,
+                    parentId:  "1" },
                     title: "some title1 - CHANGED",
                     status: "OK",
                 },
                 {
-                    id: "2",
-                    parentType: "CardGroup",
-                    parentId: "1",
+                    id: { id: "2",
+                    parentType: CardParent_CardGroup,
+                    parentId: "1" },
                     title: "some title2",
                     status: "OK",
                 }];
-            const resultingState = cardsReducer(initialstate, CardActions.changeCardTitle("1", "some title1 - CHANGED"));
+            const cardId1 = {
+                id: "1",
+                parentType: CardParent_CardGroup,
+                parentId:  "1",
+            };
+            const resultingState = cardsReducer(initialstate, CardActions.changeCardTitle(cardId1, "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });

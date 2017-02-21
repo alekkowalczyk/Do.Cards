@@ -1,9 +1,10 @@
 "use strict";
 const Constants = require("./cardActionConstants");
-function addCard(cardGroupId, title) {
+function addCard(parentType, parentId, title) {
     return {
         type: Constants.ADD_CARD,
-        cardGroupId: cardGroupId,
+        parentType: parentType,
+        parentId: parentId,
         title: title,
     };
 }

@@ -6,11 +6,9 @@ const react_router_1 = require("react-router");
 const react_router_redux_1 = require("react-router-redux");
 const configureStore_1 = require("./app/store/configureStore");
 const routes_1 = require("./app/store/routes");
+const rootCardsReducer_1 = require("./card/reducers/rootCardsReducer");
 const initialStore = configureStore_1.default({
-    cardsRoot: {
-        cards: [],
-        cardGroups: [],
-    },
+    cardsRoot: rootCardsReducer_1.INITIAL_STATE,
 });
 const history = react_router_redux_1.syncHistoryWithStore(react_router_1.browserHistory, initialStore);
 ReactDOM.render(React.createElement("div", null,

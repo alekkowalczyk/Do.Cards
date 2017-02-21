@@ -21,12 +21,12 @@ type ConnectedDispatch = {
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
     card: ownProps.card,
-    subCards: state.cardsRoot.cards.filter(c => c.parentType == CardParent_Card && c.parentId == ownProps.card.id),
+    subCards: state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_Card && c.id.parentId === ownProps.card.id.id),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
-    addSubCard: () => dispatch(CardActions.addCard(CardParent_Card, ownProps.card.id, "")),
+    addSubCard: () => dispatch(CardActions.addCard(CardParent_Card, ownProps.card.id.id, "")),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
 });
 
@@ -35,6 +35,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent title={card.title}
+                                 id={card.id.id}
                                            subCards={subCards}
                                            addSubCard={addSubCard}
                                            titleChanged={(newTitle) => editCardTitle(newTitle)}

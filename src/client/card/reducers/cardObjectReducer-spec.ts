@@ -1,4 +1,4 @@
-import { ICardGroupModel, ICardModel } from "../model";
+import { ICardGroupModel, ICardModel, CardParent_CardGroup } from "../model";
 import cardObjectReducer from "./cardObjectReducer";
 import { CardActions } from "../actions";
 
@@ -8,21 +8,22 @@ const expect = chai.expect;
 describe("cardObjectReducer", () => {
     describe("CHANGE_CARD_TITLE dispatched", () => {
         it("set's the new title in the card", () => {
+            const cardId = {
+                        id: "1",
+                        parentType: CardParent_CardGroup,
+                        parentId:  "1",
+                    };
             const initialstate: ICardModel = {
-                    id: "1",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: cardId,
                     title: "some title1",
                     status: "OK",
             };
             const expectedState: ICardModel = {
-                    id: "1",
-                    parentType: "CardGroup",
-                    parentId:  "1",
+                    id: cardId,
                     title: "some title1 - CHANGED",
                     status: "OK",
             };
-            const resultingState = cardObjectReducer(initialstate, CardActions.changeCardTitle("1", "some title1 - CHANGED"));
+            const resultingState = cardObjectReducer(initialstate, CardActions.changeCardTitle(cardId, "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });
     });

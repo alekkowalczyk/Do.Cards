@@ -8,9 +8,10 @@ const { expect } = chai;
 const { delay } = common_1.sagaUtils;
 describe("cardSagas", () => {
     describe("handleCardTitleChanged", () => {
-        const generator = cardSagas_1.handleCardTitleChanged({ id: "fakeId", title: "fakeTitle" });
+        const fakeId = { id: "fakeId", parentType: "Card", parentId: "fake" };
+        const generator = cardSagas_1.handleCardTitleChanged({ id: fakeId, title: "fakeTitle" });
         it("dispatches CHANGE_CARD_TITLE actions", () => {
-            expect(generator.next().value).to.deep.equal(effects_1.put(actions_1.CardActions.changeCardTitle("fakeId", "fakeTitle")));
+            expect(generator.next().value).to.deep.equal(effects_1.put(actions_1.CardActions.changeCardTitle(fakeId, "fakeTitle")));
         });
         it("waits 500 milliseconds", () => {
             expect(generator.next().value).to.deep.equal(effects_1.call(delay, 500));

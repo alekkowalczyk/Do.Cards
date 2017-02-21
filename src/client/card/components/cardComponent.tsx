@@ -3,6 +3,7 @@ import { ICardModel } from "../model";
 import CardContainer from "../containers/CardContainer";
 
 export interface ICardComponentProps {
+    id: string;
     title: string;
     subCards: ICardModel[];
     titleChanged: (newTitle: string) => void;
@@ -16,9 +17,9 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
     }
 
     public render() {
-        const subCards: React.HTMLProps<HTMLDivElement> = this.props.subCards.map((c) =>
+        const subCards: React.HTMLProps<HTMLDivElement> = this.props.subCards.map((c, idx) =>
                                 c &&
-                                <li><CardContainer  key={c.id}
+                                <li><CardContainer  key={idx}
                                                 card={c}
                                             /></li>
                             );
@@ -26,7 +27,9 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                     <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
                     <button onClick={this.props.remove} className="close-button">✖</button>
                     <ul>{subCards}</ul>
-                    <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
+                    {   this.props.id !== "-1" &&
+                        <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
+                    }
                 </div>;
     }
 

@@ -1,4 +1,4 @@
-export type CardGroupStatus = "OK"|"Saving"|"Saved"|"Changed";
+export type CardGroupStatus = "OK"|"Empty"|"Saving"|"Saved"|"Changed";
 export interface ICardGroupModel {
     readonly id: string;
     readonly parentId?: string;

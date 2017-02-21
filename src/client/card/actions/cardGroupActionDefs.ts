@@ -8,6 +8,12 @@ export type AddCardGroupAction = {
     parentId?: string,
 };
 
+export type InsertCardGroupAction = {
+    type: Constants.INSERT_CARDGROUP,
+    title: string,
+    parentId?: string,
+} & QId;
+
 export type ArchiveCardGroupAction = {
             type: Constants.ARCHIVE_CARDGROUP,
         } & QId;

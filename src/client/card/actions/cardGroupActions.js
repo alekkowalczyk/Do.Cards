@@ -1,12 +1,22 @@
 "use strict";
 const Constants = require("./cardGroupActionConstants");
-function addCardGroup(title) {
+function addCardGroup(title, parentId) {
     return {
         type: Constants.ADD_CARDGROUP,
         title: title,
+        parentId: parentId,
     };
 }
 exports.addCardGroup = addCardGroup;
+function insertCardGroup(id, title, parentId) {
+    return {
+        type: Constants.INSERT_CARDGROUP,
+        id: id,
+        title: title,
+        parentId: parentId,
+    };
+}
+exports.insertCardGroup = insertCardGroup;
 function archiveCardGroup(id) {
     return {
         type: Constants.ARCHIVE_CARDGROUP,

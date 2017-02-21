@@ -22,11 +22,23 @@ type ConnectedDispatch = {
     archiveCardGroup: () => void;
 }
 
-const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    cards: state.cardsRoot.cards.filter(c => c.parentId === ownProps.cardGroup.id),
-    subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId == ownProps.cardGroup.id),
-    cardGroup: ownProps.cardGroup,
-});
+const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
+    const cards = state.cardsRoot.cards.filter(c => c.id.parentId === ownProps.cardGroup.id);
+    if (ownProps.cardGroup.id !== "-1") {
+        cards.push({
+            id: { id: "-1",
+                parentType: CardParent_CardGroup,
+                parentId: ownProps.cardGroup.id },
+            status: "Empty",
+            title: "",
+        });
+    }
+    return {
+        cards: cards,
+        subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id),
+        cardGroup: ownProps.cardGroup,
+    };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     addEmptyCard: () => dispatch(CardActions.addCard(CardParent_CardGroup, ownProps.cardGroup.id, "")),
@@ -37,16 +49,17 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
 
 class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { cards, cardGroup, addEmptyCard, 
+        const { cards, cardGroup, addEmptyCard,
             subCardGroups, addSubCardGroup,
             cardGroupTitleChanged, archiveCardGroup } = this.props;
         return <CardGroupComponent cards={cards}
+                                    id={cardGroup.id}
                                     subCardGroups={subCardGroups}
                                     title={cardGroup.title}
                                     titleChanged={cardGroupTitleChanged}
                                     remove={archiveCardGroup}
-                                    addEmptyCard={addEmptyCard} 
-                                    addSubCardGroup={addSubCardGroup} 
+                                    addEmptyCard={addEmptyCard}
+                                    addSubCardGroup={addSubCardGroup}
                                     />;
     }
 }

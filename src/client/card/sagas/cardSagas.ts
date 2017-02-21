@@ -1,11 +1,12 @@
 import { takeLatest } from "redux-saga";
 import { call, put } from "redux-saga/effects";
 import { sagaUtils } from "../../common";
+import { ICardId } from "../model/cardModel";
 import { CardActionConstants, CardActions, CardActionDefs } from "../actions";
 
 const { delay } = sagaUtils;
 
-export function* handleCardTitleChanged(options: {id: string, title: string}) {
+export function* handleCardTitleChanged(options: {id: ICardId, title: string}) {
     yield put(CardActions.changeCardTitle(options.id, options.title));
     yield call(delay, 500);
     console.log("AJAX CALL!!!", options);

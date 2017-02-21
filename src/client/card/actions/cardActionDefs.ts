@@ -1,6 +1,9 @@
-import { QId } from "../../common";
-import { CardParentType } from "../model/cardModel";
+import { CardParentType, ICardId } from "../model/cardModel";
 import * as Constants from "./cardActionConstants";
+
+type QId = {
+    id: ICardId
+};
 
 // Main actions:
 export type AddCardAction = {

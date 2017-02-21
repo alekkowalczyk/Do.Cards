@@ -11,14 +11,14 @@ export class CardBoardComponent extends React.Component<ICardGroupComponentProps
     public render() {
         return  <div className="card-board">
                     {
-                        this.props.cardGroups.map((cg) =>
+                        this.props.cardGroups.map((cg, idx) =>
                             cg &&
-                            <div key={cg.id} style={{ float: "left" }} >
+                            <div key={idx} style={{ float: "left" }} >
+                                <span style={{color:"blue"}}>{idx}/{cg.id}</span>
                                 <CardGroupContainer cardGroup={cg} />
                             </div>
                         )
                     }
-                    <button onClick={this.props.addEmptyCardGroup} className="add-card-group-button"><span className="plus">+</span>card group</button>
                     <div style={{clear: "both"}} />
                 </div>;
     }

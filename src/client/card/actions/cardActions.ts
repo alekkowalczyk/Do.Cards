@@ -1,6 +1,6 @@
 import * as Constants from "./cardActionConstants";
 import * as ActionDefs from "./cardActionDefs";
-import { CardParentType } from "../model/cardModel";
+import { CardParentType, ICardId } from "../model/cardModel";
 
 export function addCard(parentType: CardParentType, parentId: string, title: string): ActionDefs.AddCardAction {
     return {
@@ -11,14 +11,14 @@ export function addCard(parentType: CardParentType, parentId: string, title: str
     };
 }
 
-export function archiveCard(id: string): ActionDefs.ArchiveCardAction {
+export function archiveCard(id: ICardId): ActionDefs.ArchiveCardAction {
     return {
         type: Constants.ARCHIVE_CARD,
         id: id,
     };
 }
 
-export function cardTitleChanged(id: string, title: string): ActionDefs.CardTitleChangedAction {
+export function cardTitleChanged(id: ICardId, title: string): ActionDefs.CardTitleChangedAction {
     return {
         type: Constants.CARD_ACTION,
         subType: Constants.CARD_TITLE_CHANGED,
@@ -27,7 +27,7 @@ export function cardTitleChanged(id: string, title: string): ActionDefs.CardTitl
     };
 }
 
-export function changeCardTitle(id: string, title: string): ActionDefs.ChangeCardTitleAction {
+export function changeCardTitle(id: ICardId, title: string): ActionDefs.ChangeCardTitleAction {
     return {
         type: Constants.CARD_ACTION,
         subType: Constants.CHANGE_CARD_TITLE,

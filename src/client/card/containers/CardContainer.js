@@ -3,18 +3,21 @@ const React = require("react");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("../actions");
 const CardComponent_1 = require("../components/CardComponent");
+const model_1 = require("../model");
 const mapStateToProps = (state, ownProps) => ({
     card: ownProps.card,
+    subCards: state.cardsRoot.cards.filter(c => c.id.parentType === model_1.CardParent_Card && c.id.parentId === ownProps.card.id.id),
 });
-const mapDispatchToProps = (dispatch) => ({
-    editCardTitle: (card, newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(card.id, newTitle)),
-    archiveCard: (card) => dispatch(actions_1.CardActions.archiveCard(card.id)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    editCardTitle: (newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
+    addSubCard: () => dispatch(actions_1.CardActions.addCard(model_1.CardParent_Card, ownProps.card.id.id, "")),
+    archiveCard: () => dispatch(actions_1.CardActions.archiveCard(ownProps.card.id)),
 });
 class CardContainer extends React.Component {
     render() {
-        const { card, archiveCard, editCardTitle } = this.props;
+        const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
-            ? React.createElement(CardComponent_1.CardComponent, { title: card.title, titleChanged: (newTitle) => editCardTitle(card, newTitle), remove: () => archiveCard(card) })
+            ? React.createElement(CardComponent_1.CardComponent, { title: card.title, subCards: subCards, addSubCard: addSubCard, titleChanged: (newTitle) => editCardTitle(newTitle), remove: archiveCard })
             : React.createElement("div", null);
     }
 }

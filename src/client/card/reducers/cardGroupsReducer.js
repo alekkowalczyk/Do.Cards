@@ -12,6 +12,7 @@ const cardGroupsReducer = (state = INITIAL_STATE, action = common_1.OtherAction)
                 {
                     id: (cardGroupId++).toString(),
                     title: action.title,
+                    parentId: action.parentId,
                     status: "OK",
                 },
             ];
@@ -29,6 +30,18 @@ const cardGroupsReducer = (state = INITIAL_STATE, action = common_1.OtherAction)
             ;
             return state;
         case actions_1.CardGroupActionConstants.CARDGROUP_ACTION:
+            if (action.id === "-1") {
+                action.id = (cardGroupId++).toString();
+                const newCardGroup = {
+                    id: action.id,
+                    title: "",
+                    status: "Empty",
+                };
+                return [
+                    ...state,
+                    cardGroupObjectReducer_1.default(newCardGroup, action),
+                ];
+            }
             const cardGroupToEdit = state.find(c => c.id === action.id);
             if (cardGroupToEdit) {
                 const idxToRemove = state.indexOf(cardGroupToEdit);

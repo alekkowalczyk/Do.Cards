@@ -16,7 +16,14 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    cardGroups: state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
+    cardGroups: [
+      ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
+      {
+            id: "-1",
+            status: "Empty",
+            title: "",
+      },
+    ],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({

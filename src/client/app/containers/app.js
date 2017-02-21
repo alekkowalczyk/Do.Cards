@@ -7,7 +7,7 @@ class App extends React.Component {
     render() {
         return React.createElement("div", null,
             React.createElement("div", { className: "app-bar" },
-                React.createElement("h3", null, "Do.Cards")),
+                React.createElement("div", { id: "logo" }, "a7.cards")),
             React.createElement("div", null, this.props.children));
     }
 }

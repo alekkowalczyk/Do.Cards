@@ -5,12 +5,10 @@ import { Router, browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 import configureStore from "./app/store/configureStore";
 import routes from "./app/store/routes";
+import { INITIAL_STATE } from "./card/reducers/rootCardsReducer";
 
 const initialStore = configureStore({
-    cardsRoot: {
-        cards: [],
-        cardGroups: [],
-    },
+    cardsRoot: INITIAL_STATE,
 });
 const history = syncHistoryWithStore(browserHistory, initialStore);
 

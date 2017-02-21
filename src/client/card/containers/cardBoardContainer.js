@@ -4,7 +4,14 @@ const react_redux_1 = require("react-redux");
 const actions_1 = require("../actions");
 const cardBoardComponent_1 = require("../components/cardBoardComponent");
 const mapStateToProps = (state, ownProps) => ({
-    cardGroups: state.cardsRoot.cardGroups,
+    cardGroups: [
+        ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
+        {
+            id: "-1",
+            status: "Empty",
+            title: "",
+        },
+    ],
 });
 const mapDispatchToProps = (dispatch) => ({
     addEmptyCardGroup: () => dispatch(actions_1.CardGroupActions.addCardGroup("")),

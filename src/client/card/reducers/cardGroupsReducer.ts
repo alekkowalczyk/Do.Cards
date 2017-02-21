@@ -37,6 +37,18 @@ const cardGroupsReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: Car
                 };
                 return state;
             case CardGroupActionConstants.CARDGROUP_ACTION:
+                if (action.id === "-1") {
+                    action.id = (cardGroupId++).toString();
+                    const newCardGroup: ICardGroupModel = {
+                        id: action.id,
+                        title: "",
+                        status: "Empty",
+                    };
+                    return [
+                                ...state,
+                                cardGroupObjectReducer(newCardGroup, <any>action),
+                            ];
+                }
                 const cardGroupToEdit = state.find(c => c.id === action.id);
                 if (cardGroupToEdit) {
                     const idxToRemove = state.indexOf(cardGroupToEdit);
