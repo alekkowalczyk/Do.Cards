@@ -22,12 +22,11 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                                                 card={c}
                                             /></li>
                             );
-        return  <div style={{border: "solid 1px black", margin: "5px", padding: "5px"}}>
-                    <div>Card</div>
+        return  <div className="card-element">
                     <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
-                    <button onClick={this.props.remove}>X</button>
+                    <button onClick={this.props.remove} className="close-button">✖</button>
                     <ul>{subCards}</ul>
-                    <button onClick={this.props.addSubCard}>Add sub card</button>
+                    <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
                 </div>;
     }
 

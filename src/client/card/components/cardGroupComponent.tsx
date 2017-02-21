@@ -24,11 +24,14 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                             </div>
                         )
                     ;
-        return  <div style={{border: "solid 1px gray", margin: "5px", padding: "5px"}}>
-                    <div>Card group</div>
+        return  <div className="card-group-element">
                     <div>
                         <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
-                        <button onClick={this.props.remove}>X</button>
+                        <button onClick={this.props.remove} className="close-button">✖</button>
+                    </div>
+                    <div>
+                        <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
+                        <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
                     </div>
                     <div style={{ float: "right" }}>
                         { subCardGroups }
@@ -44,8 +47,6 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                         }
                     </div>
                     <div style={{clear:"both"}}></div>
-                    <button onClick={this.props.addEmptyCard}>Add card</button>
-                    <button onClick={this.props.addSubCardGroup}>Add sub card group</button>
                 </div>;
     }
 

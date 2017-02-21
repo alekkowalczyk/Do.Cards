@@ -19,7 +19,7 @@ class App extends React.Component<ConnectedState & ConnectedDispatch & OwnProps,
     public render() {
         return <div>
             <div className="app-bar">
-                <h3>Do.Cards</h3>
+                <div id="logo">a7.cards</div>
             </div>
             <div>{this.props.children}</div>
         </div>;

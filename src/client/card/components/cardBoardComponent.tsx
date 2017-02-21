@@ -9,7 +9,7 @@ export interface ICardGroupComponentProps {
 
 export class CardBoardComponent extends React.Component<ICardGroupComponentProps, {}> {
     public render() {
-        return  <div style={{border: "solid 1px gray", padding: "5px"}}>
+        return  <div className="card-board">
                     {
                         this.props.cardGroups.map((cg) =>
                             cg &&
@@ -18,7 +18,7 @@ export class CardBoardComponent extends React.Component<ICardGroupComponentProps
                             </div>
                         )
                     }
-                    <button onClick={this.props.addEmptyCardGroup}>Add card group</button>
+                    <button onClick={this.props.addEmptyCardGroup} className="add-card-group-button"><span className="plus">+</span>card group</button>
                     <div style={{clear: "both"}} />
                 </div>;
     }

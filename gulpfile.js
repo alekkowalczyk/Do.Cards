@@ -26,13 +26,13 @@ gulp.task("build-server", () =>
         .pipe(gulp.dest("server"))
 );
 
-gulp.task("copy-client-assets", () => gulp
-    .src([
+gulp.task("copy-client-assets", () => {
+    return gulp.src([
         "./node_modules/react/dist/react.js",
         "./node_modules/react-dom/dist/react-dom.js"
         ])
-    .pipe(gulp.dest("./public/js"))
-);
+    .pipe(gulp.dest("./public/js"));
+});
 
 gulp.task("build-client", ["copy-client-assets"], () => {
     const stream = gulp.src("./src/client/test.js")

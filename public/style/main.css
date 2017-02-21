@@ -1,0 +1,83 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#logo {
+    background: blue;
+    color: white;
+    padding: 3px 7px;
+    width: 62px;
+    font-size: 18px;
+}
+
+.card-board {
+    background-color: #FAFAFA;
+    border: 1px solid #FCFCFC;
+}
+
+.card-group-element {
+    border: 1px solid #8af;
+    margin: 5px;
+    padding: 5px;
+}
+
+.card-element {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 5px;
+}
+
+.plus {
+    font-weight: bold;
+    margin-right: 3px;
+}
+
+button {
+    background: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+button:focus {
+    background: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    outline: none;
+}
+
+button:hover {
+    background: #eee;
+    border: 1px solid #aaa;
+}
+
+input {
+    background: transparent;
+    border-left: 1px transparent;
+    border-right:1px transparent;
+    border-top: 1px transparent;
+    border-bottom: 1px #ccc dashed;
+    margin-bottom: 3px;
+}
+
+input:focus {
+    background: transparent;
+    border: 1px #ccc dashed;
+    outline: none;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+
+.close-button:hover {
+    color: red;
+    border: none;
+    background: transparent;
+}
+
+.add-card-group-button {
+    margin: 5px;
+}
