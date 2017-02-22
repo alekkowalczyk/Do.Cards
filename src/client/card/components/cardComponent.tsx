@@ -23,9 +23,10 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                                                 card={c}
                                             /></li>
                             );
+        const placeholder = this.props.id === "-1" ? "Type to add new card..." : "";
         return  <div className="card-element">
                     <div>
-                        <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
+                        <input value={this.props.title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
                         <button onClick={this.props.remove} className="close-button">✖</button>
                     </div>
                     {

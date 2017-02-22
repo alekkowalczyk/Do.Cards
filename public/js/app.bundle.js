@@ -10845,9 +10845,10 @@
 	        const { title, id, parentId } = this.props.cardGroup;
 	        const subCardGroups = this.props.subCardGroups.reverse().map((cg, idx) => cg &&
 	            React.createElement(CardGroupContainer_1.default, { key: idx, cardGroup: cg }));
+	        const placeholder = id === "-1" ? "Type to add new card group..." : "";
 	        return React.createElement("div", { className: parentId ? "sub-card-group-element" : "card-group-element" },
 	            React.createElement("div", null,
-	                React.createElement("input", { value: title, onChange: this.titleChanged.bind(this) }),
+	                React.createElement("input", { value: title, onChange: this.titleChanged.bind(this), placeholder: placeholder }),
 	                React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
 	            React.createElement("div", null,
 	                id !== "-1" &&
@@ -10934,9 +10935,10 @@
 	        const subCards = this.props.subCards.map((c, idx) => c &&
 	            React.createElement("li", null,
 	                React.createElement(CardContainer_1.default, { key: idx, card: c })));
+	        const placeholder = this.props.id === "-1" ? "Type to add new card..." : "";
 	        return React.createElement("div", { className: "card-element" },
 	            React.createElement("div", null,
-	                React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
+	                React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this), placeholder: placeholder }),
 	                React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
 	            this.props.subCards.length > 0 &&
 	                React.createElement("ul", null, subCards),

@@ -23,9 +23,10 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                             <CardGroupContainer key={idx} cardGroup={cg} />
                         )
                     ;
+        const placeholder = id === "-1" ? "Type to add new card group..." : "";
         return  <div className={parentId ? "sub-card-group-element" : "card-group-element"}>
                     <div>
-                        <input value={title} onChange={this.titleChanged.bind(this)}/>
+                        <input value={title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
                         <button onClick={this.props.remove} className="close-button">✖</button>
                     </div>
                     <div>
