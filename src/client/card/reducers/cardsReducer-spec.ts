@@ -24,6 +24,7 @@ describe("cardsReducer", () => {
                     };
             const initialstate: ICardModel[] = [{
                     id: testId,
+                    ui: {},
                     title: "some title",
                     status: "OK",
                 }];
@@ -38,6 +39,7 @@ describe("cardsReducer", () => {
                     id: { id: "0",
                     parentType: CardParent_CardGroup,
                     parentId:  "1" },
+                    ui: {},
                     title: "some title0",
                     status: "OK",
                 },
@@ -45,6 +47,7 @@ describe("cardsReducer", () => {
                     id: { id: "1",
                     parentType: CardParent_CardGroup,
                     parentId:  "1" },
+                    ui: {},
                     title: "some title1",
                     status: "OK",
                 },
@@ -52,6 +55,7 @@ describe("cardsReducer", () => {
                     id: { id: "2",
                     parentType: CardParent_CardGroup,
                     parentId:  "1" },
+                    ui: {},
                     title: "some title2",
                     status: "OK",
                 }];
@@ -59,6 +63,7 @@ describe("cardsReducer", () => {
                     id: { id: "0",
                     parentType: CardParent_CardGroup,
                     parentId:  "1" },
+                    ui: {},
                     title: "some title0",
                     status: "OK",
                 },
@@ -66,6 +71,7 @@ describe("cardsReducer", () => {
                     id: { id: "1",
                     parentType: CardParent_CardGroup,
                     parentId:  "1" },
+                    ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
                 },
@@ -73,6 +79,7 @@ describe("cardsReducer", () => {
                     id: { id: "2",
                     parentType: CardParent_CardGroup,
                     parentId: "1" },
+                    ui: {},
                     title: "some title2",
                     status: "OK",
                 }];

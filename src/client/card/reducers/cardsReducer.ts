@@ -18,11 +18,12 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                 return [
                         ...state,
                         {
-                            id: { 
+                            id: {
                                 id: (cardId++).toString(),
                                 parentId: action.parentId,
                                 parentType: action.parentType,
                             },
+                            ui: {},
                             title: action.title,
                             status: "OK",
                         },
@@ -47,6 +48,7 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                     };
                     const newCard: ICardModel = {
                         id: action.id,
+                        ui: {},
                         title: "",
                         status: "Empty",
                     };

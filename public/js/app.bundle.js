@@ -10206,6 +10206,7 @@
 	                        parentId: action.parentId,
 	                        parentType: action.parentType,
 	                    },
+	                    ui: {},
 	                    title: action.title,
 	                    status: "OK",
 	                },
@@ -10228,6 +10229,7 @@
 	                action.id = __assign({}, action.id, { id: (cardId++).toString() });
 	                const newCard = {
 	                    id: action.id,
+	                    ui: {},
 	                    title: "",
 	                    status: "Empty",
 	                };
@@ -10330,6 +10332,14 @@
 	    };
 	}
 	exports.changeCardGroupTitle = changeCardGroupTitle;
+	function forceDisplayAddCard(id) {
+	    return {
+	        type: Constants.CARDGROUP_ACTION,
+	        subType: Constants.FORCE_DISPLAY_ADD_CARD,
+	        id: id,
+	    };
+	}
+	exports.forceDisplayAddCard = forceDisplayAddCard;
 
 
 /***/ },
@@ -10343,6 +10353,7 @@
 	exports.CARDGROUP_ACTION = "CardGroup/CARDGROUP_ACTION";
 	exports.CARDGROUP_TITLE_CHANGED = "CardGroup/CARDGROUP_TITLE_CHANGED";
 	exports.CHANGE_CARDGROUP_TITLE = "CardGroup/CHANGE_CARDGROUP_TITLE";
+	exports.FORCE_DISPLAY_ADD_CARD = "CardGroup/FORCE_DISPLAY_ADD_CARD";
 
 
 /***/ },
@@ -10392,6 +10403,14 @@
 	    };
 	}
 	exports.changeCardTitle = changeCardTitle;
+	function displayAddSubCardAction(id) {
+	    return {
+	        type: Constants.CARD_ACTION,
+	        subType: Constants.DISPLAY_ADD_SUB_CARD,
+	        id: id,
+	    };
+	}
+	exports.displayAddSubCardAction = displayAddSubCardAction;
 
 
 /***/ },
@@ -10404,6 +10423,7 @@
 	exports.CARD_ACTION = "Card/CARD_ACTION";
 	exports.CARD_TITLE_CHANGED = "Card/CARD_TITLE_CHANGED";
 	exports.CHANGE_CARD_TITLE = "Card/CHANGE_CARD_TITLE";
+	exports.DISPLAY_ADD_SUB_CARD = "Card/DISPLAY_ADD_SUB_CARD";
 
 
 /***/ },
@@ -10427,6 +10447,8 @@
 	    switch (action.subType) {
 	        case actions_1.CardActionConstants.CHANGE_CARD_TITLE:
 	            return __assign({}, state, { title: action.title });
+	        case actions_1.CardActionConstants.DISPLAY_ADD_SUB_CARD:
+	            return __assign({}, state, { ui: __assign({}, state.ui, { displayAddSubCard: true }) });
 	        default:
 	            return state;
 	    }
@@ -10452,6 +10474,7 @@
 	                ...state,
 	                {
 	                    id: (cardGroupId++).toString(),
+	                    ui: {},
 	                    title: action.title,
 	                    parentId: action.parentId,
 	                    status: "OK",
@@ -10475,6 +10498,7 @@
 	                action.id = (cardGroupId++).toString();
 	                const newCardGroup = {
 	                    id: action.id,
+	                    ui: {},
 	                    title: "",
 	                    status: "Empty",
 	                };
@@ -10524,6 +10548,8 @@
 	    switch (action.subType) {
 	        case actions_1.CardGroupActionConstants.CHANGE_CARDGROUP_TITLE:
 	            return __assign({}, state, { title: action.title });
+	        case actions_1.CardGroupActionConstants.FORCE_DISPLAY_ADD_CARD:
+	            return __assign({}, state, { ui: __assign({}, state.ui, { forceDisplayAddCard: true }) });
 	        default:
 	            return state;
 	    }
@@ -10707,6 +10733,7 @@
 	        ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
 	        {
 	            id: "-1",
+	            ui: {},
 	            status: "Empty",
 	            title: "",
 	        },
@@ -10766,24 +10793,26 @@
 	const CardGroupComponent_1 = __webpack_require__(139);
 	const model_1 = __webpack_require__(142);
 	const mapStateToProps = (state, ownProps) => {
-	    const cards = state.cardsRoot.cards.filter(c => c.id.parentId === ownProps.cardGroup.id);
-	    if (ownProps.cardGroup.id !== "-1") {
+	    const subCardGroups = state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id);
+	    const cards = state.cardsRoot.cards.filter(c => c.id.parentType === model_1.CardParent_CardGroup && c.id.parentId === ownProps.cardGroup.id);
+	    if (ownProps.cardGroup.id !== "-1" && (subCardGroups.length === 0 || cards.length > 0 || ownProps.cardGroup.ui.forceDisplayAddCard)) {
 	        cards.push({
 	            id: { id: "-1",
 	                parentType: model_1.CardParent_CardGroup,
 	                parentId: ownProps.cardGroup.id },
 	            status: "Empty",
 	            title: "",
+	            ui: {},
 	        });
 	    }
 	    return {
 	        cards: cards,
-	        subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id),
+	        subCardGroups: subCardGroups,
 	        cardGroup: ownProps.cardGroup,
 	    };
 	};
 	const mapDispatchToProps = (dispatch, ownProps) => ({
-	    addEmptyCard: () => dispatch(actions_1.CardActions.addCard(model_1.CardParent_CardGroup, ownProps.cardGroup.id, "")),
+	    addEmptyCard: () => dispatch(actions_1.CardGroupActions.forceDisplayAddCard(ownProps.cardGroup.id)),
 	    addSubCardGroup: () => dispatch(actions_1.CardGroupActions.addCardGroup("", ownProps.cardGroup.id)),
 	    cardGroupTitleChanged: (newTitle) => dispatch(actions_1.CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
 	    archiveCardGroup: () => dispatch(actions_1.CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
@@ -10791,7 +10820,7 @@
 	class CardGroupContainer extends React.Component {
 	    render() {
 	        const { cards, cardGroup, addEmptyCard, subCardGroups, addSubCardGroup, cardGroupTitleChanged, archiveCardGroup } = this.props;
-	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cards, id: cardGroup.id, subCardGroups: subCardGroups, title: cardGroup.title, titleChanged: cardGroupTitleChanged, remove: archiveCardGroup, addEmptyCard: addEmptyCard, addSubCardGroup: addSubCardGroup });
+	        return React.createElement(CardGroupComponent_1.CardGroupComponent, { cards: cards, cardGroup: cardGroup, subCardGroups: subCardGroups, titleChanged: cardGroupTitleChanged, remove: archiveCardGroup, addEmptyCard: addEmptyCard, addSubCardGroup: addSubCardGroup });
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -10813,17 +10842,22 @@
 	const CardGroupContainer_1 = __webpack_require__(138);
 	class CardGroupComponent extends React.Component {
 	    render() {
-	        const subCardGroups = this.props.subCardGroups.map((cg) => cg &&
-	            React.createElement("div", { key: cg.id },
-	                React.createElement(CardGroupContainer_1.default, { cardGroup: cg })));
-	        return React.createElement("div", { className: "card-group-element" },
+	        const { title, id, parentId } = this.props.cardGroup;
+	        const subCardGroups = this.props.subCardGroups.reverse().map((cg, idx) => cg &&
+	            React.createElement(CardGroupContainer_1.default, { key: idx, cardGroup: cg }));
+	        return React.createElement("div", { className: parentId ? "sub-card-group-element" : "card-group-element" },
 	            React.createElement("div", null,
-	                React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
+	                React.createElement("input", { value: title, onChange: this.titleChanged.bind(this) }),
 	                React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
-	            React.createElement("div", null, this.props.id !== "-1" &&
-	                React.createElement("button", { onClick: this.props.addSubCardGroup },
-	                    React.createElement("span", { className: "plus" }, "+"),
-	                    "sub card group")),
+	            React.createElement("div", null,
+	                id !== "-1" &&
+	                    React.createElement("button", { onClick: this.props.addSubCardGroup },
+	                        React.createElement("span", { className: "plus" }, "+"),
+	                        "sub card group"),
+	                this.props.subCardGroups.length > 0 && this.props.cards.length === 0 &&
+	                    React.createElement("button", { onClick: this.props.addEmptyCard },
+	                        React.createElement("span", { className: "plus" }, "+"),
+	                        "card")),
 	            React.createElement("div", { style: { float: "right" } }, subCardGroups),
 	            React.createElement("div", { style: { float: "left" } }, this.props.cards.map((c, idx) => c &&
 	                React.createElement(CardContainer_1.default, { key: idx, card: c }))),
@@ -10846,13 +10880,26 @@
 	const actions_1 = __webpack_require__(117);
 	const CardComponent_1 = __webpack_require__(141);
 	const model_1 = __webpack_require__(142);
-	const mapStateToProps = (state, ownProps) => ({
-	    card: ownProps.card,
-	    subCards: state.cardsRoot.cards.filter(c => c.id.parentType === model_1.CardParent_Card && c.id.parentId === ownProps.card.id.id),
-	});
+	const mapStateToProps = (state, ownProps) => {
+	    const subCards = state.cardsRoot.cards.filter(c => c.id.parentType === model_1.CardParent_Card && c.id.parentId === ownProps.card.id.id);
+	    if (ownProps.card.ui.displayAddSubCard) {
+	        subCards.push({
+	            id: { id: "-1",
+	                parentType: model_1.CardParent_Card,
+	                parentId: ownProps.card.id.id },
+	            ui: {},
+	            status: "Empty",
+	            title: "",
+	        });
+	    }
+	    return {
+	        card: ownProps.card,
+	        subCards: subCards,
+	    };
+	};
 	const mapDispatchToProps = (dispatch, ownProps) => ({
 	    editCardTitle: (newTitle) => dispatch(actions_1.CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
-	    addSubCard: () => dispatch(actions_1.CardActions.addCard(model_1.CardParent_Card, ownProps.card.id.id, "")),
+	    addSubCard: () => dispatch(actions_1.CardActions.displayAddSubCardAction(ownProps.card.id)),
 	    archiveCard: () => dispatch(actions_1.CardActions.archiveCard(ownProps.card.id)),
 	});
 	class CardContainer extends React.Component {
@@ -10888,9 +10935,11 @@
 	            React.createElement("li", null,
 	                React.createElement(CardContainer_1.default, { key: idx, card: c })));
 	        return React.createElement("div", { className: "card-element" },
-	            React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
-	            React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716"),
-	            React.createElement("ul", null, subCards),
+	            React.createElement("div", null,
+	                React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this) }),
+	                React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
+	            this.props.subCards.length > 0 &&
+	                React.createElement("ul", null, subCards),
 	            this.props.id !== "-1" &&
 	                React.createElement("button", { onClick: this.props.addSubCard },
 	                    React.createElement("span", { className: "plus" }, "+"),

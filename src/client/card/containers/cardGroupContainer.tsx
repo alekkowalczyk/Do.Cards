@@ -23,25 +23,27 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    const cards = state.cardsRoot.cards.filter(c => c.id.parentId === ownProps.cardGroup.id);
-    if (ownProps.cardGroup.id !== "-1") {
+    const subCardGroups = state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id);
+    const cards = state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_CardGroup && c.id.parentId === ownProps.cardGroup.id);
+    if (ownProps.cardGroup.id !== "-1" && (subCardGroups.length === 0 || cards.length > 0 || ownProps.cardGroup.ui.forceDisplayAddCard)) {
         cards.push({
             id: { id: "-1",
                 parentType: CardParent_CardGroup,
                 parentId: ownProps.cardGroup.id },
             status: "Empty",
             title: "",
+            ui: {},
         });
     }
     return {
         cards: cards,
-        subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id),
+        subCardGroups: subCardGroups,
         cardGroup: ownProps.cardGroup,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
-    addEmptyCard: () => dispatch(CardActions.addCard(CardParent_CardGroup, ownProps.cardGroup.id, "")),
+    addEmptyCard: () => dispatch(CardGroupActions.forceDisplayAddCard(ownProps.cardGroup.id)),
     addSubCardGroup: () => dispatch(CardGroupActions.addCardGroup("", ownProps.cardGroup.id)),
     cardGroupTitleChanged: (newTitle) => dispatch(CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
     archiveCardGroup: () => dispatch(CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
@@ -53,9 +55,8 @@ class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispa
             subCardGroups, addSubCardGroup,
             cardGroupTitleChanged, archiveCardGroup } = this.props;
         return <CardGroupComponent cards={cards}
-                                    id={cardGroup.id}
+                                    cardGroup={cardGroup}
                                     subCardGroups={subCardGroups}
-                                    title={cardGroup.title}
                                     titleChanged={cardGroupTitleChanged}
                                     remove={archiveCardGroup}
                                     addEmptyCard={addEmptyCard}

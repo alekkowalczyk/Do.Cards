@@ -20,6 +20,7 @@ describe("cardGroupsReducer", () => {
             const testId = "1";
             const initialstate: ICardGroupModel[] = [{
                     id: testId,
+                    ui: {},
                     title: "some title",
                     status: "OK",
                 }];
@@ -32,31 +33,37 @@ describe("cardGroupsReducer", () => {
         it("set's the new title in the cardgroup by passing the action to the cardGroupObjectReducer", () => {
             const initialstate: ICardGroupModel[] = [{
                     id: "0",
+                    ui: {},
                     title: "some title0",
                     status: "OK",
                 },
                 {
                     id: "1",
+                    ui: {},
                     title: "some title1",
                     status: "OK",
                 },
                 {
                     id: "2",
+                    ui: {},
                     title: "some title2",
                     status: "OK",
                 }];
             const expectedState: ICardGroupModel[] = [{
                     id: "0",
+                    ui: {},
                     title: "some title0",
                     status: "OK",
                 },
                 {
                     id: "1",
+                    ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
                 },
                 {
                     id: "2",
+                    ui: {},
                     title: "some title2",
                     status: "OK",
                 }];

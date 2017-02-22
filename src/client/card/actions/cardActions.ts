@@ -35,3 +35,11 @@ export function changeCardTitle(id: ICardId, title: string): ActionDefs.ChangeCa
         title: title,
     };
 }
+
+export function displayAddSubCardAction(id: ICardId): ActionDefs.DisplayAddSubCardAction {
+    return {
+        type: Constants.CARD_ACTION,
+        subType: Constants.DISPLAY_ADD_SUB_CARD,
+        id: id,
+    };
+}

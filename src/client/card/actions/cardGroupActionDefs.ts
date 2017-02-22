@@ -34,3 +34,7 @@ export type ChangeCardGroupTitleAction = {
             subType: Constants.CHANGE_CARDGROUP_TITLE,
             title: string,
         } & CardGroupAction & QId;
+
+export type ForceDisplayAddCardAction = {
+            subType: Constants.FORCE_DISPLAY_ADD_CARD,
+        } & CardGroupAction & QId;

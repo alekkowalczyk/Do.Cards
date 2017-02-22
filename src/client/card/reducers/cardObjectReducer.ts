@@ -15,6 +15,14 @@ const cardReducer = (state: ICardModel, action: CardAction): ICardModel => {
                     ...state,
                     title: action.title,
             };
+        case CardActionConstants.DISPLAY_ADD_SUB_CARD:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    displayAddSubCard: true,
+                },
+            };
         default:
             return state;
     }

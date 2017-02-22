@@ -10,11 +10,13 @@ describe("cardGroupObjectReducer", () => {
         it("set's the new title in the cardgroup", () => {
             const initialstate: ICardGroupModel = {
                     id: "1",
+                    ui: {},
                     title: "some title1",
                     status: "OK",
             };
             const expectedState: ICardGroupModel = {
                     id: "1",
+                    ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
             };

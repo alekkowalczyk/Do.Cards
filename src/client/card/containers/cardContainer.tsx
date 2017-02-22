@@ -19,14 +19,27 @@ type ConnectedDispatch = {
     addSubCard: () => void;
 }
 
-const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    card: ownProps.card,
-    subCards: state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_Card && c.id.parentId === ownProps.card.id.id),
-});
+const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
+    const subCards = state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_Card && c.id.parentId === ownProps.card.id.id);
+    if (ownProps.card.ui.displayAddSubCard) {
+        subCards.push({
+            id: { id: "-1",
+                parentType: CardParent_Card,
+                parentId: ownProps.card.id.id },
+            ui: {},
+            status: "Empty",
+            title: "",
+        });
+    }
+    return {
+        card: ownProps.card,
+        subCards: subCards,
+    };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
-    addSubCard: () => dispatch(CardActions.addCard(CardParent_Card, ownProps.card.id.id, "")),
+    addSubCard: () => dispatch(CardActions.displayAddSubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
 });
 

@@ -15,6 +15,14 @@ const cardReducer = (state: ICardGroupModel, action: CardGroupAction): ICardGrou
                     ...state,
                     title: action.title,
             };
+        case CardGroupActionConstants.FORCE_DISPLAY_ADD_CARD:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    forceDisplayAddCard: true,
+                },
+            };
         default:
             return state;
     }

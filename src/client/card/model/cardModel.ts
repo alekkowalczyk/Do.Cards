@@ -11,9 +11,14 @@ export interface ICardId {
     readonly parentId: string;
 }
 
+export interface ICardUI {
+    readonly displayAddSubCard?: boolean;
+}
+
 export interface ICardModel {
     readonly id: ICardId;
     readonly title: string;
     readonly status: CardStatus;
+    readonly ui: ICardUI;
 };
 

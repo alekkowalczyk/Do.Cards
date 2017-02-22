@@ -42,3 +42,11 @@ export function changeCardGroupTitle(id: string, title: string): ActionDefs.Chan
         title: title,
     };
 }
+
+export function forceDisplayAddCard(id: string): ActionDefs.ForceDisplayAddCardAction {
+    return {
+        type: Constants.CARDGROUP_ACTION,
+        subType: Constants.FORCE_DISPLAY_ADD_CARD,
+        id: id,
+    };
+}

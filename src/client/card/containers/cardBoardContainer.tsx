@@ -20,6 +20,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
       ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
       {
             id: "-1",
+            ui: {},
             status: "Empty",
             title: "",
       },

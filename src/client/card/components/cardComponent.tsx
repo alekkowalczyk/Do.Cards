@@ -24,9 +24,14 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                                             /></li>
                             );
         return  <div className="card-element">
-                    <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
-                    <button onClick={this.props.remove} className="close-button">✖</button>
-                    <ul>{subCards}</ul>
+                    <div>
+                        <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
+                        <button onClick={this.props.remove} className="close-button">✖</button>
+                    </div>
+                    {
+                        this.props.subCards.length > 0 &&
+                        <ul>{subCards}</ul>
+                    }
                     {   this.props.id !== "-1" &&
                         <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
                     }

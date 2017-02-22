@@ -15,11 +15,13 @@ describe("cardObjectReducer", () => {
                     };
             const initialstate: ICardModel = {
                     id: cardId,
+                    ui: {},
                     title: "some title1",
                     status: "OK",
             };
             const expectedState: ICardModel = {
                     id: cardId,
+                    ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
             };

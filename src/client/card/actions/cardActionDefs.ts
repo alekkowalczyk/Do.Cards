@@ -33,3 +33,7 @@ export type ChangeCardTitleAction = {
             subType: Constants.CHANGE_CARD_TITLE,
             title: string,
         } & CardAction & QId;
+
+export type DisplayAddSubCardAction = {
+            subType: Constants.DISPLAY_ADD_SUB_CARD,
+        } & CardAction & QId;

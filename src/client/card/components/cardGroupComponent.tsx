@@ -7,8 +7,7 @@ import CardGroupContainer from "../containers/CardGroupContainer";
 export interface ICardGroupComponentProps {
     cards: ICardModel[];
     subCardGroups: ICardGroupModel[];
-    id: string;
-    title: string;
+    cardGroup: ICardGroupModel;
     titleChanged: (newTitle: string) => void;
     addEmptyCard: () => void;
     addSubCardGroup: () => void;
@@ -17,22 +16,24 @@ export interface ICardGroupComponentProps {
 
 export class CardGroupComponent extends React.Component<ICardGroupComponentProps, {}> {
     public render() {
+        const { title, id, parentId } = this.props.cardGroup;
         const subCardGroups: React.HTMLProps<HTMLDivElement> =
-                        this.props.subCardGroups.map((cg) =>
+                        this.props.subCardGroups.reverse().map((cg, idx) =>
                             cg &&
-                            <div key={cg.id} >
-                                <CardGroupContainer cardGroup={cg} />
-                            </div>
+                            <CardGroupContainer key={idx} cardGroup={cg} />
                         )
                     ;
-        return  <div className="card-group-element">
+        return  <div className={parentId ? "sub-card-group-element" : "card-group-element"}>
                     <div>
-                        <input value={this.props.title} onChange={this.titleChanged.bind(this)}/>
+                        <input value={title} onChange={this.titleChanged.bind(this)}/>
                         <button onClick={this.props.remove} className="close-button">✖</button>
                     </div>
                     <div>
-                        {   this.props.id !== "-1" &&
+                        {   id !== "-1" &&
                             <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
+                        }
+                        {   this.props.subCardGroups.length > 0 && this.props.cards.length === 0 &&
+                            <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
                         }
                     </div>
                     <div style={{ float: "right" }}>
