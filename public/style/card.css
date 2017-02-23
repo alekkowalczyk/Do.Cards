@@ -31,6 +31,7 @@
 .card-grabber {
   background: #cce;
   position: relative;
+  cursor: pointer;
 }
 
 .card-grabber:hover {
@@ -41,8 +42,9 @@
   z-index: 1100;  
   background: white;
   position: relative;
-      margin: 8px 5px;
+      margin: 0px 5px;
   height: 10px;
+  top: 19px;
 }
 
 .grabber-sign {
@@ -79,6 +81,7 @@
   position: relative;
   top: -12px;  
   height: 28px;
+  cursor: pointer;
 }
 
 .plus-container:hover {
