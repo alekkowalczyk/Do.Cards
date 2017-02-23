@@ -47,8 +47,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
     public render() {
         const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
-                ? <CardComponent title={card.title}
-                                 id={card.id.id}
+                ? <CardComponent card={card}
                                            subCards={subCards}
                                            addSubCard={addSubCard}
                                            titleChanged={(newTitle) => editCardTitle(newTitle)}

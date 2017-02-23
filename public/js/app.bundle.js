@@ -10860,7 +10860,7 @@
 	                        React.createElement("span", { className: "plus" }, "+"),
 	                        "card")),
 	            React.createElement("div", { style: { float: "right" } }, subCardGroups),
-	            React.createElement("div", { style: { float: "left" } }, this.props.cards.map((c, idx) => c &&
+	            React.createElement("div", { className: "root-card-list" }, this.props.cards.map((c, idx) => c &&
 	                React.createElement(CardContainer_1.default, { key: idx, card: c }))),
 	            React.createElement("div", { style: { clear: "both" } }));
 	    }
@@ -10907,7 +10907,7 @@
 	    render() {
 	        const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
 	        return (card)
-	            ? React.createElement(CardComponent_1.CardComponent, { title: card.title, id: card.id.id, subCards: subCards, addSubCard: addSubCard, titleChanged: (newTitle) => editCardTitle(newTitle), remove: archiveCard })
+	            ? React.createElement(CardComponent_1.CardComponent, { card: card, subCards: subCards, addSubCard: addSubCard, titleChanged: (newTitle) => editCardTitle(newTitle), remove: archiveCard })
 	            : React.createElement("div", null);
 	    }
 	}
@@ -10932,20 +10932,36 @@
 	        super();
 	    }
 	    render() {
+	        const { card } = this.props;
+	        const isEmptyCard = card.id.id === "-1";
 	        const subCards = this.props.subCards.map((c, idx) => c &&
-	            React.createElement("li", null,
+	            React.createElement("li", { className: "sub-card-container" },
 	                React.createElement(CardContainer_1.default, { key: idx, card: c })));
-	        const placeholder = this.props.id === "-1" ? "Type to add new card..." : "";
-	        return React.createElement("div", { className: "card-element" },
-	            React.createElement("div", null,
-	                React.createElement("input", { value: this.props.title, onChange: this.titleChanged.bind(this), placeholder: placeholder }),
-	                React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
-	            this.props.subCards.length > 0 &&
-	                React.createElement("ul", null, subCards),
-	            this.props.id !== "-1" &&
-	                React.createElement("button", { onClick: this.props.addSubCard },
-	                    React.createElement("span", { className: "plus" }, "+"),
-	                    "sub card"));
+	        const placeholder = isEmptyCard ? "Type to add new card..." : "";
+	        return React.createElement("div", null,
+	            React.createElement("div", { className: "inter-card-space" },
+	                React.createElement("div", { className: "plus-container" },
+	                    React.createElement("div", { className: "plus-sign" }, !isEmptyCard ?
+	                        "+" : "*")),
+	                React.createElement("div", { className: "card-seperator-container" },
+	                    React.createElement("div", { className: "card-seperator" }, "-"))),
+	            React.createElement("div", { className: "card-host" },
+	                !isEmptyCard ?
+	                    React.createElement("div", { className: "card-grabber" },
+	                        React.createElement("div", { className: "grabber" },
+	                            React.createElement("div", { className: "grabber-sign" }, "=")))
+	                    :
+	                        React.createElement("div", { className: "empty-card-grabber" }),
+	                React.createElement("div", { className: "card-element" },
+	                    React.createElement("div", null,
+	                        React.createElement("input", { value: card.title, onChange: this.titleChanged.bind(this), placeholder: placeholder }),
+	                        React.createElement("button", { onClick: this.props.remove, className: "close-button" }, "\u2716")),
+	                    this.props.subCards.length > 0 &&
+	                        React.createElement("ul", { className: "sub-cards-list" }, subCards),
+	                    !isEmptyCard &&
+	                        React.createElement("button", { onClick: this.props.addSubCard },
+	                            React.createElement("span", { className: "plus" }, "+"),
+	                            "sub card"))));
 	    }
 	    titleChanged(e) {
 	        this.props.titleChanged(e.target.value);

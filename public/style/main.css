@@ -28,12 +28,6 @@ body {
     float: right;
 }
 
-.card-element {
-    border: 1px solid #ccc;
-    margin: 15px 5px;
-    padding: 5px;
-}
-
 .plus {
     font-weight: bold;
     margin-right: 3px;
