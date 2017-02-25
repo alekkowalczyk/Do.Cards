@@ -8,6 +8,9 @@
         "watch": false,
         "jsx": "react"
     },
+    "files": [
+        "./src/client/index.tsx"
+    ],
     "exclude": [
         "node_modules",
         "bower_components",

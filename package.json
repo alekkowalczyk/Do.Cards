@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.17",
+    "awesome-typescript-loader": "^3.0.7",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.6.0",
@@ -37,6 +38,7 @@
     "mocha": "^3.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.3.2",
+    "react-hot-loader": "^3.0.0-beta.5",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",
@@ -47,7 +49,8 @@
     "ts-loader": "^0.8.2",
     "tslint": "^3.15.1",
     "typescript": "^2.2.0-dev.20161123",
-    "webpack": "^1.13.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "2.4.1",
     "webpack-stream": "^3.2.0"
   }
 }

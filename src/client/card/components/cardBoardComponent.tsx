@@ -14,7 +14,6 @@ export class CardBoardComponent extends React.Component<ICardGroupComponentProps
                         this.props.cardGroups.map((cg, idx) =>
                             cg &&
                             <div key={idx} style={{ float: "left" }} >
-                                <span style={{color:"blue"}}>{idx}/{cg.id}</span>
                                 <CardGroupContainer cardGroup={cg} />
                             </div>
                         )

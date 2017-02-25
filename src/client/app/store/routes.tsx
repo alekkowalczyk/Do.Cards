@@ -9,3 +9,7 @@ export default (
         <Route path="about" component={AboutPage}/>
     </Route>
 );
+
+// export default (
+//     <CardBoardPage />
+// );

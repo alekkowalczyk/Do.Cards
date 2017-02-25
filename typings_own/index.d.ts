@@ -1,0 +1,1 @@
+/// <reference path="react-router/index.d.ts" />

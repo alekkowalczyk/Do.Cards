@@ -7,3 +7,4 @@
 /// <reference path="modules/lodash/index.d.ts" />
 /// <reference path="modules/react-redux/index.d.ts" />
 /// <reference path="modules/react-router-redux/index.d.ts" />
+/// <reference path="../typings_own/index.d.ts" />

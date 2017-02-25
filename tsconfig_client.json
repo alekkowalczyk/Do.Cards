@@ -8,6 +8,11 @@
         "watch": true,
         "jsx": "react"
     },
+     "files": [
+        "./typings/index.d.ts",
+        "./typings_own/index.d.ts",
+        "./src/client/index.tsx"
+    ],
     "exclude": [
         "node_modules",
         "bower_components",
