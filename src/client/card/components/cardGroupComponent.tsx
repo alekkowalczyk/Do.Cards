@@ -40,7 +40,7 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                     <div style={{ float: "right" }}>
                         { subCardGroups }
                     </div>
-                    <div style={{float:"left"}}>
+                    <div className="root-card-list">
                         {
                             this.props.cards.map((c, idx) =>
                                 c &&

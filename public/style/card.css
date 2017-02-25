@@ -1,0 +1,106 @@
+.root-card-list {
+    float: left;
+    margin-top: 10px;
+}
+
+.card-host {
+  display: flex;
+  background: #ccc;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.card-element {
+    border: 1px solid #ccc;
+    margin: 15px 5px;
+    width: 100%;
+    padding: 5px;
+}
+
+.sub-cards-list-element {
+    margin: 0px;
+}
+
+.sub-cards-list {
+    list-style: none;
+}
+
+/* drag'n'drop card grabber */
+
+
+.card-grabber {
+  background: #cce;
+  position: relative;
+  cursor: pointer;
+}
+
+.card-grabber:hover {
+  background: pink;
+}
+
+.grabber {
+  z-index: 1100;  
+  background: white;
+  position: relative;
+      margin: 0px 5px;
+  height: 10px;
+  top: 19px;
+}
+
+.grabber-sign {
+  top: -4px;
+  position: relative;
+}
+
+.card-grabber:after {
+    content:"";
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 2px dotted #ff0000;
+}
+
+.empty-card-grabber {
+  background: #cce;
+  position: relative;
+  width: 20px;
+}
+
+/* inter card space */
+
+.inter-card-space {
+  display: flex;
+  background: #ddd;
+  height: 5px;
+}
+
+.plus-container {
+  z-index: 6100;
+  position: relative;
+  top: -12px;  
+  height: 28px;
+  cursor: pointer;
+}
+
+.plus-container:hover {
+  background: red;
+}
+
+.plus-sign {
+  background: #ddb;
+  height: 17px;
+  margin: 5px;
+}
+
+.card-seperator-container {
+ width:100%;
+ position: relative;
+ top: 0px;
+}
+
+.card-seperator {
+   background: #dbd; 
+   height: 5px;
+}
