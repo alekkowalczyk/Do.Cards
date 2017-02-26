@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Store } from "../rootReducer";
+import CardGroupPage from "./cardBoardPage";
 
 type OwnProps = {}
 type ConnectedState = {
@@ -21,11 +22,12 @@ class App extends React.Component<ConnectedState & ConnectedDispatch & OwnProps,
             <div className="app-bar">
                 <div id="logo">a7.cards</div>
             </div>
-            <div>{this.props.children}</div>
+            <CardGroupPage />
         </div>;
     }
 }
 
+//export default App;
 export default connect(
     mapStateToProps,
     mapDispatchToProps

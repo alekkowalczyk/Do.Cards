@@ -37,7 +37,7 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                         </div>
                         <div className="card-seperator-container">
                             <div className="card-seperator">
-                            -
+                            
                             </div>
                         </div>
                     </div>
