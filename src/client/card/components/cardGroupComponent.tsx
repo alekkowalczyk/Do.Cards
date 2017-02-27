@@ -1,11 +1,11 @@
 import * as React from "react";
-import { ICardModel } from "../model/cardModel";
+import { ICardModel, CardParent_CardGroup } from "../model/cardModel";
 import { ICardGroupModel } from "../model/cardGroupModel";
-import CardContainer from "../containers/CardContainer";
 import CardGroupContainer from "../containers/CardGroupContainer";
+import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardGroupComponentProps {
-    cards: ICardModel[];
+    displayEmptyCard: boolean;
     subCardGroups: ICardGroupModel[];
     cardGroup: ICardGroupModel;
     titleChanged: (newTitle: string) => void;
@@ -33,23 +33,17 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                         {   id !== "-1" &&
                             <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
                         }
-                        {   this.props.subCardGroups.length > 0 && this.props.cards.length === 0 &&
+                        {   id !== "-1" && !this.props.displayEmptyCard &&
                             <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
                         }
                     </div>
                     <div style={{ float: "right" }}>
                         { subCardGroups }
                     </div>
-                    <div className="root-card-list">
-                        {
-                            this.props.cards.map((c, idx) =>
-                                c &&
-                                <CardContainer  key={idx}
-                                                card={c}
-                                            />
-                            )
-                        }
-                    </div>
+                    <CardListContainer parentId={this.props.cardGroup.id}
+                                        parentType={CardParent_CardGroup}
+                                        displayEmptyCard={this.props.displayEmptyCard}
+                                        />
                     <div style={{clear:"both"}}></div>
                 </div>;
     }

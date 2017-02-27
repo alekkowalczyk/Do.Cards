@@ -10,8 +10,6 @@ type OwnProps = {
     card: ICardModel;
 }
 type ConnectedState = {
-    card: ICardModel,
-    subCards: ICardModel[],
 };
 type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
@@ -20,21 +18,7 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    const subCards = state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_Card && c.id.parentId === ownProps.card.id.id);
-    if (ownProps.card.ui.displayAddSubCard) {
-        subCards.push({
-            id: { id: "-1",
-                parentType: CardParent_Card,
-                parentId: ownProps.card.id.id },
-            ui: {},
-            status: "Empty",
-            title: "",
-        });
-    }
-    return {
-        card: ownProps.card,
-        subCards: subCards,
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
@@ -45,10 +29,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { card, subCards, archiveCard, editCardTitle, addSubCard } = this.props;
+        const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
-                                           subCards={subCards}
+                                           displayAddSubCard={card.ui.displayAddSubCard === true}
                                            addSubCard={addSubCard}
                                            titleChanged={(newTitle) => editCardTitle(newTitle)}
                                            remove={archiveCard}  />

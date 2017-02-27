@@ -5,13 +5,13 @@
 
 .card-host {
   display: flex;
-  background: #ccc;
+  background: transparent;
   margin-top: 1px;
   margin-bottom: 1px;
 }
 
 .card-element {
-    border: 1px solid #ccc;
+    border: none;
     margin: 15px 5px;
     width: 100%;
     padding: 5px;
@@ -29,7 +29,7 @@
 
 
 .card-grabber {
-  background: #cce;
+  background: transparent;
   position: relative;
   cursor: pointer;
 }
@@ -56,24 +56,34 @@
     content:"";
     position: absolute;
     z-index: 1000;
-    top: 0;
-    bottom: 0;
+    top: 10;
+    bottom: 10;
     left: 50%;
-    border-left: 2px dotted #ff0000;
+    border-left: 1px dashed #aaf;
 }
 
 .empty-card-grabber {
-  background: #cce;
+  background: transparent;
   position: relative;
   width: 20px;
+}
+
+.empty-card-grabber:after {
+    content:"";
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 1px dashed #ccc;
 }
 
 /* inter card space */
 
 .inter-card-space {
   display: flex;
-  background: #ddd;
-  height: 5px;
+  background: transparent;
+  height: 2px;
 }
 
 .plus-container {
@@ -89,9 +99,10 @@
 }
 
 .plus-sign {
-  background: #ddb;
+  background: transparent;
+  font-size: 20px;
   height: 17px;
-  margin: 5px;
+  margin: 3px 4px 4px 4px;
 }
 
 .card-seperator-container {
@@ -101,6 +112,7 @@
 }
 
 .card-seperator {
-   background: #dbd; 
-   height: 5px;
+   background: transparent; 
+   border-bottom: 1px dashed #ccf;
+   height: 2px;
 }

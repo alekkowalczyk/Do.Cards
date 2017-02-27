@@ -1,10 +1,11 @@
 import * as React from "react";
-import { ICardModel } from "../model";
+import { ICardModel, CardParent_Card } from "../model";
 import CardContainer from "../containers/CardContainer";
+import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
     card: ICardModel;
-    subCards: ICardModel[];
+    displayAddSubCard: boolean;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
     addSubCard: () => void;
@@ -15,15 +16,9 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
         super();
     }
 
-    public render() {
+    public render(): any {
         const { card } = this.props;
         const isEmptyCard = card.id.id === "-1";
-        const subCards: React.HTMLProps<HTMLDivElement> = this.props.subCards.map((c, idx) =>
-                                c &&
-                                <li className="sub-card-container"><CardContainer  key={idx}
-                                                card={c}
-                                            /></li>
-                            );
         const placeholder = isEmptyCard ? "Type to add new card..." : "";
         return  <div>
                     <div className="inter-card-space">
@@ -59,10 +54,10 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                                 <input value={card.title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
                                 <button onClick={this.props.remove} className="close-button">✖</button>
                             </div>
-                            {
-                                this.props.subCards.length > 0 &&
-                                <ul className="sub-cards-list">{subCards}</ul>
-                            }
+                            <CardListContainer parentId={card.id.id}
+                                        parentType={CardParent_Card}
+                                        displayEmptyCard={this.props.displayAddSubCard}
+                                        />
                             {   !isEmptyCard &&
                                 <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
                             }

@@ -46,6 +46,10 @@ const path = require("path");
                 ],
                 exclude: path.resolve(__dirname, 'node_modules'),
                 include: path.resolve(__dirname, "src/client"),
+            },
+            {
+                test: /\.css$/, 
+                loader: "file-loader"
             }
         ]
     },

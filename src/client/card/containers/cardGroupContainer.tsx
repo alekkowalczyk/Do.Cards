@@ -11,7 +11,7 @@ type OwnProps = {
     cardGroup: ICardGroupModel;
 }
 type ConnectedState = {
-    cards: ICardModel[],
+    hasCards: boolean,
     subCardGroups: ICardGroupModel[],
     cardGroup: ICardGroupModel,
 };
@@ -23,21 +23,9 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    const subCardGroups = state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id);
-    const cards = state.cardsRoot.cards.filter(c => c.id.parentType === CardParent_CardGroup && c.id.parentId === ownProps.cardGroup.id);
-    if (ownProps.cardGroup.id !== "-1" && (subCardGroups.length === 0 || cards.length > 0 || ownProps.cardGroup.ui.forceDisplayAddCard)) {
-        cards.push({
-            id: { id: "-1",
-                parentType: CardParent_CardGroup,
-                parentId: ownProps.cardGroup.id },
-            status: "Empty",
-            title: "",
-            ui: {},
-        });
-    }
     return {
-        cards: cards,
-        subCardGroups: subCardGroups,
+        hasCards: state.cardsRoot.cards.some(c => c.id.parentType === CardParent_CardGroup && c.id.parentId === ownProps.cardGroup.id),
+        subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id),
         cardGroup: ownProps.cardGroup,
     };
 };
@@ -51,10 +39,11 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
 
 class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { cards, cardGroup, addEmptyCard,
+        const { hasCards, cardGroup, addEmptyCard,
             subCardGroups, addSubCardGroup,
             cardGroupTitleChanged, archiveCardGroup } = this.props;
-        return <CardGroupComponent cards={cards}
+        return <CardGroupComponent displayEmptyCard=
+                                        {cardGroup.id !== "-1" && (subCardGroups.length === 0 || hasCards || cardGroup.ui.forceDisplayAddCard === true)}
                                     cardGroup={cardGroup}
                                     subCardGroups={subCardGroups}
                                     titleChanged={cardGroupTitleChanged}

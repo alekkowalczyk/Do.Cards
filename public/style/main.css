@@ -16,13 +16,13 @@ body {
 }
 
 .card-group-element {
-    border: 1px solid #8af;
+    border: 1px solid #fbb;
     margin: 5px;
     padding: 5px;
 }
 
 .sub-card-group-element {
-    border: 1px solid #8af;
+    border: 1px solid #fcc;
     margin: 5px;
     padding: 5px;
     float: right;
