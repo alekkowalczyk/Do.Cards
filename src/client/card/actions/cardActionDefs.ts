@@ -5,14 +5,6 @@ type QId = {
     id: ICardId
 };
 
-// Main actions:
-export type AddCardAction = {
-    type: Constants.ADD_CARD,
-    parentType: CardParentType,
-    parentId: string,
-    title: string,
-};
-
 export type ArchiveCardAction = {
         type: Constants.ARCHIVE_CARD,
     } & QId;

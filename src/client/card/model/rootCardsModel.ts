@@ -1,7 +1,7 @@
-import { ICardModel } from "./cardModel";
+import { CardModel } from "./cardModel";
 import { ICardGroupModel } from "./cardGroupModel";
 
 export interface IRootCardsModel {
-    readonly cards: ICardModel[];
+    readonly cards: CardModel[];
     readonly cardGroups: ICardGroupModel[];
 };

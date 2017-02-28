@@ -4,17 +4,17 @@ import { connect } from "react-redux";
 import { CardActions } from "../actions";
 import { CardComponent } from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardModel, CardParent_Card } from "../model";
+import { ICardProps } from "../model";
 
 type OwnProps = {
-    card: ICardModel;
+    card: ICardProps;
 }
 type ConnectedState = {
 };
 type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
     archiveCard: () => void;
-    displayEmptySubCard: () => void;
+    addSubCard: () => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -23,17 +23,17 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
-    displayEmptySubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
+    addSubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { card, archiveCard, editCardTitle, displayEmptySubCard } = this.props;
+        const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
                                            displayEmptySubCard={card.ui.displayAddSubCard === true}
-                                           displayEmptySubCardAction={displayEmptySubCard}
+                                           displayEmptySubCardAction={addSubCard}
                                            titleChanged={(newTitle) => editCardTitle(newTitle)}
                                            remove={archiveCard}  />
                 : <div/>;

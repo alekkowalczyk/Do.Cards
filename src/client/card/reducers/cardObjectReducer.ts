@@ -1,13 +1,13 @@
 import { OtherAction } from "../../common";
 import { CardActionDefs, CardActionConstants } from "../actions";
-import { ICardModel } from "../model";
+import { ICardProps } from "../model";
 
 type CardAction =
     CardActionDefs.CardTitleChangedAction |
     CardActionDefs.ChangeCardTitleAction |
     OtherAction;
 
-const cardReducer = (state: ICardModel, action: CardAction): ICardModel => {
+const cardReducer = (state: ICardProps, action: CardAction): ICardProps => {
     if (action.type !== CardActionConstants.CARD_ACTION) { return state; }
     switch (action.subType) {
         case CardActionConstants.CHANGE_CARD_TITLE:

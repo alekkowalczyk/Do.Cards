@@ -1,17 +1,17 @@
 import * as React from "react";
-import { ICardModel } from "../model/cardModel";
+import { ICardProps } from "../model/cardModel";
 import CardContainer from "../containers/CardContainer";
 
 export interface ICardListComponentProps {
-    cards: ICardModel[];
+    cards: ICardProps[];
     isSubCardsList: boolean;
-    displayEmptyCardAbove: (id: ICardModel | null) => void;
+    displayEmptyCardAbove: (card: ICardProps | null) => void;
 }
 
 export class CardListComponent extends React.Component<ICardListComponentProps, {}> {
     public render() {
         const { cards, isSubCardsList } = this.props;
-        const getInterCardSpace = (c: ICardModel | null, isEmptyCard: boolean) => {
+        const getInterCardSpace = (c: ICardProps | null, isEmptyCard: boolean) => {
                 let plusSign = "+";
                 if (c && c.ui.displayEmptyCardAbove) {
                     plusSign = "";

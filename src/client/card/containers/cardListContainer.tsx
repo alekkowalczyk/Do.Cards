@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { CardListComponent } from "../components/cardListComponent";
 import { Store } from "../../app/";
-import { ICardModel, CardParentType, CardStatus, CardParent_Card } from "../model";
+import { ICardProps, CardParentType, CardStatus, CardParent_Card } from "../model";
 import { CardActions } from "../actions";
 type OwnProps = {
     parentId: string,
@@ -13,11 +13,11 @@ type OwnProps = {
 }
 
 type ConnectedState = {
-    cards: ICardModel[],
+    cards: ICardProps[],
 };
 
 type ConnectedDispatch = {
-    displayEmptyCardAbove: (card: ICardModel) => void;
+    displayEmptyCardAbove: (card: ICardProps) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -48,7 +48,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
-    displayEmptyCardAbove: (card: ICardModel | null) => {
+    displayEmptyCardAbove: (card: ICardProps | null) => {
         if (card) {
             if (card.id.id !== "-1" && card.ui.displayEmptyCardAbove !== true) {
                 dispatch(CardActions.displayEmptyCardAboveAction(card.id));

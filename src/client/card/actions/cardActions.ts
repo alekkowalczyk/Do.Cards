@@ -2,15 +2,6 @@ import * as Constants from "./cardActionConstants";
 import * as ActionDefs from "./cardActionDefs";
 import { CardParentType, ICardId } from "../model/cardModel";
 
-export function addCard(parentType: CardParentType, parentId: string, title: string): ActionDefs.AddCardAction {
-    return {
-        type: Constants.ADD_CARD,
-        parentType: parentType,
-        parentId: parentId,
-        title: title,
-    };
-}
-
 export function archiveCard(id: ICardId): ActionDefs.ArchiveCardAction {
     return {
         type: Constants.ARCHIVE_CARD,

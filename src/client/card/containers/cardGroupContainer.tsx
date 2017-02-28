@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { CardActions, CardGroupActions } from "../actions";
+import { CardGroupActions } from "../actions";
 
 import { CardGroupComponent } from "../components/CardGroupComponent";
 import { Store } from "../../app/";
-import { ICardModel, ICardGroupModel, CardParent_CardGroup } from "../model";
+import { ICardGroupModel, CardParent_CardGroup } from "../model";
 
 type OwnProps = {
     cardGroup: ICardGroupModel;

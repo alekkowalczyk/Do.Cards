@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ICardModel, CardParent_CardGroup } from "../model/cardModel";
+import { CardParent_CardGroup } from "../model/cardModel";
 import { ICardGroupModel } from "../model/cardGroupModel";
 import CardGroupContainer from "../containers/CardGroupContainer";
 import CardListContainer from "../containers/cardListContainer";

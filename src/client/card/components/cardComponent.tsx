@@ -1,10 +1,10 @@
 import * as React from "react";
-import { ICardModel, CardParent_Card } from "../model";
+import { ICardProps, CardParent_Card } from "../model";
 import CardContainer from "../containers/CardContainer";
 import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
-    card: ICardModel;
+    card: ICardProps;
     displayEmptySubCard: boolean;
     titleChanged: (newTitle: string) => void;
     remove: () => void;

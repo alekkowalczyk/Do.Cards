@@ -1,7 +1,4 @@
 // Main type:
-export type ADD_CARD = "Card/ADD_CARD";
-export const ADD_CARD: ADD_CARD = "Card/ADD_CARD";
-
 export type ARCHIVE_CARD = "Card/ARCHIVE_CARD";
 export const ARCHIVE_CARD: ARCHIVE_CARD = "Card/ARCHIVE_CARD";
 

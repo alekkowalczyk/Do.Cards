@@ -1,10 +1,9 @@
 import { OtherAction } from "../../common";
 import { CardActionDefs, CardActionConstants } from "../actions";
-import { ICardModel } from "../model";
+import { CardModel } from "../model";
 import cardObjectReducer from "./cardObjectReducer";
 
 type CardAction =
-    CardActionDefs.AddCardAction |
     CardActionDefs.ArchiveCardAction |
     CardActionDefs.CardAction |
     CardActionDefs.DisplayEmptyCardAboveAction |
@@ -12,24 +11,10 @@ type CardAction =
     OtherAction;
 
 let cardId = 0;
-const INITIAL_STATE: ICardModel[] = [];
+const INITIAL_STATE: CardModel[] = [];
 
-const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction): ICardModel[] => {
+const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction): CardModel[] => {
     switch (action.type) {
-            case CardActionConstants.ADD_CARD:
-                return [
-                        ...state,
-                        {
-                            id: {
-                                id: (cardId++).toString(),
-                                parentId: action.parentId,
-                                parentType: action.parentType,
-                            },
-                            ui: {},
-                            title: action.title,
-                            status: "OK",
-                        },
-                    ];
             case CardActionConstants.ARCHIVE_CARD:
                 const cardToArchive = state.find(c => c.id === action.id);
                 if (cardToArchive) {
@@ -45,13 +30,13 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
             case CardActionConstants.DISPLAY_EMPTY_CARD_ABOVE:
                 const cardToDisplayEmptyAbove = state.find(c => c.id === action.id);
                 if (cardToDisplayEmptyAbove) {
-                    const cardWithFlagTrue: ICardModel = {
+                    const cardWithFlagTrue: CardModel = new CardModel({
                             ...cardToDisplayEmptyAbove,
                             ui: {
                                 ...cardToDisplayEmptyAbove.ui,
                                 displayEmptyCardAbove: true,
                             },
-                        };
+                        });
                     const idxOfCardToDisplayEmptyAbove = state.indexOf(cardToDisplayEmptyAbove);
                     let retState = [
                                 ...state.slice(0, idxOfCardToDisplayEmptyAbove),
@@ -109,12 +94,7 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                         ...action.id,
                         id: (cardId++).toString(),
                     };
-                    const newCard: ICardModel = {
-                        id: action.id,
-                        ui: {},
-                        title: "",
-                        status: "Empty",
-                    };
+                    const newCard = CardModel.GetEmpty({id: action.id, order: 0});
                     if (idxCardToDisplayEmptyAbove > -1) {
                         return [
                                 ...state.slice(0, idxCardToDisplayEmptyAbove),
