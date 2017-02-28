@@ -8,6 +8,7 @@ type CardAction =
     CardActionDefs.ArchiveCardAction |
     CardActionDefs.CardAction |
     CardActionDefs.DisplayEmptyCardAboveAction |
+    CardActionDefs.DisplayEmptyCardAtBottom |
     OtherAction;
 
 let cardId = 0;
@@ -43,9 +44,6 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                 return state;
             case CardActionConstants.DISPLAY_EMPTY_CARD_ABOVE:
                 const cardToDisplayEmptyAbove = state.find(c => c.id === action.id);
-                const cardToResetFlag = state.find(c => c.ui.displayEmptyCardAbove === true
-                                                    && c.id.parentId === action.id.parentId
-                                                    && c.id.parentType === action.id.parentType);
                 if (cardToDisplayEmptyAbove) {
                     const cardWithFlagTrue: ICardModel = {
                             ...cardToDisplayEmptyAbove,
@@ -60,6 +58,10 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                                 cardWithFlagTrue,
                                 ...state.slice(idxOfCardToDisplayEmptyAbove + 1),
                             ];
+                    const cardToResetFlag = state.find(c => c.ui.displayEmptyCardAbove === true
+                            && c.id.id !== cardToDisplayEmptyAbove.id.id
+                            && c.id.parentId === action.id.parentId
+                            && c.id.parentType === action.id.parentType);
                     if (cardToResetFlag) {
                         const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
                         const cardWithFlagFalse = {
@@ -78,8 +80,31 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                     return retState;
                 }
                 return state;
+            case CardActionConstants.DISPLAY_EMPTY_AT_BOTTOM:
+                const cardToResetFlag = state.find(c => c.ui.displayEmptyCardAbove === true
+                            && c.id.parentId === action.parentId
+                            && c.id.parentType === action.parentType);
+                if (cardToResetFlag) {
+                    const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
+                    const cardWithFlagFalse = {
+                        ...cardToResetFlag,
+                        ui: {
+                            ...cardToResetFlag.ui,
+                            displayEmptyCardAbove: false,
+                        },
+                    };
+                    return [
+                        ...state.slice(0, idxOfCardToResetFlag),
+                        cardWithFlagFalse,
+                        ...state.slice(idxOfCardToResetFlag + 1),
+                    ];
+                }
+                return state;
             case CardActionConstants.CARD_ACTION:
                 if (action.id.id === "-1") {
+                    const idxCardToDisplayEmptyAbove = state.findIndex(c => c.ui.displayEmptyCardAbove === true
+                                                    && c.id.parentId === action.id.parentId
+                                                    && c.id.parentType === action.id.parentType);
                     action.id = {
                         ...action.id,
                         id: (cardId++).toString(),
@@ -90,10 +115,18 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                         title: "",
                         status: "Empty",
                     };
-                    return [
-                                ...state,
+                    if (idxCardToDisplayEmptyAbove > -1) {
+                        return [
+                                ...state.slice(0, idxCardToDisplayEmptyAbove),
                                 cardObjectReducer(newCard, <any>action),
+                                ...state.slice(idxCardToDisplayEmptyAbove),
                             ];
+                    } else {
+                        return [
+                                    ...state,
+                                    cardObjectReducer(newCard, <any>action),
+                                ];
+                    }
                 }
                 const cardToEdit = state.find(c => c.id === action.id);
                 if (cardToEdit) {

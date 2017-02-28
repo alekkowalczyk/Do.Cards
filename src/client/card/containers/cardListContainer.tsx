@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { CardListComponent } from "../components/cardListComponent";
 import { Store } from "../../app/";
 import { ICardModel, CardParentType, CardStatus, CardParent_Card } from "../model";
-
+import { CardActions } from "../actions";
 type OwnProps = {
     parentId: string,
     parentType: CardParentType,
@@ -17,6 +17,7 @@ type ConnectedState = {
 };
 
 type ConnectedDispatch = {
+    displayEmptyCardAbove: (card: ICardModel) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -33,9 +34,9 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
         const cardIndexAboveBelow = cards.findIndex(c => c.ui.displayEmptyCardAbove === true);
         if (cardIndexAboveBelow !== -1) {
             cards = [
-                    ...cards.splice(0, cardIndexAboveBelow),
+                    ...cards.slice(0, cardIndexAboveBelow),
                     emptyCard,
-                    ...cards.splice(cardIndexAboveBelow),
+                    ...cards.slice(cardIndexAboveBelow),
                 ];
         } else {
             cards = [ ...cards, emptyCard ];
@@ -47,12 +48,23 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
+    displayEmptyCardAbove: (card: ICardModel | null) => {
+        if (card) {
+            if (card.id.id !== "-1" && card.ui.displayEmptyCardAbove !== true) {
+                dispatch(CardActions.displayEmptyCardAboveAction(card.id));
+            }
+        } else {
+            dispatch(CardActions.displayEmptyCardAtBottomAction(ownProps.parentId, ownProps.parentType));
+        }
+    },
 });
 
 class CardListContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         const { cards, parentType } = this.props;
-        return <CardListComponent cards={cards} isSubCardsList={parentType === CardParent_Card}/>;
+        return <CardListComponent cards={cards}
+                                    displayEmptyCardAbove={this.props.displayEmptyCardAbove}
+                                    isSubCardsList={parentType === CardParent_Card}/>;
     }
 }
 

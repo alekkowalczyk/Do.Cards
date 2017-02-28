@@ -14,6 +14,9 @@ export const CARD_ACTION: CARD_ACTION = "Card/CARD_ACTION";
 export type DISPLAY_EMPTY_CARD_ABOVE = "Card/DISPLAY_EMPTY_CARD_ABOVE";
 export const DISPLAY_EMPTY_CARD_ABOVE: DISPLAY_EMPTY_CARD_ABOVE = "Card/DISPLAY_EMPTY_CARD_ABOVE";
 
+export type DISPLAY_EMPTY_AT_BOTTOM = "Card/DISPLAY_EMPTY_AT_BOTTOM";
+export const DISPLAY_EMPTY_AT_BOTTOM: DISPLAY_EMPTY_AT_BOTTOM = "Card/DISPLAY_EMPTY_AT_BOTTOM";
+
 // ====================================================
 // Card subtypes for CARD_ACTION (card object actions):
 export type CARD_TITLE_CHANGED = "Card/CARD_TITLE_CHANGED";

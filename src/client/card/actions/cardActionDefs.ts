@@ -22,6 +22,12 @@ export type DisplayEmptyCardAboveAction = {
             type: Constants.DISPLAY_EMPTY_CARD_ABOVE,
         } & QId;
 
+export type DisplayEmptyCardAtBottom = {
+    type: Constants.DISPLAY_EMPTY_AT_BOTTOM,
+    parentId: string,
+    parentType: CardParentType,
+};
+
 export type CardAction = {
     type: Constants.CARD_ACTION,
     subType: string,

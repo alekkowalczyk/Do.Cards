@@ -50,3 +50,11 @@ export function displayEmptyCardAboveAction(id: ICardId): ActionDefs.DisplayEmpt
         id: id,
     };
 }
+
+export function displayEmptyCardAtBottomAction(parentId: string, parentType: CardParentType): ActionDefs.DisplayEmptyCardAtBottom {
+    return {
+        type: Constants.DISPLAY_EMPTY_AT_BOTTOM,
+        parentId: parentId,
+        parentType: parentType,
+    };
+}
