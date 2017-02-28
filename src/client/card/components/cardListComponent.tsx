@@ -38,23 +38,7 @@ export class CardListComponent extends React.Component<ICardListComponentProps, 
                                 return c &&
                                 <div key={idx}>
                                     {getInterCardSpace(c, isEmptyCard)}
-                                    <div className="card-host">
-                                        { !isEmptyCard ?
-                                            <div className="card-grabber">
-                                                <div className="grabber">
-                                                    <div className="grabber-sign">
-                                                    =
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            :
-                                            <div className="empty-card-grabber">
-                                            </div>
-                                        }
-                                        <CardContainer
-                                                card={c}
-                                            />
-                                    </div>
+                                    <CardContainer card={c} />
                                 </div>;
                             })
                         }

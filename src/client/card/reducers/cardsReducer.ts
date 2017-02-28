@@ -49,13 +49,13 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                             && c.id.parentType === action.id.parentType);
                     if (cardToResetFlag) {
                         const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
-                        const cardWithFlagFalse = {
+                        const cardWithFlagFalse = new CardModel({
                             ...cardToResetFlag,
                             ui: {
                                 ...cardToResetFlag.ui,
                                 displayEmptyCardAbove: false,
                             },
-                        };
+                        });
                         retState = [
                             ...retState.slice(0, idxOfCardToResetFlag),
                             cardWithFlagFalse,
@@ -71,13 +71,13 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                             && c.id.parentType === action.parentType);
                 if (cardToResetFlag) {
                     const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
-                    const cardWithFlagFalse = {
+                    const cardWithFlagFalse = new CardModel({
                         ...cardToResetFlag,
                         ui: {
                             ...cardToResetFlag.ui,
                             displayEmptyCardAbove: false,
                         },
-                    };
+                    });
                     return [
                         ...state.slice(0, idxOfCardToResetFlag),
                         cardWithFlagFalse,
@@ -94,17 +94,17 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                         ...action.id,
                         id: (cardId++).toString(),
                     };
-                    const newCard = CardModel.GetEmpty({id: action.id, order: 0});
                     if (idxCardToDisplayEmptyAbove > -1) {
+                        const cardsBefore = state.slice(0, idxCardToDisplayEmptyAbove);
                         return [
-                                ...state.slice(0, idxCardToDisplayEmptyAbove),
-                                cardObjectReducer(newCard, <any>action),
-                                ...state.slice(idxCardToDisplayEmptyAbove),
+                                ...cardsBefore,
+                                cardObjectReducer(CardModel.GetEmpty({id: action.id, order: cardsBefore.length}), <any>action),
+                                ...state.slice(idxCardToDisplayEmptyAbove).map(c => c.ChangeOrder(c.order + 1)),
                             ];
                     } else {
                         return [
                                     ...state,
-                                    cardObjectReducer(newCard, <any>action),
+                                    cardObjectReducer(CardModel.GetEmpty({id: action.id, order: state.length}), <any>action),
                                 ];
                     }
                 }

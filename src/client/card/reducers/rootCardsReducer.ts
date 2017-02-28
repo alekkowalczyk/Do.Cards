@@ -10,8 +10,10 @@ const INITIAL_STATE: IRootCardsModel = {
 };
 
 const rootCardsReducer = (state: IRootCardsModel = INITIAL_STATE, action: OtherAction = OtherAction): IRootCardsModel => {
+    const cards = cardsReducer(state.cards, action);
+    console.log(cards.map(c => c.title + ":" + c.order).join(","));
     const reducedState = {
-        cards: cardsReducer(state.cards, action),
+        cards: cards,
         cardGroups: cardGroupsReducer(state.cardGroups, action),
     };
     return reducedState;

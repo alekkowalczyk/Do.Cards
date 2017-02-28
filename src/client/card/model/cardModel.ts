@@ -20,7 +20,7 @@ export interface ICardProps {
     readonly id: ICardId;
     readonly title: string;
     readonly status: CardStatus;
-    readonly order?: number;
+    readonly order: number;
     readonly ui: ICardUI;
 };
 
@@ -28,7 +28,7 @@ export class CardModel implements ICardProps {
     public readonly id: ICardId;
     public readonly title: string;
     public readonly status: CardStatus;
-    public readonly order?: number;
+    public readonly order: number;
     public readonly ui: ICardUI;
 
     public static GetEmpty(options: {
@@ -50,5 +50,12 @@ export class CardModel implements ICardProps {
         this.status = props.status;
         this.order = props.order;
         this.ui = props.ui;
+    }
+
+    public ChangeOrder(newOrder: number): CardModel {
+        return new CardModel({
+            ...(this as ICardProps),
+            order: newOrder,
+        });
     }
 }

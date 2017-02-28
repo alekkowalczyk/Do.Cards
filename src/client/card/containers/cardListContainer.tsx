@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { CardListComponent } from "../components/cardListComponent";
 import { Store } from "../../app/";
-import { ICardProps, CardParentType, CardStatus, CardParent_Card } from "../model";
+import { ICardProps, CardModel, CardParentType, CardStatus, CardParent_Card } from "../model";
 import { CardActions } from "../actions";
 type OwnProps = {
     parentId: string,
@@ -21,16 +21,21 @@ type ConnectedDispatch = {
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    let cards = state.cardsRoot.cards.filter(c => c.id.parentType === ownProps.parentType && c.id.parentId === ownProps.parentId);
+    let cards = state.cardsRoot.cards
+                .filter(c => c.id.parentType === ownProps.parentType && c.id.parentId === ownProps.parentId)
+                .sort((a, b) => {
+                    if (a.order >= b.order) {
+                        return 1;
+                    } else if (a.order <= b.order) {
+                        return -1;
+                    }
+                    return 0;
+                });
     if (ownProps.displayEmptyCard) {
-        const emptyCard = {
-            id: { id: "-1",
+        const emptyCard = CardModel.GetEmpty({id:  { id: "-1",
                 parentType: ownProps.parentType,
                 parentId: ownProps.parentId },
-            status: "Empty" as CardStatus,
-            title: "",
-            ui: {},
-        };
+            order: -1});
         const cardIndexAboveBelow = cards.findIndex(c => c.ui.displayEmptyCardAbove === true);
         if (cardIndexAboveBelow !== -1) {
             cards = [
@@ -58,6 +63,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
         }
     },
 });
+
 
 class CardListContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
