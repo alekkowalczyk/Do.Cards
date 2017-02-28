@@ -5,10 +5,10 @@ import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
     card: ICardModel;
-    displayAddSubCard: boolean;
+    displayEmptySubCard: boolean;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
-    addSubCard: () => void;
+    displayEmptySubCardAction: () => void;
 }
 
 export class CardComponent extends React.Component<ICardComponentProps, {}> {
@@ -32,7 +32,6 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                         </div>
                         <div className="card-seperator-container">
                             <div className="card-seperator">
-                            
                             </div>
                         </div>
                     </div>
@@ -56,10 +55,10 @@ export class CardComponent extends React.Component<ICardComponentProps, {}> {
                             </div>
                             <CardListContainer parentId={card.id.id}
                                         parentType={CardParent_Card}
-                                        displayEmptyCard={this.props.displayAddSubCard}
+                                        displayEmptyCard={this.props.displayEmptySubCard}
                                         />
                             {   !isEmptyCard &&
-                                <button onClick={this.props.addSubCard}><span className="plus">+</span>sub card</button>
+                                <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
                             }
                         </div>
                     </div>

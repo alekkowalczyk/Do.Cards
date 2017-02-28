@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.17",
+    "@types/react-hot-loader": "^3.0.1",
     "awesome-typescript-loader": "^3.0.7",
     "browser-sync": "^2.18.8",
     "chai": "^3.5.0",

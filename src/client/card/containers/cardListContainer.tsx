@@ -10,7 +10,6 @@ type OwnProps = {
     parentId: string,
     parentType: CardParentType,
     displayEmptyCard: boolean,
-    emptyCardIndex?: number,
 }
 
 type ConnectedState = {
@@ -18,11 +17,9 @@ type ConnectedState = {
 };
 
 type ConnectedDispatch = {
-    setEmptyCardIndex: (newIdx: number) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    
     let cards = state.cardsRoot.cards.filter(c => c.id.parentType === ownProps.parentType && c.id.parentId === ownProps.parentId);
     if (ownProps.displayEmptyCard) {
         const emptyCard = {
@@ -33,11 +30,12 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
             title: "",
             ui: {},
         };
-        if(ownProps.emptyCardIndex) {
+        const cardIndexAboveBelow = cards.findIndex(c => c.ui.displayEmptyCardAbove === true);
+        if (cardIndexAboveBelow !== -1) {
             cards = [
-                    ...cards.splice(0, ownProps.emptyCardIndex),
+                    ...cards.splice(0, cardIndexAboveBelow),
                     emptyCard,
-                    ...cards.splice(ownProps.emptyCardIndex),
+                    ...cards.splice(cardIndexAboveBelow),
                 ];
         } else {
             cards = [ ...cards, emptyCard ];
@@ -49,13 +47,12 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
-    setEmptyCardIndex: (newIndex: number) => {}
 });
 
 class CardListContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         const { cards, parentType } = this.props;
-        return <CardListComponent cards={cards} isSubCardsList={parentType == CardParent_Card}/>;
+        return <CardListComponent cards={cards} isSubCardsList={parentType === CardParent_Card}/>;
     }
 }
 

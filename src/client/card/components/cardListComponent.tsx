@@ -12,7 +12,7 @@ export class CardListComponent extends React.Component<ICardListComponentProps, 
         const { cards, isSubCardsList } = this.props;
         return  <div className={isSubCardsList ? "sub-cards-list" : "root-card-list"}>
                         {
-                            this.props.cards.map((c, idx) =>
+                            cards.map((c, idx) =>
                                 c &&
                                 <CardContainer  key={idx}
                                                 card={c}

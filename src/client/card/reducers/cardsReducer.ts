@@ -7,6 +7,7 @@ type CardAction =
     CardActionDefs.AddCardAction |
     CardActionDefs.ArchiveCardAction |
     CardActionDefs.CardAction |
+    CardActionDefs.DisplayEmptyCardAboveAction |
     OtherAction;
 
 let cardId = 0;
@@ -39,6 +40,43 @@ const cardListReducer = (state: ICardModel[] = INITIAL_STATE, action: CardAction
                             ];
                     }
                 };
+                return state;
+            case CardActionConstants.DISPLAY_EMPTY_CARD_ABOVE:
+                const cardToDisplayEmptyAbove = state.find(c => c.id === action.id);
+                const cardToResetFlag = state.find(c => c.ui.displayEmptyCardAbove === true
+                                                    && c.id.parentId === action.id.parentId
+                                                    && c.id.parentType === action.id.parentType);
+                if (cardToDisplayEmptyAbove) {
+                    const cardWithFlagTrue: ICardModel = {
+                            ...cardToDisplayEmptyAbove,
+                            ui: {
+                                ...cardToDisplayEmptyAbove.ui,
+                                displayEmptyCardAbove: true,
+                            },
+                        };
+                    const idxOfCardToDisplayEmptyAbove = state.indexOf(cardToDisplayEmptyAbove);
+                    let retState = [
+                                ...state.slice(0, idxOfCardToDisplayEmptyAbove),
+                                cardWithFlagTrue,
+                                ...state.slice(idxOfCardToDisplayEmptyAbove + 1),
+                            ];
+                    if (cardToResetFlag) {
+                        const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
+                        const cardWithFlagFalse = {
+                            ...cardToResetFlag,
+                            ui: {
+                                ...cardToResetFlag.ui,
+                                displayEmptyCardAbove: false,
+                            },
+                        };
+                        retState = [
+                            ...retState.slice(0, idxOfCardToResetFlag),
+                            cardWithFlagFalse,
+                            ...retState.slice(idxOfCardToResetFlag + 1),
+                        ];
+                    }
+                    return retState;
+                }
                 return state;
             case CardActionConstants.CARD_ACTION:
                 if (action.id.id === "-1") {

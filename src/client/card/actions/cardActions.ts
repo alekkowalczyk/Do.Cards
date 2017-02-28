@@ -36,10 +36,17 @@ export function changeCardTitle(id: ICardId, title: string): ActionDefs.ChangeCa
     };
 }
 
-export function displayAddSubCardAction(id: ICardId): ActionDefs.DisplayAddSubCardAction {
+export function displayEmptySubCardAction(id: ICardId): ActionDefs.DisplayEmptySubCardAction {
     return {
         type: Constants.CARD_ACTION,
-        subType: Constants.DISPLAY_ADD_SUB_CARD,
+        subType: Constants.DISPLAY_EMPTY_SUB_CARD,
+        id: id,
+    };
+}
+
+export function displayEmptyCardAboveAction(id: ICardId): ActionDefs.DisplayEmptyCardAboveAction {
+    return {
+        type: Constants.DISPLAY_EMPTY_CARD_ABOVE,
         id: id,
     };
 }

@@ -14,7 +14,7 @@ type ConnectedState = {
 type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
     archiveCard: () => void;
-    addSubCard: () => void;
+    displayEmptySubCard: () => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -23,17 +23,17 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
-    addSubCard: () => dispatch(CardActions.displayAddSubCardAction(ownProps.card.id)),
+    displayEmptySubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { card, archiveCard, editCardTitle, addSubCard } = this.props;
+        const { card, archiveCard, editCardTitle, displayEmptySubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
-                                           displayAddSubCard={card.ui.displayAddSubCard === true}
-                                           addSubCard={addSubCard}
+                                           displayEmptySubCard={card.ui.displayAddSubCard === true}
+                                           displayEmptySubCardAction={displayEmptySubCard}
                                            titleChanged={(newTitle) => editCardTitle(newTitle)}
                                            remove={archiveCard}  />
                 : <div/>;

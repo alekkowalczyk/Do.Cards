@@ -13,6 +13,7 @@ export interface ICardId {
 
 export interface ICardUI {
     readonly displayAddSubCard?: boolean;
+    readonly displayEmptyCardAbove?: boolean;
 }
 
 export interface ICardModel {

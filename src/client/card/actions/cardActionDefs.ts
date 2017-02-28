@@ -17,11 +17,15 @@ export type ArchiveCardAction = {
         type: Constants.ARCHIVE_CARD,
     } & QId;
 
+// In cardActionConstants is explained, why it's not a CARD_ACTION
+export type DisplayEmptyCardAboveAction = {
+            type: Constants.DISPLAY_EMPTY_CARD_ABOVE,
+        } & QId;
+
 export type CardAction = {
     type: Constants.CARD_ACTION,
     subType: string,
 } & QId;
-
 
 // Actions for type CARD_ACTION (for a single card/card object actions)
 export type CardTitleChangedAction = {
@@ -34,6 +38,6 @@ export type ChangeCardTitleAction = {
             title: string,
         } & CardAction & QId;
 
-export type DisplayAddSubCardAction = {
-            subType: Constants.DISPLAY_ADD_SUB_CARD,
+export type DisplayEmptySubCardAction = {
+            subType: Constants.DISPLAY_EMPTY_SUB_CARD,
         } & CardAction & QId;
