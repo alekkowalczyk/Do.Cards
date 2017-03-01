@@ -1,12 +1,13 @@
 import * as React from "react";
 import { DragSource, DragSourceCollector, DragSourceSpec } from "react-dnd";
 import { ICardProps, CardParent_Card } from "../model";
-import CardContainer from "../containers/CardContainer";
+import { getEmptyImage } from "react-dnd-html5-backend";
 import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
     card: ICardProps;
     displayEmptySubCard: boolean;
+    isDragLayer?: boolean;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
     displayEmptySubCardAction: () => void;
@@ -31,7 +32,7 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
   // You can ask the monitor about the current drag state:
-  isDragging: monitor.isDragging(),
+  isDragging: monitor.isDragging()
 });
 
 @(DragSource("card", dragSpec, dragSourceCollector) as any)
@@ -40,12 +41,22 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         super();
     }
 
+    public componentDidMount() {
+    // Use empty image as a drag preview so browsers don't draw it
+    // and we can draw whatever we want on the custom drag layer instead.
+    (this.props as any).connectDragPreview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true,
+    });
+  }
+
     public render(): any {
         const { card } = this.props;
-        const { connectDragSource, connectDragPreview } = (this.props as any);
+        const { connectDragSource, isDragging } = (this.props as any);
         const isEmptyCard = card.id.id === "-1";
         const placeholder = isEmptyCard ? "Type to add new card..." : "";
-        return connectDragPreview(<div className="card-host">
+        return <div className="card-host">
                     { !isEmptyCard ?
                         connectDragSource(<div className="card-grabber">
                             <div className="grabber">
@@ -67,11 +78,14 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                                         parentType={CardParent_Card}
                                         displayEmptyCard={this.props.displayEmptySubCard}
                                         />
-                            {   !isEmptyCard &&
+                            {   !isEmptyCard && this.props.isDragLayer !== true &&
                                 <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
                             }
                     </div>
-                </div>);
+                    { isDragging &&
+                        <div className="card-host-dragged-overlay"></div>
+                    }
+                </div>;
     }
 
     private titleChanged(e: React.SyntheticEvent<string>): void {

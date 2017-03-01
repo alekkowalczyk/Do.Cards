@@ -20,6 +20,7 @@
   left: 0;
   z-index: 9000;
   opacity: 0.9;
+  pointer-events: none;
 }
 
 .card-element {

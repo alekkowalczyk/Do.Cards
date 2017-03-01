@@ -26,7 +26,7 @@ class App extends React.Component<ConnectedState & ConnectedDispatch & OwnProps,
     public render() {
         return <div>
             <div className="app-bar">
-                <div id="logo">a7.cards</div>
+                <div id="logo">do.cards</div>
             </div>
             <CardGroupPage />
         </div>;

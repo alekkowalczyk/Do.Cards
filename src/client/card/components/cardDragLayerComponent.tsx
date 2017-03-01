@@ -1,18 +1,16 @@
-import React, { Component, PropTypes } from "react";
+import * as React from "react";
 import { DragLayer } from "react-dnd";
 import CardComponent from "./cardComponent";
 
 const layerStyles = {
   position: "fixed",
   pointerEvents: "none",
-  zIndex: 100,
+  zIndex: 500100,
   left: 0,
   top: 0,
-  width: "100%",
-  height: "100%",
 };
 
-function getItemStyles(props) {
+function getItemStyles(props: any) {
   const { initialOffset, currentOffset } = props;
   if (!initialOffset || !currentOffset) {
     return {
@@ -35,11 +33,12 @@ function getItemStyles(props) {
   currentOffset: monitor.getSourceClientOffset(),
   isDragging: monitor.isDragging(),
 })) as any)
-export default class CustomDragLayer extends Component<any, {}> {
-  public renderItem(type, item) {
+export default class CustomDragLayer extends React.Component<any, {}> {
+  public renderItem(type: any, item: any) {
     switch (type) {
       case "card":
-        return (<CardComponent card={item}
+        return (<CardComponent card={item.card}
+                                isDragLayer={true}
                                            displayEmptySubCard={false}
                                            displayEmptySubCardAction={() => {}}
                                            titleChanged={(newTitle: string) => {}}
@@ -49,17 +48,18 @@ export default class CustomDragLayer extends Component<any, {}> {
     }
   }
 
-  render() {
+  public render() {
     const { item, itemType, isDragging } = this.props;
-
     if (!isDragging) {
-      return null;
+      return <div />;
     }
 
     return (
       <div style={layerStyles}>
         <div style={getItemStyles(this.props)}>
-          {this.renderItem(itemType, item)}
+          <div style={{transform: "rotate(7deg)", background: "white"}}>
+            {this.renderItem(itemType, item)}
+          </div>
         </div>
       </div>
     );
