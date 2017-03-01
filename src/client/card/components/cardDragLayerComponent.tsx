@@ -22,6 +22,7 @@ function getItemStyles(props: any) {
   const transform = `translate(${x}px, ${y}px)`;
   return {
     transform,
+    opacity: 0.8,
     WebkitTransform: transform,
   };
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ICardProps } from "../model/cardModel";
 import CardContainer from "../containers/CardContainer";
+import { InterCardSpaceComponent } from "./interCardSpaceComponent";
 
 export interface ICardListComponentProps {
     cards: ICardProps[];
@@ -18,17 +19,9 @@ export class CardListComponent extends React.Component<ICardListComponentProps, 
                 } else if (isEmptyCard) {
                     plusSign = "*";
                 }
-                return <div className="inter-card-space">
-                                        <div className="plus-container"
-                                            onClick={() => this.props.displayEmptyCardAbove(c)}
-                                            >
-                                            <div className="plus-sign">{plusSign}</div>
-                                        </div>
-                                        <div className="card-seperator-container">
-                                            <div className="card-seperator">
-                                            </div>
-                                        </div>
-                                    </div>;
+                return <InterCardSpaceComponent isDisplayingEmptyCardAbove={c !== null && c.ui.displayEmptyCardAbove === true}
+                                                displayEmptyCardAbove={() => this.props.displayEmptyCardAbove(c)}
+                                                isEmptyCardBelow={isEmptyCard} />;
         };
         const someCardHasEmptyAbove = cards.some(c => c.ui.displayEmptyCardAbove === true);
         return  <div className={isSubCardsList ? "sub-cards-list" : "root-card-list"}>

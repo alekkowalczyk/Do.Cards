@@ -32,10 +32,10 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
-                                           displayEmptySubCard={card.ui.displayAddSubCard === true}
-                                           displayEmptySubCardAction={addSubCard}
-                                           titleChanged={(newTitle: string) => editCardTitle(newTitle)}
-                                           remove={archiveCard}  />
+                                    displayEmptySubCard={card.ui.displayAddSubCard === true}
+                                    displayEmptySubCardAction={addSubCard}
+                                    titleChanged={(newTitle: string) => editCardTitle(newTitle)}
+                                    remove={archiveCard}  />
                 : <div/>;
     }
 }

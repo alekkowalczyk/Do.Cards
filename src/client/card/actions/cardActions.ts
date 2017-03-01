@@ -42,6 +42,13 @@ export function displayEmptyCardAboveAction(id: ICardId): ActionDefs.DisplayEmpt
     };
 }
 
+export function displayHoveredCardAction(id: ICardId): ActionDefs.DisplayHoveredCardAction {
+    return {
+        type: Constants.DISPLAY_HOVERED_CARD,
+        id: id,
+    };
+}
+
 export function displayEmptyCardAtBottomAction(parentId: string, parentType: CardParentType): ActionDefs.DisplayEmptyCardAtBottom {
     return {
         type: Constants.DISPLAY_EMPTY_AT_BOTTOM,
