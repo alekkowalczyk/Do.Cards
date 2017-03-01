@@ -4,10 +4,22 @@
 }
 
 .card-host {
+  position: relative;
   display: flex;
   background: transparent;
   margin-top: 1px;
   margin-bottom: 1px;
+}
+
+.card-host-dragged-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  opacity: 0.9;
 }
 
 .card-element {
@@ -16,6 +28,8 @@
     width: 100%;
     padding: 5px;
 }
+
+
 
 .sub-cards-list-element {
     margin: 0px;
@@ -87,9 +101,9 @@
 }
 
 .plus-container {
-  z-index: 6100;
+  z-index: 9100;
   position: relative;
-  top: -12px;  
+  top: -14px;  
   height: 28px;
   cursor: pointer;
 }

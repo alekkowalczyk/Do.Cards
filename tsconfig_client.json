@@ -6,7 +6,9 @@
         "noImplicitAny": true,
         "module":"commonjs",
         "watch": true,
-        "jsx": "react"
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
      "files": [
         "./typings/index.d.ts",

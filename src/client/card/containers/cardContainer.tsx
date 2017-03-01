@@ -2,9 +2,9 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { CardActions } from "../actions";
-import { CardComponent } from "../components/CardComponent";
+import CardComponent from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardProps } from "../model";
+import { ICardProps, CardParent_Card } from "../model";
 
 type OwnProps = {
     card: ICardProps;
@@ -34,7 +34,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
                 ? <CardComponent card={card}
                                            displayEmptySubCard={card.ui.displayAddSubCard === true}
                                            displayEmptySubCardAction={addSubCard}
-                                           titleChanged={(newTitle) => editCardTitle(newTitle)}
+                                           titleChanged={(newTitle: string) => editCardTitle(newTitle)}
                                            remove={archiveCard}  />
                 : <div/>;
     }

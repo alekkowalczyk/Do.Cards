@@ -6,7 +6,9 @@
         "noImplicitAny": true,
         "module":"commonjs",
         "watch": false,
-        "jsx": "react"
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
     "files": [
         "./src/client/index.tsx"
