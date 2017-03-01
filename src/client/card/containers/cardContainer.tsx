@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { CardActions } from "../actions";
 import CardComponent from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardProps, CardParent_Card } from "../model";
+import { ICardProps } from "../model";
 
 type OwnProps = {
     card: ICardProps;

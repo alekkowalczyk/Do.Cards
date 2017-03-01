@@ -94,30 +94,45 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                         ...action.id,
                         id: (cardId++).toString(),
                     };
+                    // if (idxCardToDisplayEmptyAbove > -1) {
+                    //     const cardsBefore = state.slice(0, idxCardToDisplayEmptyAbove);
+                    //     return [
+                    //             ...cardsBefore,
+                    //             cardObjectReducer(CardModel.GetEmpty({id: action.id, order: cardsBefore.length}), <any>action),
+                    //             ...state.slice(idxCardToDisplayEmptyAbove).map(c => c.ChangeOrder(c.order + 1)),
+                    //         ];
+                    // } else {
+                    //     return [
+                    //                 ...state,
+                    //                 cardObjectReducer(CardModel.GetEmpty({id: action.id, order: state.length}), <any>action),
+                    //             ];
+                    // }
                     if (idxCardToDisplayEmptyAbove > -1) {
                         const cardsBefore = state.slice(0, idxCardToDisplayEmptyAbove);
-                        return [
+                        state = [
                                 ...cardsBefore,
-                                cardObjectReducer(CardModel.GetEmpty({id: action.id, order: cardsBefore.length}), <any>action),
+                                CardModel.GetEmpty({id: action.id, order: cardsBefore.length}),
                                 ...state.slice(idxCardToDisplayEmptyAbove).map(c => c.ChangeOrder(c.order + 1)),
                             ];
                     } else {
-                        return [
+                        state = [
                                     ...state,
-                                    cardObjectReducer(CardModel.GetEmpty({id: action.id, order: state.length}), <any>action),
+                                    CardModel.GetEmpty({id: action.id, order: state.length}),
                                 ];
                     }
                 }
                 const cardToEdit = state.find(c => c.id === action.id);
                 if (cardToEdit) {
-                    const idxToEdit = state.indexOf(cardToEdit);
-                    if (idxToEdit > -1) {
-                        return [
-                                ...state.slice(0, idxToEdit),
-                                cardObjectReducer(cardToEdit, <any>action),
-                                ...state.slice(idxToEdit + 1),
-                            ];
-                    }
+                    const cardsToReplace = cardObjectReducer(cardToEdit, state, <any>action);
+                    state = state.map(c => cardsToReplace.find(cr => cr.id.id === c.id.id) || c);
+                    // const idxToEdit = state.indexOf(cardToEdit);
+                    // if (idxToEdit > -1) {
+                    //     return [
+                    //             ...state.slice(0, idxToEdit),
+                    //             cardObjectReducer(cardToEdit, <any>action),
+                    //             ...state.slice(idxToEdit + 1),
+                    //         ];
+                    // }
                 }
                 return state;
             default:

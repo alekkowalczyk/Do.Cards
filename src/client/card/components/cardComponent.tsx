@@ -108,7 +108,8 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                                         parentType={CardParent_Card}
                                         displayEmptyCard={this.props.displayEmptySubCard}
                                         />
-                            {   !isEmptyCard && this.props.isDragLayer !== true &&
+                            {   // not on empty card, not on drag layer, and not if already displaying the empty sub card 
+                                !isEmptyCard && this.props.isDragLayer !== true && !this.props.displayEmptySubCard &&
                                 <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
                             }
                     </div>
