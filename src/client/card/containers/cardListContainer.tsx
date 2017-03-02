@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 import { CardListComponent } from "../components/cardListComponent";
 import { Store } from "../../app/";
-import { ICardProps, CardModel, CardParentType, CardStatus, CardParent_Card } from "../model";
-import { CardActions } from "../actions";
+import { ICardProps, CardModel, CardParentType, IHoveringCard, CardParent_Card } from "../model";
+import { CardActions, CardModuleActions } from "../actions";
 type OwnProps = {
     parentId: string,
     parentType: CardParentType,
@@ -14,10 +14,12 @@ type OwnProps = {
 
 type ConnectedState = {
     cards: ICardProps[],
+    hoveringCard: IHoveringCard;
 };
 
 type ConnectedDispatch = {
     displayEmptyCardAbove: (card: ICardProps) => void;
+    hoveringAction: (options?: IHoveringCard) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -49,6 +51,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     }
     return {
         cards: cards,
+        hoveringCard: state.cardsRoot.moduleUI.hoveringCard,
     };
 };
 
@@ -62,6 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
             dispatch(CardActions.displayEmptyCardAtBottomAction(ownProps.parentId, ownProps.parentType));
         }
     },
+    hoveringAction: (options) => dispatch(CardModuleActions.hoveringCard(options)),
 });
 
 
@@ -69,6 +73,8 @@ class CardListContainer extends React.Component<ConnectedState & ConnectedDispat
     public render() {
         const { cards, parentType } = this.props;
         return <CardListComponent cards={cards}
+                    hoveringAction={this.props.hoveringAction}
+                                    hoveringOptions={this.props.hoveringCard}
                                     displayEmptyCardAbove={this.props.displayEmptyCardAbove}
                                     isSubCardsList={parentType === CardParent_Card}/>;
     }

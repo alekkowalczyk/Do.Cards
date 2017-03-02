@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { CardActions } from "../actions";
+import { CardActions, CardModuleActions } from "../actions";
 import CardComponent from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardProps } from "../model";
+import { ICardProps, IHoveringCard } from "../model";
 
 type OwnProps = {
     card: ICardProps;
@@ -15,6 +15,7 @@ type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
     archiveCard: () => void;
     addSubCard: () => void;
+    hoveringCard: (options?: IHoveringCard) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -25,6 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
     addSubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
+    hoveringCard: (options) => dispatch(CardModuleActions.hoveringCard(options)),
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
@@ -32,6 +34,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
+                                    hoveringAction={this.props.hoveringCard}
                                     displayEmptySubCard={card.ui.displayAddSubCard === true}
                                     displayEmptySubCardAction={addSubCard}
                                     titleChanged={(newTitle: string) => editCardTitle(newTitle)}

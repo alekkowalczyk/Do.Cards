@@ -1,9 +1,9 @@
-import { ICardId } from "./cardModel";
+import { ICardProps } from "./cardModel";
 
-export type HoverType = "TOP" | "BOTTOM";
+export type HoverType = "TOP" | "BOTTOM" | "NONE";
 export interface IHoveringCard {
-        isHovering?: boolean;
-        hoveringOver?: ICardId;
+        hoveringCard?: ICardProps;
+        hoveringOver?: ICardProps;
         hoverType?: HoverType;
 }
 export interface ICardModuleUI {

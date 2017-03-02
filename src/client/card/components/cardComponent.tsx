@@ -1,8 +1,8 @@
 import * as React from "react";
 import { findDOMNode } from 'react-dom';
 import { DragSource, DragSourceCollector, DragSourceSpec } from "react-dnd";
-import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor, ClientOffset } from "react-dnd";
-import { ICardProps, CardParent_Card } from "../model";
+import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor } from "react-dnd";
+import { ICardProps, CardParent_Card, HoverType, IHoveringCard } from "../model";
 import { getEmptyImage } from "react-dnd-html5-backend";
 import CardListContainer from "../containers/cardListContainer";
 
@@ -10,6 +10,7 @@ export interface ICardComponentProps {
     card: ICardProps;
     displayEmptySubCard: boolean;
     isDragLayer?: boolean;
+    hoveringAction: (options?: IHoveringCard) => void;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
     displayEmptySubCardAction: () => void;
@@ -46,7 +47,12 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
             const componentRect = findDOMNode(component).getBoundingClientRect();
             const componentHeight = componentRect.bottom - componentRect.top;
             const isTop = (clientOffset.y - componentRect.top) < (componentHeight / 2);
-            console.log("hover", isTop);
+            const dragItem = monitor.getItem() as any;
+            props.hoveringAction({
+                hoverType: isTop ? "TOP" : "BOTTOM",
+                hoveringOver: props.card,
+                hoveringCard: dragItem ? dragItem.card as ICardProps: undefined
+            });
         },
         canDrop(props: ICardComponentProps, monitor?: DropTargetMonitor): boolean {
             return true;
@@ -89,7 +95,7 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         const { isOver } = ((this.props as any) as IDropProps);
         if (isOver && !nextProps.isOver) {
             // You can use this as enter handler
-            console.log("hover", "none");
+            nextProps.hoveringAction(undefined);
         }
     }
 

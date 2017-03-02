@@ -1,13 +1,18 @@
 import * as Constants from "./cardModuleActionConstants";
 import * as ActionDefs from "./cardModuleActionDefs";
-import { HoverType } from "../model/cardModuleUiModel";
-import { ICardId } from "../model/cardModel";
+import { IHoveringCard } from "../model/cardModuleUiModel";
+import { ICardProps } from "../model/cardModel";
 
-export function hoveringCard(id: ICardId, isHover: boolean, type: HoverType): ActionDefs.HoveringCardAction {
+export function hoveringCard(options?: IHoveringCard): ActionDefs.HoveringCardAction {
+    if (options) {
+        return {
+            type: Constants.HOVERING_CARD,
+            hoveredOver: options.hoveringOver,
+            hoveringCard: options.hoveringCard,
+            hoverType: options.hoverType,
+      };
+    }
     return {
-        type: Constants.HOVERING_CARD,
-        cardId: id,
-        isHovering: isHover,
-        hoverType: type,
+            type: Constants.HOVERING_CARD,
     };
-}
+};
