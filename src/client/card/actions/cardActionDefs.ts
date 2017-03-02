@@ -14,10 +14,6 @@ export type DisplayEmptyCardAboveAction = {
             type: Constants.DISPLAY_EMPTY_CARD_ABOVE,
         } & QId;
 
-export type DisplayHoveredCardAction = {
-            type: Constants.DISPLAY_HOVERED_CARD,
-        } & QId;
-
 export type DisplayEmptyCardAtBottom = {
     type: Constants.DISPLAY_EMPTY_AT_BOTTOM,
     parentId: string,

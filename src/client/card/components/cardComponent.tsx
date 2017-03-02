@@ -1,6 +1,7 @@
 import * as React from "react";
+import { findDOMNode } from 'react-dom';
 import { DragSource, DragSourceCollector, DragSourceSpec } from "react-dnd";
-import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor } from "react-dnd";
+import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor, ClientOffset } from "react-dnd";
 import { ICardProps, CardParent_Card } from "../model";
 import { getEmptyImage } from "react-dnd-html5-backend";
 import CardListContainer from "../containers/cardListContainer";
@@ -39,7 +40,13 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 const dropSpec: DropTargetSpec<ICardComponentProps> = {
         drop: (props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): Object|void => {
         },
-        hover(props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): void {
+        hover(props: ICardComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardComponentProps, any>): void {
+             // You can access the coordinates if you need them
+            const clientOffset = monitor.getClientOffset();
+            const componentRect = findDOMNode(component).getBoundingClientRect();
+            const componentHeight = componentRect.bottom - componentRect.top;
+            const isTop = (clientOffset.y - componentRect.top) < (componentHeight / 2);
+            console.log("hover", isTop);
         },
         canDrop(props: ICardComponentProps, monitor?: DropTargetMonitor): boolean {
             return true;
@@ -49,7 +56,6 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
 interface IDropProps {
     connectDropTarget: (el: any) => any;
     isOver: boolean;
-    isOverCurrent: boolean;
     canDrop: boolean;
 }
 const dropSourceCollector: DropTargetCollector = (connect, monitor): IDropProps => ({
@@ -58,7 +64,6 @@ const dropSourceCollector: DropTargetCollector = (connect, monitor): IDropProps 
   connectDropTarget: connect.dropTarget(),
   // You can ask the monitor about the current drag state:
   isOver: monitor.isOver(),
-  isOverCurrent: monitor.isOver({ shallow: true }),
   canDrop: monitor.canDrop(),
 //   itemType: monitor.getItemType(),
 });
@@ -80,10 +85,18 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         });
     }
 
+    public componentWillReceiveProps(nextProps: ICardComponentProps & IDropProps) {
+        const { isOver } = ((this.props as any) as IDropProps);
+        if (isOver && !nextProps.isOver) {
+            // You can use this as enter handler
+            console.log("hover", "none");
+        }
+    }
+
     public render(): any {
         const { card } = this.props;
         const { connectDragSource, isDragging } = ((this.props as any) as IDragProps);
-        const { connectDropTarget } = ((this.props as any) as IDropProps);
+        const { connectDropTarget, isOver } = ((this.props as any) as IDropProps);
         const isEmptyCard = card.id.id === "-1";
         const placeholder = isEmptyCard ? "Type to add new card..." : "";
         return connectDropTarget(<div className="card-host">

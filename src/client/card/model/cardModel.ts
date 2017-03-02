@@ -11,12 +11,24 @@ export interface ICardId {
     readonly parentId: string;
 }
 
+export interface ICardTempUI {
+    displayHoverCardAbove?: boolean;
+}
+
 export interface ICardUI {
     readonly displayAddSubCard?: boolean;
     readonly displayEmptyCardAbove?: boolean;
 }
 
 export interface ICardProps {
+    readonly id: ICardId;
+    readonly title: string;
+    readonly status: CardStatus;
+    readonly order: number;
+    readonly ui: ICardUI;
+};
+
+export interface ICardParams {
     readonly id: ICardId;
     readonly title: string;
     readonly status: CardStatus;
@@ -44,7 +56,7 @@ export class CardModel implements ICardProps {
         });
     }
 
-    constructor(props: ICardProps) {
+    constructor(props: ICardParams) {
         this.id = props.id;
         this.title = props.title;
         this.status = props.status;
