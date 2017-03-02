@@ -8,6 +8,7 @@ import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
     card: ICardProps;
+    hoveringCard?: IHoveringCard;
     displayEmptySubCard: boolean;
     isDragLayer?: boolean;
     hoveringAction: (options?: IHoveringCard) => void;
@@ -40,8 +41,13 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 
 const dropSpec: DropTargetSpec<ICardComponentProps> = {
         drop: (props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): Object|void => {
+            props.hoveringAction(undefined);
+            console.log("DROP!");
         },
         hover(props: ICardComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardComponentProps, any>): void {
+            if (!props.hoveringCard || props.hoveringCard.hoveringCard === props.card) {
+                return;
+            }
              // You can access the coordinates if you need them
             const clientOffset = monitor.getClientOffset();
             const componentRect = findDOMNode(component).getBoundingClientRect();
@@ -95,14 +101,15 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         const { isOver } = ((this.props as any) as IDropProps);
         if (isOver && !nextProps.isOver) {
             // You can use this as enter handler
-            nextProps.hoveringAction(undefined);
+            // nextProps.hoveringAction(undefined);
         }
     }
 
     public render(): any {
         const { card } = this.props;
-        const { connectDragSource, isDragging } = ((this.props as any) as IDragProps);
+        const { connectDragSource } = ((this.props as any) as IDragProps);
         const { connectDropTarget, isOver } = ((this.props as any) as IDropProps);
+        const isHoveringCard = this.props.hoveringCard ? this.props.hoveringCard.hoveringCard === card : false;
         const isEmptyCard = card.id.id === "-1";
         const placeholder = isEmptyCard ? "Type to add new card..." : "";
         return connectDropTarget(<div className="card-host">
@@ -132,7 +139,7 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                                 <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
                             }
                     </div>
-                    { isDragging &&
+                    { isHoveringCard &&
                         <div className="card-host-dragged-overlay"></div>
                     }
                 </div>);

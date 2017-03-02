@@ -80,6 +80,7 @@ export class InterCardSpaceComponent extends React.Component<IInterCardSpaceComp
                     getInterCardSpace()
                 }
         </div>);*/
-        return connectDropTarget(getInterCardSpace());
+        //return connectDropTarget(getInterCardSpace());
+        return getInterCardSpace(); // TODO: remove the DropTarget stuff if not needed.
     }
 }

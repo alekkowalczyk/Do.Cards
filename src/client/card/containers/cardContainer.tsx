@@ -10,23 +10,26 @@ type OwnProps = {
     card: ICardProps;
 }
 type ConnectedState = {
+    hoveringCard: IHoveringCard;
 };
 type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
     archiveCard: () => void;
     addSubCard: () => void;
-    hoveringCard: (options?: IHoveringCard) => void;
+    hoveringAction: (options?: IHoveringCard) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
-    return {};
+    return {
+        hoveringCard: state.cardsRoot.moduleUI.hoveringCard,
+    };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
     addSubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
-    hoveringCard: (options) => dispatch(CardModuleActions.hoveringCard(options)),
+    hoveringAction: (options) => dispatch(CardModuleActions.hoveringCard(options)),
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
@@ -34,7 +37,8 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
-                                    hoveringAction={this.props.hoveringCard}
+                                    hoveringCard={this.props.hoveringCard}
+                                    hoveringAction={this.props.hoveringAction}
                                     displayEmptySubCard={card.ui.displayAddSubCard === true}
                                     displayEmptySubCardAction={addSubCard}
                                     titleChanged={(newTitle: string) => editCardTitle(newTitle)}

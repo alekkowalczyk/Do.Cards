@@ -42,14 +42,19 @@ export class CardListComponent extends React.Component<ICardListComponentProps, 
                                 return c &&
                                 <div key={idx}>
                                     {
-                                        hoveringCard && (hoverAbove || hoveringCard === c) &&
+                                        hoveringCard && (hoverAbove) &&
                                         <div>
                                             {getInterCardSpace(c, isEmptyCard)}
                                             <CardContainer card={hoveringCard} />
                                         </div>
                                     }
-                                    {getInterCardSpace(c, isEmptyCard)}
-                                    <CardContainer card={c} />
+                                    {
+                                        hoveringCard !== c &&
+                                        <div>
+                                            {getInterCardSpace(c, isEmptyCard)}
+                                            <CardContainer card={c} />
+                                        </div>
+                                    }
                                     {
                                         hoverBelow && hoveringCard &&
                                         <div>
