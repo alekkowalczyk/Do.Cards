@@ -105,14 +105,6 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         });
     }
 
-    public componentWillReceiveProps(nextProps: ICardComponentProps & IDropProps) {
-        const { isOver } = ((this.props as any) as IDropProps);
-        if (isOver && !nextProps.isOver) {
-            // You can use this as enter handler
-            // nextProps.hoveringAction(undefined);
-        }
-    }
-
     public render(): any {
         const { card } = this.props;
         const { connectDragSource } = ((this.props as any) as IDragProps);
