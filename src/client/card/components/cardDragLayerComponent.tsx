@@ -40,6 +40,7 @@ export default class CustomDragLayer extends React.Component<any, {}> {
       case "card":
         return (<CardComponent card={item.card}
                                 isDragLayer={true}
+                                hoveringCard={undefined}
                                 hoveringAction={(h) => {}}
                                            displayEmptySubCard={false}
                                            displayEmptySubCardAction={() => {}}

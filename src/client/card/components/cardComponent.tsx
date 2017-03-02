@@ -8,9 +8,9 @@ import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardComponentProps {
     card: ICardProps;
-    hoveringCard?: IHoveringCard;
     displayEmptySubCard: boolean;
     isDragLayer?: boolean;
+    hoveringCard: IHoveringCard | undefined;
     hoveringAction: (options?: IHoveringCard) => void;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
@@ -42,23 +42,31 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 const dropSpec: DropTargetSpec<ICardComponentProps> = {
         drop: (props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): Object|void => {
             props.hoveringAction(undefined);
-            console.log("DROP!");
         },
         hover(props: ICardComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardComponentProps, any>): void {
-            if (!props.hoveringCard || props.hoveringCard.hoveringCard === props.card) {
+            if (props.card.id.id === "-1") {
                 return;
             }
-             // You can access the coordinates if you need them
+            if (!monitor.isOver({ shallow: true})) {
+                return;
+            }
+            const dragItem = monitor.getItem() as any;
+            const hoveringCard = dragItem ? dragItem.card as ICardProps : undefined;
+            if (hoveringCard === props.card) {
+                return;
+            }
             const clientOffset = monitor.getClientOffset();
             const componentRect = findDOMNode(component).getBoundingClientRect();
             const componentHeight = componentRect.bottom - componentRect.top;
             const isTop = (clientOffset.y - componentRect.top) < (componentHeight / 2);
-            const dragItem = monitor.getItem() as any;
-            props.hoveringAction({
-                hoverType: isTop ? "TOP" : "BOTTOM",
-                hoveringOver: props.card,
-                hoveringCard: dragItem ? dragItem.card as ICardProps: undefined
-            });
+            const hoverType = isTop ? "TOP" : "BOTTOM";
+            const hoveringOver = props.card;
+            if (!props.hoveringCard
+                || hoverType !== props.hoveringCard.hoverType
+                || hoveringOver !== props.hoveringCard.hoveringOver
+                || hoveringCard !== props.hoveringCard.hoveringCard) {
+                props.hoveringAction({ hoverType, hoveringOver, hoveringCard });
+            }
         },
         canDrop(props: ICardComponentProps, monitor?: DropTargetMonitor): boolean {
             return true;
@@ -109,9 +117,11 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         const { card } = this.props;
         const { connectDragSource } = ((this.props as any) as IDragProps);
         const { connectDropTarget, isOver } = ((this.props as any) as IDropProps);
-        const isHoveringCard = this.props.hoveringCard ? this.props.hoveringCard.hoveringCard === card : false;
         const isEmptyCard = card.id.id === "-1";
         const placeholder = isEmptyCard ? "Type to add new card..." : "";
+        const isDragging = this.props.hoveringCard !== undefined
+                            && this.props.hoveringCard.hoverType !== "NONE"
+                            && card === this.props.hoveringCard.hoveringCard;
         return connectDropTarget(<div className="card-host">
                     { !isEmptyCard ?
                         connectDragSource(<div className="card-grabber">
@@ -139,7 +149,7 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                                 <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
                             }
                     </div>
-                    { isHoveringCard &&
+                    { isDragging &&
                         <div className="card-host-dragged-overlay"></div>
                     }
                 </div>);

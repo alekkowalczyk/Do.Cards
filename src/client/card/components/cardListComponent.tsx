@@ -23,7 +23,6 @@ export class CardListComponent extends React.Component<ICardListComponentProps, 
                     plusSign = "*";
                 }
                 return <InterCardSpaceComponent
-                                                hoveringAction={this.props.hoveringAction}
                                                 cardBelow={c}
                                                 isDisplayingEmptyCardAbove={c !== undefined && c.ui.displayEmptyCardAbove === true}
                                                 displayEmptyCardAbove={() => this.props.displayEmptyCardAbove(c)}

@@ -14,6 +14,7 @@ let cardId = 0;
 const INITIAL_STATE: CardModel[] = [];
 
 const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction): CardModel[] => {
+    console.log("cardListReducer", state);
     switch (action.type) {
             case CardActionConstants.ARCHIVE_CARD:
                 const cardToArchive = state.find(c => c.id === action.id);
