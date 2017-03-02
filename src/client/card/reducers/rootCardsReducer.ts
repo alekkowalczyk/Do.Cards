@@ -1,19 +1,20 @@
 import { OtherAction } from "../../common";
 import cardsReducer from "./cardsReducer";
 import cardGroupsReducer from "./cardGroupsReducer";
+import cardModuleUiReducer from "./cardModuleUiReducer";
+import { getEmptyCardModuleUI } from "../model/cardModuleUiModel";
 import { IRootCardsModel } from "../model";
 
 const INITIAL_STATE: IRootCardsModel = {
+    moduleUI: getEmptyCardModuleUI(),
     cards: [],
-    //cardGroups: [getDefaultEmptyCardGroup()],
     cardGroups: [],
 };
 
 const rootCardsReducer = (state: IRootCardsModel = INITIAL_STATE, action: OtherAction = OtherAction): IRootCardsModel => {
-    const cards = cardsReducer(state.cards, action);
-    console.log(cards.map(c => c.title + ":" + c.order).join(","));
     const reducedState = {
-        cards: cards,
+        moduleUI: cardModuleUiReducer(state.moduleUI, action),
+        cards: cardsReducer(state.cards, action),
         cardGroups: cardGroupsReducer(state.cardGroups, action),
     };
     return reducedState;

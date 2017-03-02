@@ -11,10 +11,6 @@ export interface ICardId {
     readonly parentId: string;
 }
 
-export interface ICardTempUI {
-    displayHoverCardAbove?: boolean;
-}
-
 export interface ICardUI {
     readonly displayAddSubCard?: boolean;
     readonly displayEmptyCardAbove?: boolean;
