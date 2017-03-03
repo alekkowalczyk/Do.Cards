@@ -14,7 +14,7 @@ let cardId = 0;
 const INITIAL_STATE: CardModel[] = [];
 
 const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction): CardModel[] => {
-    console.log("cardListReducer", state);
+    console.log("cardListReducer", state.map(c => c.order + " - " + c.title).join(" ,"));
     switch (action.type) {
             case CardActionConstants.ARCHIVE_CARD:
                 const cardToArchive = state.find(c => c.id === action.id);
@@ -75,26 +75,29 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                 return state;
             case CardActionConstants.CARD_ACTION:
                 if (action.id.id === "-1") {
-                    const idxCardToDisplayEmptyAbove = state.findIndex(c => c.ui.displayEmptyCardAbove === true
+                    const cardToDisplayEmptyAbove = state.find(c => c.ui.displayEmptyCardAbove === true
                                                     && c.id.parentId === action.id.parentId
                                                     && c.id.parentType === action.id.parentType);
                     action.id = {
                         ...action.id,
                         id: (cardId++).toString(),
                     };
-                    if (idxCardToDisplayEmptyAbove > -1) {
-                        const cardsBefore = state.slice(0, idxCardToDisplayEmptyAbove);
-                        state = [
-                                ...cardsBefore,
-                                CardModel.GetEmpty({id: action.id, order: cardsBefore.length}),
-                                ...state.slice(idxCardToDisplayEmptyAbove).map(c => c.ChangeOrder(c.order + 1)),
-                            ];
-                    } else {
-                        state = [
-                                    ...state,
-                                    CardModel.GetEmpty({id: action.id, order: state.length}),
-                                ];
-                    }
+                    const newCardOrder: number = cardToDisplayEmptyAbove
+                                            ? cardToDisplayEmptyAbove.order
+                                            : state.filter(c => c.id.parentId === action.id.parentId
+                                                    && c.id.parentType === action.id.parentType).length;
+                    const newCard = CardModel.GetEmpty({id: action.id, order: newCardOrder});
+                    return [
+                        ...state.map(c => {
+                            if (c.order >= newCardOrder
+                                && c.id.parentId === action.id.parentId
+                                && c.id.parentType === action.id.parentType) {
+                                    return c.ChangeOrder(c.order + 1);
+                                }
+                            return c;
+                        }),
+                        cardObjectReducer(newCard, <any>action),
+                    ];
                 }
                 const cardToEdit = state.find(c => c.id === action.id);
                 if (cardToEdit) {
