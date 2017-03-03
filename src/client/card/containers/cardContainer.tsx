@@ -17,6 +17,7 @@ type ConnectedDispatch = {
     archiveCard: () => void;
     addSubCard: () => void;
     hoveringAction: (options?: IHoveringCard) => void;
+    dropHoveringCardAction: (hovering: IHoveringCard) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -25,11 +26,24 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps, s: any): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
     addSubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
     hoveringAction: (options) => dispatch(CardModuleActions.hoveringCard(options)),
+    dropHoveringCardAction: (h) => {
+        if (h.hoveringCard && h.hoveringOver && h.hoverType !== "NONE") {
+            const movingForward = h.hoveringOver.order > h.hoveringCard.order;
+            const newOrder = h.hoverType === "TOP" ?
+                            h.hoveringOver.order - (movingForward ? 1 : 0)
+                            : h.hoveringOver.order + (movingForward ? 0 : 1);
+            console.log(h, newOrder);
+            dispatch(CardActions.moveCardAction(h.hoveringCard.id,
+                                    h.hoveringOver.id.parentId,
+                                    h.hoveringOver.id.parentType,
+                                    newOrder));
+        }
+    },
 });
 
 class CardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
@@ -37,6 +51,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
+                                    hoveringDropAction={this.props.dropHoveringCardAction}
                                     hoveringCard={this.props.hoveringCard}
                                     hoveringAction={this.props.hoveringAction}
                                     displayEmptySubCard={card.ui.displayAddSubCard === true}

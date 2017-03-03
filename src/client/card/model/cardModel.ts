@@ -60,9 +60,29 @@ export class CardModel implements ICardProps {
         this.ui = props.ui;
     }
 
+    public IsSameCardListAsId(otherId: ICardId): boolean {
+        return this.id.parentId === otherId.parentId && this.id.parentType === otherId.parentType;
+    }
+
+    public IsSameCardListForParent(parentId: string, parentType: CardParentType): boolean {
+        return this.id.parentId === parentId && this.id.parentType === parentType;
+    }
+
     public ChangeOrder(newOrder: number): CardModel {
         return new CardModel({
             ...(this as ICardProps),
+            order: newOrder,
+        });
+    }
+
+    public ChangeOrderAndParent(newOrder: number, newParentId: string, newParentType: CardParentType): CardModel {
+        return new CardModel({
+            ...(this as ICardProps),
+            id: {
+                ...this.id,
+                parentId: newParentId,
+                parentType: newParentType,
+            },
             order: newOrder,
         });
     }

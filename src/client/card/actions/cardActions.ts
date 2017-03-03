@@ -49,3 +49,12 @@ export function displayEmptyCardAtBottomAction(parentId: string, parentType: Car
         parentType: parentType,
     };
 }
+ export function moveCardAction(id: ICardId, parentId: string, parentType: CardParentType, order: number): ActionDefs.MoveCardAction {
+    return {
+        type: Constants.MOVE_CARD,
+        id: id,
+        parentId: parentId,
+        parentType: parentType,
+        order: order,
+    };
+ }

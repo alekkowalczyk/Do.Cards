@@ -42,10 +42,11 @@ export default class CustomDragLayer extends React.Component<any, {}> {
                                 isDragLayer={true}
                                 hoveringCard={undefined}
                                 hoveringAction={(h) => {}}
-                                           displayEmptySubCard={false}
-                                           displayEmptySubCardAction={() => {}}
-                                           titleChanged={(newTitle: string) => {}}
-                                           remove={() => {}}  />);
+                                hoveringDropAction={() => {}}
+                                displayEmptySubCard={false}
+                                displayEmptySubCardAction={() => {}}
+                                titleChanged={(newTitle: string) => {}}
+                                remove={() => {}}  />);
       default:
         return null;
     }

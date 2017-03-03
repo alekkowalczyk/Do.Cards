@@ -12,6 +12,7 @@ export interface ICardComponentProps {
     isDragLayer?: boolean;
     hoveringCard: IHoveringCard | undefined;
     hoveringAction: (options?: IHoveringCard) => void;
+    hoveringDropAction: (hovering: IHoveringCard) => void;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
     displayEmptySubCardAction: () => void;
@@ -24,6 +25,9 @@ const dragSpec: DragSourceSpec<ICardComponentProps> = {
         const item = { card: props.card };
         return item;
     },
+    endDrag(props: ICardComponentProps) {
+        props.hoveringAction(undefined);
+    }
 };
 interface IDragProps {
     connectDragSource: (el: any) => any;
@@ -41,7 +45,9 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 
 const dropSpec: DropTargetSpec<ICardComponentProps> = {
         drop: (props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): Object|void => {
-            props.hoveringAction(undefined);
+            if (props.hoveringCard !== undefined) {
+                props.hoveringDropAction(props.hoveringCard);
+            }
         },
         hover(props: ICardComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardComponentProps, any>): void {
             if (props.card.id.id === "-1") {

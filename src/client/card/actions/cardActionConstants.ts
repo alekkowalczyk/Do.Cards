@@ -11,6 +11,11 @@ export const CARD_ACTION: CARD_ACTION = "Card/CARD_ACTION";
 export type DISPLAY_EMPTY_CARD_ABOVE = "Card/DISPLAY_EMPTY_CARD_ABOVE";
 export const DISPLAY_EMPTY_CARD_ABOVE: DISPLAY_EMPTY_CARD_ABOVE = "Card/DISPLAY_EMPTY_CARD_ABOVE";
 
+// This is not a CARD_ACTION only a main type, because it alters not only one card
+// by setting the order, but also makes according order changes in subsequent cards
+export type MOVE_CARD = "Card/MOVE_CARD";
+export const MOVE_CARD: MOVE_CARD = "Card/MOVE_CARD";
+
 export type DISPLAY_EMPTY_AT_BOTTOM = "Card/DISPLAY_EMPTY_AT_BOTTOM";
 export const DISPLAY_EMPTY_AT_BOTTOM: DISPLAY_EMPTY_AT_BOTTOM = "Card/DISPLAY_EMPTY_AT_BOTTOM";
 

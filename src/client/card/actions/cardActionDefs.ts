@@ -20,6 +20,13 @@ export type DisplayEmptyCardAtBottom = {
     parentType: CardParentType,
 };
 
+export type MoveCardAction = {
+    type: Constants.MOVE_CARD,
+    parentId: string,
+    parentType: CardParentType,
+    order: number,
+} & QId;
+
 export type CardAction = {
     type: Constants.CARD_ACTION,
     subType: string,

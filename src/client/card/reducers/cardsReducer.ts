@@ -8,13 +8,13 @@ type CardAction =
     CardActionDefs.CardAction |
     CardActionDefs.DisplayEmptyCardAboveAction |
     CardActionDefs.DisplayEmptyCardAtBottom |
+    CardActionDefs.MoveCardAction |
     OtherAction;
 
 let cardId = 0;
 const INITIAL_STATE: CardModel[] = [];
 
 const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction): CardModel[] => {
-    console.log("cardListReducer", state.map(c => c.order + " - " + c.title).join(" ,"));
     switch (action.type) {
             case CardActionConstants.ARCHIVE_CARD:
                 const cardToArchive = state.find(c => c.id === action.id);
@@ -41,8 +41,7 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                     }
                     if (c.ui.displayEmptyCardAbove === true
                             && c.id.id !== action.id.id
-                            && c.id.parentId === action.id.parentId
-                            && c.id.parentType === action.id.parentType) {
+                            && c.IsSameCardListAsId(action.id)) {
                         return new CardModel({
                             ...c,
                             ui: {
@@ -55,8 +54,7 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                 });
             case CardActionConstants.DISPLAY_EMPTY_AT_BOTTOM:
                 const cardToResetFlag = state.find(c => c.ui.displayEmptyCardAbove === true
-                            && c.id.parentId === action.parentId
-                            && c.id.parentType === action.parentType);
+                            && c.IsSameCardListForParent(action.parentId, action.parentType));
                 if (cardToResetFlag) {
                     const idxOfCardToResetFlag = state.indexOf(cardToResetFlag);
                     const cardWithFlagFalse = new CardModel({
@@ -73,25 +71,52 @@ const cardListReducer = (state: CardModel[] = INITIAL_STATE, action: CardAction)
                     ];
                 }
                 return state;
+            case CardActionConstants.MOVE_CARD:
+                const cardToMove = state.find(c => c.id === action.id);
+                if (cardToMove) {
+                    const movedCard = cardToMove.ChangeOrderAndParent(action.order, action.parentId, action.parentType);
+                    return state.map(c => {
+                        if (c.id === cardToMove.id) {
+                            return movedCard;
+                        } else if (c.IsSameCardListAsId(cardToMove.id) && !cardToMove.IsSameCardListAsId(movedCard.id)) {
+                            // We moved the card to a different parent, and this is a card from the "old" parent.
+                            // So there is a gap in order which we need to close
+                            if (c.order > cardToMove.order) {
+                                return c.ChangeOrder(c.order - 1);
+                            }
+                        } else if (c.IsSameCardListAsId(movedCard.id) && cardToMove.IsSameCardListAsId(movedCard.id)) {
+                            // Card from current parent, moving card within one parent
+                            if (c.order >= movedCard.order && c.order < cardToMove.order) { // If moved "backward" - items between old place and new place need the order to be increased
+                                return c.ChangeOrder(c.order + 1);                          // If moved "forward" - always false
+                            } else if (c.order >= cardToMove.order && c.order <= movedCard.order) { // If moved "backward" - always false
+                                return c.ChangeOrder(c.order - 1);                                // If moved "forward" - items between old place and new place need the order to be decreases
+                            }
+                        } else if (c.IsSameCardListAsId(movedCard.id) && !cardToMove.IsSameCardListAsId(movedCard.id)) {
+                            // Card from current parent, moving card from another parent
+                            if (c.order >= movedCard.order) {
+                                return c.ChangeOrder(c.order + 1);
+                            }
+                        }
+                        return c;
+                    });
+                }
+                return state;
             case CardActionConstants.CARD_ACTION:
                 if (action.id.id === "-1") {
                     const cardToDisplayEmptyAbove = state.find(c => c.ui.displayEmptyCardAbove === true
-                                                    && c.id.parentId === action.id.parentId
-                                                    && c.id.parentType === action.id.parentType);
+                                                    && c.IsSameCardListAsId(action.id));
                     action.id = {
                         ...action.id,
                         id: (cardId++).toString(),
                     };
                     const newCardOrder: number = cardToDisplayEmptyAbove
                                             ? cardToDisplayEmptyAbove.order
-                                            : state.filter(c => c.id.parentId === action.id.parentId
-                                                    && c.id.parentType === action.id.parentType).length;
+                                            : state.filter(c => c.IsSameCardListAsId(action.id)).length;
                     const newCard = CardModel.GetEmpty({id: action.id, order: newCardOrder});
                     return [
                         ...state.map(c => {
                             if (c.order >= newCardOrder
-                                && c.id.parentId === action.id.parentId
-                                && c.id.parentType === action.id.parentType) {
+                                && c.IsSameCardListAsId(action.id)) {
                                     return c.ChangeOrder(c.order + 1);
                                 }
                             return c;
