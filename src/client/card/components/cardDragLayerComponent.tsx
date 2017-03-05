@@ -37,8 +37,11 @@ function getItemStyles(props: any) {
 export default class CustomDragLayer extends React.Component<any, {}> {
   public renderItem(type: any, item: any) {
     switch (type) {
+      case "card2":
+        return <div style={{backgroundColor: "white"}}>{item.card.title}</div>
       case "card":
         return (<CardComponent card={item.card}
+                                isParentCard={(c) => false}
                                 isDragLayer={true}
                                 hoveringCard={undefined}
                                 hoveringAction={(h) => {}}

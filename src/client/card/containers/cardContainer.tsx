@@ -4,13 +4,14 @@ import { connect } from "react-redux";
 import { CardActions, CardModuleActions } from "../actions";
 import CardComponent from "../components/CardComponent";
 import { Store } from "../../app/";
-import { ICardProps, IHoveringCard } from "../model";
+import { ICardProps, IHoveringCard, CardParent_CardGroup, CardParent_Card } from "../model";
 
 type OwnProps = {
     card: ICardProps;
 }
 type ConnectedState = {
     hoveringCard: IHoveringCard;
+    isParentCard: (card: ICardProps) => boolean;
 };
 type ConnectedDispatch = {
     editCardTitle: (newTitle: string) => void;
@@ -23,6 +24,19 @@ type ConnectedDispatch = {
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     return {
         hoveringCard: state.cardsRoot.moduleUI.hoveringCard,
+        isParentCard: (parent: ICardProps) => {
+            // child to check if `parent` is parent of that child - card of this container
+            let child: ICardProps | null = ownProps.card;
+            // if parent is card group, then we are sure that parent is not a parent card
+            while (child != null && child.id.parentType === CardParent_Card) {
+                if (child.id.parentId === parent.id.id) {
+                    return true;
+                }
+                // let's get the parent of that card and check if that parent is a child of the parent we test :)
+                child = state.cardsRoot.cards.find(t => child !== null && t.id.id === child.id.parentId) || null;
+            }
+            return false;
+        }
     };
 };
 
@@ -51,6 +65,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
                 ? <CardComponent card={card}
+                                    isParentCard={this.props.isParentCard}
                                     hoveringDropAction={this.props.dropHoveringCardAction}
                                     hoveringCard={this.props.hoveringCard}
                                     hoveringAction={this.props.hoveringAction}

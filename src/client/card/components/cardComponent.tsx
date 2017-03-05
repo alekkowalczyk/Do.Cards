@@ -13,6 +13,7 @@ export interface ICardComponentProps {
     hoveringCard: IHoveringCard | undefined;
     hoveringAction: (options?: IHoveringCard) => void;
     hoveringDropAction: (hovering: IHoveringCard) => void;
+    isParentCard: (card: ICardProps) => boolean;
     titleChanged: (newTitle: string) => void;
     remove: () => void;
     displayEmptySubCardAction: () => void;
@@ -61,6 +62,9 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
             if (hoveringCard === props.card) {
                 return;
             }
+            if (hoveringCard && props.isParentCard(hoveringCard)) {
+                return;
+            }
             const clientOffset = monitor.getClientOffset();
             const componentRect = findDOMNode(component).getBoundingClientRect();
             const componentHeight = componentRect.bottom - componentRect.top;
@@ -74,8 +78,8 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
                 props.hoveringAction({ hoverType, hoveringOver, hoveringCard });
             }
         },
-        canDrop(props: ICardComponentProps, monitor?: DropTargetMonitor): boolean {
-            return true;
+        canDrop(props: ICardComponentProps, monitor: DropTargetMonitor): boolean {
+            return monitor.isOver({shallow: true});
         },
 };
 
@@ -120,9 +124,14 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
         const isDragging = this.props.hoveringCard !== undefined
                             && this.props.hoveringCard.hoverType !== "NONE"
                             && card === this.props.hoveringCard.hoveringCard;
-        return connectDropTarget(<div className="card-host">
+        // If it's just a drag layer we mock the connect functions
+        const connectDropTr = this.props.isDragLayer || isDragging || isEmptyCard ?
+                                (c: any) => c : connectDropTarget;
+        const connectDragSrc = this.props.isDragLayer || isDragging || isEmptyCard ?
+                                (c: any) => c : connectDragSource;
+        return connectDropTr(<div className="card-host">
                     { !isEmptyCard ?
-                        connectDragSource(<div className="card-grabber">
+                        connectDragSrc(<div className="card-grabber">
                             <div className="grabber">
                                 <div className="grabber-sign">
                                 ≡
@@ -138,10 +147,12 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                                 <input value={card.title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
                                 <button onClick={this.props.remove} className="close-button">✖</button>
                             </div>
-                            <CardListContainer parentId={card.id.id}
+                            { true &&
+                                <CardListContainer parentId={card.id.id}
                                         parentType={CardParent_Card}
                                         displayEmptyCard={this.props.displayEmptySubCard}
                                         />
+                            }
                             {   // not on empty card, not on drag layer, and not if already displaying the empty sub card 
                                 !isEmptyCard && this.props.isDragLayer !== true && !this.props.displayEmptySubCard &&
                                 <button onClick={this.props.displayEmptySubCardAction}><span className="plus">+</span>sub card</button>
