@@ -15,18 +15,6 @@ body {
     border: 1px solid #FCFCFC;
 }
 
-.card-group-element {
-    border: 1px solid #fbb;
-    margin: 5px;
-    padding: 5px;
-}
-
-.sub-card-group-element {
-    border: 1px solid #fcc;
-    margin: 5px;
-    padding: 5px;
-    float: right;
-}
 
 .plus {
     font-weight: bold;
@@ -79,6 +67,3 @@ input:focus {
     background: transparent;
 }
 
-.add-card-group-button {
-    margin: 5px;
-}

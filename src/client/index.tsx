@@ -40,7 +40,7 @@ if (module.hot) {
   module.hot.accept("./app/containers/app", () => {
     refreshCss("card");
     refreshCss("main");
-
+    refreshCss("card-group");
     const NextApp = require("./app/containers/app").default;
     ReactDOM.render(
       <AppContainer>

@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
 // to monitor css file changes by hot reloader
 declare var require: any;
 const card_css = require("file-loader!../../../../public/style/card.css");
+const card_group_css = require("file-loader!../../../../public/style/card-group.css");
 const main_css = require("file-loader!../../../../public/style/main.css");
 // end of css monitoring declarations
 

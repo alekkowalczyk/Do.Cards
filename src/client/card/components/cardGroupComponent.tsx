@@ -1,7 +1,7 @@
 import * as React from "react";
 import { CardParent_CardGroup } from "../model/cardModel";
 import { ICardGroupModel } from "../model/cardGroupModel";
-import CardGroupContainer from "../containers/CardGroupContainer";
+import CardGroupContainer from "../containers/cardGroupContainer";
 import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardGroupComponentProps {
@@ -25,17 +25,28 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                     ;
         const placeholder = id === "-1" ? "Type to add new group..." : "";
         return  <div className={parentId ? "sub-card-group-element" : "card-group-element"}>
-                    <div>
-                        <input value={title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
-                        <button onClick={this.props.remove} className="close-button">✖</button>
-                    </div>
-                    <div>
-                        {   id !== "-1" &&
-                            <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
-                        }
-                        {   id !== "-1" && !this.props.displayEmptyCard &&
-                            <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
-                        }
+                    <div className="card-group-header-host">
+                        <div className="card-group-grabber">
+                            <div className="group-grabber">
+                                <div className="group-grabber-sign">
+                                ≡
+                                </div>
+                            </div>
+                        </div>
+                        <div className="card-group-header">
+                            <div>
+                                <input value={title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
+                                <button onClick={this.props.remove} className="close-button">✖</button>
+                            </div>
+                            <div>
+                                {   id !== "-1" &&
+                                    <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
+                                }
+                                {   id !== "-1" && !this.props.displayEmptyCard &&
+                                    <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div style={{ float: "right" }}>
                         { subCardGroups }

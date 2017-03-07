@@ -1,0 +1,54 @@
+.card-group-header-host {
+    display: flex;
+}
+
+.card-group-header {
+ 
+}
+
+.card-group-element {
+    border: 1px solid #fbb;
+    margin: 5px;
+    padding: 5px;
+}
+
+.sub-card-group-element {
+    border: 1px solid #fcc;
+    margin: 5px;
+    padding: 5px;
+    float: right;
+}
+
+
+.card-group-grabber {
+  background: transparent;
+  position: relative;
+  margin: 0px 5px -5px 5px;
+}
+
+.card-group-grabber:hover {
+  background: pink;
+}
+
+.card-group-grabber:after {
+    content:"";
+    position: absolute;
+    z-index: 1000;
+    top: 10;
+    bottom: 10;
+    left: 50%;
+    border-left: 1px dashed #aaf;
+}
+
+.group-grabber {
+  z-index: 1100;  
+  background: white;
+  position: relative;
+  height: 10px;
+  cursor: pointer;
+}
+
+.group-grabber-sign {
+  top: -4px;
+  position: relative;
+}
