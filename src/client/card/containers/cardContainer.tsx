@@ -2,7 +2,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { CardActions, CardModuleActions } from "../actions";
-import CardComponent from "../components/CardComponent";
+import CardComponent from "../components/cardComponent";
 import { Store } from "../../app/";
 import { ICardProps, IHoveringCard, CardParent_CardGroup, CardParent_Card } from "../model";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { ICardProps } from "../model/cardModel";
 import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor } from "react-dnd";
 import { IHoveringCard } from "../model";
-import CardContainer from "../containers/CardContainer";
+import CardContainer from "../containers/cardContainer";
 import { InterCardSpaceComponent } from "./interCardSpaceComponent";
 
 export interface ICardListComponentProps {

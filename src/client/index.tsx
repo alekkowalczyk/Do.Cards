@@ -43,12 +43,14 @@ if (module.hot) {
 
     const NextApp = require("./app/containers/app").default;
     ReactDOM.render(
-      <AppContainer>
+      <div>AAAAAAAAAAAAAAAAAAAA
+      {/*<AppContainer>
         <Provider store={initialStore}>
           <NextApp>
           </NextApp>
         </Provider>
-      </AppContainer>
+      </AppContainer>*/}
+      </div>
       ,
       rootEl
     );

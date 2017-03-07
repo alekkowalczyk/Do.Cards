@@ -46,6 +46,7 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 
 const dropSpec: DropTargetSpec<ICardComponentProps> = {
         drop: (props: ICardComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardComponentProps, any>): Object|void => {
+            console.log("drop", props.hoveringCard);
             if (props.hoveringCard !== undefined) {
                 props.hoveringDropAction(props.hoveringCard);
             }
@@ -63,6 +64,7 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
                 return;
             }
             if (hoveringCard && props.isParentCard(hoveringCard)) {
+                console.log("ignore because isparent");
                 return;
             }
             const clientOffset = monitor.getClientOffset();
@@ -79,7 +81,7 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
             }
         },
         canDrop(props: ICardComponentProps, monitor: DropTargetMonitor): boolean {
-            return monitor.isOver({shallow: true});
+            return true;
         },
 };
 
