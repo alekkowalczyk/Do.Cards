@@ -37,13 +37,13 @@ export default class CardComponent extends React.Component<ICardComponentProps &
                             && card === this.props.hoveringCard.hoveringCard;
         return connectDropTarget(<div className="card-host">
                     { !isEmptyCard ?
-                        connectDragSource(<div className="card-grabber">
-                            <div className="grabber">
+                        <div className="card-grabber">
+                            {connectDragSource(<div className="grabber">
                                 <div className="grabber-sign">
                                 ≡
                                 </div>
-                            </div>
-                        </div>)
+                            </div>)}
+                        </div>
                         :
                         <div className="empty-card-grabber">
                         </div>
@@ -53,7 +53,9 @@ export default class CardComponent extends React.Component<ICardComponentProps &
                                 <input value={card.title} onChange={this.titleChanged.bind(this)} placeholder={placeholder}/>
                                 <button onClick={this.props.remove} className="close-button">✖</button>
                             </div>
-                            { true &&
+                            { this.props.isDragLayer !== true && // We don't display subcards on drag-layer - it causes ReactDOM warnings 
+                                                                 // because the CardListComponent uses ReactDnD decorators, and 
+                                                                 // ReactDOM doesn't like those decorators in the drag layer
                                 <CardListContainer parentId={card.id.id}
                                         parentType={CardParent_Card}
                                         displayEmptyCard={this.props.displayEmptySubCard}

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { ICardProps } from "../model/cardModel";
-import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor } from "react-dnd";
 import { IHoveringCard } from "../model";
 import CardContainer from "../containers/cardContainer";
 import { InterCardSpaceComponent } from "./interCardSpaceComponent";
@@ -13,35 +12,15 @@ export interface ICardListComponentProps {
     displayEmptyCardAbove: (card: ICardProps | undefined) => void;
 }
 
-
-const dropSpec: DropTargetSpec<ICardListComponentProps> = {
-        canDrop(props: ICardListComponentProps): boolean {
-            return true;
-        },
-};
-
-interface IDropProps {
-    connectDropTarget: (el: any) => any;
-    isOver: boolean;
+interface ICardListDropConnect{
+    connectDropTarget?: (p: any) => any;
 }
-const dropSourceCollector: DropTargetCollector = (connect, monitor): IDropProps => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-});
 
-@(DropTarget("card", dropSpec, dropSourceCollector) as any)
-export class CardListComponent extends React.Component<ICardListComponentProps, {}> {
-
-    public componentWillReceiveProps(nextProps: ICardListComponentProps & IDropProps) {
-        const { isOver } = ((this.props as any) as IDropProps);
-        if (isOver && !nextProps.isOver) {
-            this.props.hoveringAction(undefined);
-        }
-    }
+export class CardListComponent extends React.Component<ICardListComponentProps & ICardListDropConnect, {}> {
 
     public render() {
         const { cards, isSubCardsList } = this.props;
-        const { connectDropTarget, isOver } = ((this.props as any) as IDropProps);
+        const connectDropTarget = this.props.connectDropTarget || ((p) => p);
         const getInterCardSpace = (c: ICardProps | undefined, isEmptyCard: boolean) => {
                 let plusSign = "+";
                 if (c && c.ui.displayEmptyCardAbove) {

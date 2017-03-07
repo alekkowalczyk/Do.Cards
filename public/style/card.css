@@ -46,7 +46,7 @@
 .card-grabber {
   background: transparent;
   position: relative;
-  cursor: pointer;
+  
 }
 
 .card-grabber:hover {
@@ -60,6 +60,7 @@
       margin: 0px 5px;
   height: 10px;
   top: 19px;
+  cursor: pointer;
 }
 
 .grabber-sign {

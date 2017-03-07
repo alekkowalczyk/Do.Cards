@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
 import { CardListComponent } from "../components/cardListComponent";
+import { CardListDropableComponent } from "../components/cardListDropableComponent";
 import { Store } from "../../app/";
 import { ICardProps, CardModel, CardParentType, IHoveringCard, CardParent_Card } from "../model";
 import { CardActions, CardModuleActions } from "../actions";
@@ -72,11 +73,18 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
 class CardListContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         const { cards, parentType } = this.props;
-        return <CardListComponent cards={cards}
-                    hoveringAction={this.props.hoveringAction}
-                                    hoveringOptions={this.props.hoveringCard}
-                                    displayEmptyCardAbove={this.props.displayEmptyCardAbove}
-                                    isSubCardsList={parentType === CardParent_Card}/>;
+        const subProps = {
+            cards: cards,
+            hoveringAction: this.props.hoveringAction,
+            hoveringOptions: this.props.hoveringCard,
+            displayEmptyCardAbove: this.props.displayEmptyCardAbove,
+            isSubCardsList: parentType === CardParent_Card,
+        };
+        if (subProps.isSubCardsList) {
+            return <CardListComponent {...subProps} />;
+        } else {
+            return <CardListDropableComponent {...subProps} />;
+        }
     }
 }
 

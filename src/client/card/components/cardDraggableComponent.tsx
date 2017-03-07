@@ -112,5 +112,5 @@ export default class CardDraggableComponent extends React.Component<ICardCompone
         return <CardComponent {...this.props}
                                 connectDragSource={connectDragSource}
                                 connectDropTarget={connectDropTarget} />
-    } 
+    }
 }
