@@ -39,9 +39,16 @@ export class CardListComponent extends React.Component<ICardListComponentProps &
                         {
                             cards.map((c, idx) => {
                                 const isEmptyCard = c.id.id === "-1";
-                                const hoverAbove = this.props.hoveringOptions.hoveringOver === c
-                                        && this.props.hoveringOptions.hoverType === "TOP";
-                                const hoverBelow = this.props.hoveringOptions.hoveringOver === c
+                                const { hoveringOver } = this.props.hoveringOptions;
+                                const isHoverOverEmptyCard = hoveringOver
+                                        && hoveringOver.id.id === "-1"
+                                        && c.id.id === "-1"
+                                        && hoveringOver.id.parentId === c.id.parentId
+                                        && hoveringOver.id.parentType === c.id.parentType;
+                                const hoverAbove = (hoveringOver === c
+                                        && this.props.hoveringOptions.hoverType === "TOP")
+                                        || (isHoverOverEmptyCard);
+                                const hoverBelow = hoveringOver === c
                                         && this.props.hoveringOptions.hoverType === "BOTTOM";
                                 const hoveringCard = this.props.hoveringOptions.hoveringCard;
                                 return c &&

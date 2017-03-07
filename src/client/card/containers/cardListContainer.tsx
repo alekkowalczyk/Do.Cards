@@ -35,19 +35,19 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
                     return 0;
                 });
     if (ownProps.displayEmptyCard) {
-        const emptyCard = CardModel.GetEmpty({id:  { id: "-1",
+        const getEmptyCard = (order: number) => CardModel.GetEmpty({id:  { id: "-1",
                 parentType: ownProps.parentType,
                 parentId: ownProps.parentId },
-            order: -1});
+            order: order});
         const cardIndexAboveBelow = cards.findIndex(c => c.ui.displayEmptyCardAbove === true);
         if (cardIndexAboveBelow !== -1) {
             cards = [
                     ...cards.slice(0, cardIndexAboveBelow),
-                    emptyCard,
+                    getEmptyCard(cards[cardIndexAboveBelow].order),
                     ...cards.slice(cardIndexAboveBelow),
                 ];
         } else {
-            cards = [ ...cards, emptyCard ];
+            cards = [ ...cards, getEmptyCard(cards.length + 1) ];
         }
     }
     return {

@@ -41,9 +41,9 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
             }
         },
         hover(props: ICardComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardComponentProps, any>): void {
-            if (props.card.id.id === "-1") {
-                return;
-            }
+            // if (props.card.id.id === "-1") {
+            //     return;
+            // }
             if (!monitor.isOver({ shallow: true})) {
                 return;
             }
@@ -60,11 +60,15 @@ const dropSpec: DropTargetSpec<ICardComponentProps> = {
             const componentRect = findDOMNode(component).getBoundingClientRect();
             const componentHeight = componentRect.bottom - componentRect.top;
             const isTop = (clientOffset.y - componentRect.top) < (componentHeight / 2);
-            const hoverType = isTop ? "TOP" : "BOTTOM";
             const hoveringOver = props.card;
+            const hoverType = (isTop || hoveringOver.id.id === "-1") ? "TOP" : "BOTTOM"; // Empty card always top
+            const hoveringOverSameCard =
+                !props.hoveringCard ||
+                hoveringOver === props.hoveringCard.hoveringOver ||
+                (props.hoveringCard.hoveringOver && hoveringOver.id.id === props.hoveringCard.hoveringOver.id.id);
             if (!props.hoveringCard
                 || hoverType !== props.hoveringCard.hoverType
-                || hoveringOver !== props.hoveringCard.hoveringOver
+                || !hoveringOverSameCard
                 || hoveringCard !== props.hoveringCard.hoveringCard) {
                 props.hoveringAction({ hoverType, hoveringOver, hoveringCard });
             }
