@@ -127,9 +127,9 @@ export default class CardComponent extends React.Component<ICardComponentProps, 
                             && this.props.hoveringCard.hoverType !== "NONE"
                             && card === this.props.hoveringCard.hoveringCard;
         // If it's just a drag layer we mock the connect functions
-        const connectDropTr = this.props.isDragLayer || isDragging || isEmptyCard ?
+        const connectDropTr = this.props.isDragLayer || isEmptyCard ? // || isDragging ?
                                 (c: any) => c : connectDropTarget;
-        const connectDragSrc = this.props.isDragLayer || isDragging || isEmptyCard ?
+        const connectDragSrc = this.props.isDragLayer || isEmptyCard ? // || isDragging ?
                                 (c: any) => c : connectDragSource;
         return connectDropTr(<div className="card-host">
                     { !isEmptyCard ?
