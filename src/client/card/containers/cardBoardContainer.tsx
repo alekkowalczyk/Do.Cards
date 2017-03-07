@@ -7,6 +7,7 @@ import { CardGroupActions } from "../actions";
 import { CardBoardComponent } from "../components/cardBoardComponent";
 import { Store } from "../../app/";
 import { ICardGroupModel } from "../model";
+import CardDragLayer from "../components/cardDragLayerComponent";
 
 type OwnProps = {}
 
@@ -36,10 +37,15 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
 class CardBoardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         const { cardGroups, addEmptyCardGroup } = this.props;
-        return (cardGroups)
-                ? <CardBoardComponent cardGroups={cardGroups} 
-                                      addEmptyCardGroup={addEmptyCardGroup}  />
-                : <div/>;
+        return <div>
+                    {
+                        (cardGroups)
+                        ? <CardBoardComponent cardGroups={cardGroups} 
+                                            addEmptyCardGroup={addEmptyCardGroup}  />
+                        : <div/>
+                    }
+                    <CardDragLayer />
+                </div>;
     }
 }
 

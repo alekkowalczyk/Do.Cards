@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ICardGroupModel } from "../model/cardGroupModel";
 import CardGroupContainer from "../containers/CardGroupContainer";
-import CardDragLayer from "./cardDragLayerComponent";
 
 export interface ICardGroupComponentProps {
     cardGroups: ICardGroupModel[];
@@ -20,7 +19,6 @@ export class CardBoardComponent extends React.Component<ICardGroupComponentProps
                         )
                     }
                     <div style={{clear: "both"}} />
-                    <CardDragLayer />
                 </div>;
     }
 }

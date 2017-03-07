@@ -37,7 +37,9 @@ function getItemStyles(props: any) {
 export default class CustomDragLayer extends React.Component<any, {}> {
   public renderItem(type: any, item: any) {
     switch (type) {
-      case "card2":
+      case "card1":
+        return <div style={{backgroundColor:"#CCC", width: "20px"}}>A{item.card.title}</div>;
+      case "card1":
         return <div style={{backgroundColor: "white"}}>{item.card.title}</div>
       case "card":
         return (<CardComponent card={item.card}

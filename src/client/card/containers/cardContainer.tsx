@@ -2,7 +2,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { CardActions, CardModuleActions } from "../actions";
-import CardComponent from "../components/cardComponent";
+import CardDraggableComponent from "../components/cardDraggableComponent";
 import { Store } from "../../app/";
 import { ICardProps, IHoveringCard, CardParent_CardGroup, CardParent_Card } from "../model";
 
@@ -64,7 +64,7 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
     public render() {
         const { card, archiveCard, editCardTitle, addSubCard } = this.props;
         return (card)
-                ? <CardComponent card={card}
+                ? <CardDraggableComponent card={card}
                                     isParentCard={this.props.isParentCard}
                                     hoveringDropAction={this.props.dropHoveringCardAction}
                                     hoveringCard={this.props.hoveringCard}
