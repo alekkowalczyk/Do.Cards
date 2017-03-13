@@ -1,13 +1,13 @@
 import * as React from "react";
 import { CardParent_CardGroup } from "../model/cardModel";
-import { ICardGroupModel } from "../model/cardGroupModel";
+import { ICardGroupProps } from "../model/cardGroupModel";
 import CardGroupContainer from "../containers/cardGroupContainer";
 import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardGroupComponentProps {
     displayEmptyCard: boolean;
-    subCardGroups: ICardGroupModel[];
-    cardGroup: ICardGroupModel;
+    subCardGroups: ICardGroupProps[];
+    cardGroup: ICardGroupProps;
     titleChanged: (newTitle: string) => void;
     addEmptyCard: () => void;
     addSubCardGroup: () => void;

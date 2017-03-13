@@ -5,15 +5,15 @@ import { CardGroupActions } from "../actions";
 
 import { CardGroupComponent } from "../components/CardGroupComponent";
 import { Store } from "../../app/";
-import { ICardGroupModel, CardParent_CardGroup } from "../model";
+import { ICardGroupProps, CardParent_CardGroup } from "../model";
 
 type OwnProps = {
-    cardGroup: ICardGroupModel;
+    cardGroup: ICardGroupProps;
 }
 type ConnectedState = {
     hasCards: boolean,
-    subCardGroups: ICardGroupModel[],
-    cardGroup: ICardGroupModel,
+    subCardGroups: ICardGroupProps[],
+    cardGroup: ICardGroupProps,
 };
 type ConnectedDispatch = {
     addEmptyCard: () => void;

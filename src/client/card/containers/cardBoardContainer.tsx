@@ -6,13 +6,13 @@ import { connect } from "react-redux";
 import { CardGroupActions } from "../actions";
 import { CardBoardComponent } from "../components/cardBoardComponent";
 import { Store } from "../../app/";
-import { ICardGroupModel } from "../model";
+import { CardGroupModel } from "../model";
 import CardDragLayer from "../components/cardDragLayerComponent";
 
 type OwnProps = {}
 
 type ConnectedState = {
-    cardGroups: ICardGroupModel[],
+    cardGroups: CardGroupModel[],
 };
 type ConnectedDispatch = {
     addEmptyCardGroup: () => void;
@@ -21,12 +21,10 @@ type ConnectedDispatch = {
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
     cardGroups: [
       ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
-      {
+      CardGroupModel.GetEmpty({
             id: "-1",
-            ui: {},
-            status: "Empty",
-            title: "",
-      },
+            order: state.cardsRoot.cardGroups.filter(cg => !cg.parentId).length,
+      }),
     ],
 });
 

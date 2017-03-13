@@ -1,11 +1,20 @@
 import { ICardProps } from "./cardModel";
+import { ICardGroupProps } from "./cardGroupModel";
 
-export type HoverType = "TOP" | "BOTTOM" | "NONE";
+export type CardHoverType = "TOP" | "BOTTOM" | "NONE";
 export interface IHoveringCard {
         hoveringCard?: ICardProps;
         hoveringOver?: ICardProps;
-        hoverType?: HoverType;
+        hoverType?: CardHoverType;
 }
+
+export type CardGroupHoverType = "LEFT" | "RIGHT" | "NONE";
+export interface IHoveringCardGroup {
+    hoveringCardGroup?: ICardGroupProps;
+    hoveringOver?: ICardGroupProps;
+    hoverType?: CardGroupHoverType;
+}
+
 export interface ICardModuleUI {
     hoveringCard: IHoveringCard;
 }

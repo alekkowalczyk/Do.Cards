@@ -1,6 +1,6 @@
 import { OtherAction } from "../../common";
 import { CardGroupActionDefs, CardGroupActionConstants } from "../actions";
-import { ICardGroupModel } from "../model";
+import { CardGroupModel } from "../model";
 import cardGroupObjectReducer from "./cardGroupObjectReducer";
 
 type CardGroupAction =
@@ -10,20 +10,21 @@ type CardGroupAction =
     OtherAction;
 
 let cardGroupId = 0;
-const INITIAL_STATE: ICardGroupModel[] = [];
+const INITIAL_STATE: CardGroupModel[] = [];
 
-const cardGroupsReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: CardGroupAction = OtherAction): ICardGroupModel[] => {
+const cardGroupsReducer = (state: CardGroupModel[] = INITIAL_STATE, action: CardGroupAction = OtherAction): CardGroupModel[] => {
     switch (action.type) {
             case CardGroupActionConstants.ADD_CARDGROUP:
                 return [
                         ...state,
-                        {
+                        new CardGroupModel({
                             id: (cardGroupId++).toString(),
+                            order: cardGroupId,
                             ui: {},
                             title: action.title,
                             parentId: action.parentId,
                             status: "OK",
-                        },
+                        }),
                     ];
             case CardGroupActionConstants.ARCHIVE_CARDGROUP:
                 const cardToArchive = state.find(c => c.id === action.id);
@@ -40,12 +41,7 @@ const cardGroupsReducer = (state: ICardGroupModel[] = INITIAL_STATE, action: Car
             case CardGroupActionConstants.CARDGROUP_ACTION:
                 if (action.id === "-1") {
                     action.id = (cardGroupId++).toString();
-                    const newCardGroup: ICardGroupModel = {
-                        id: action.id,
-                        ui: {},
-                        title: "",
-                        status: "Empty",
-                    };
+                    const newCardGroup: CardGroupModel = CardGroupModel.GetEmpty({id: action.id, order: cardGroupId});
                     return [
                                 ...state,
                                 cardGroupObjectReducer(newCardGroup, <any>action),

@@ -1,4 +1,4 @@
-import { ICardGroupModel } from "../model";
+import { ICardGroupProps } from "../model";
 import cardGroupObjectReducer from "./cardGroupObjectReducer";
 import { CardGroupActions } from "../actions";
 
@@ -8,17 +8,19 @@ const expect = chai.expect;
 describe("cardGroupObjectReducer", () => {
     describe("CHANGE_CARDGROUP_TITLE dispatched", () => {
         it("set's the new title in the cardgroup", () => {
-            const initialstate: ICardGroupModel = {
+            const initialstate: ICardGroupProps = {
                     id: "1",
                     ui: {},
                     title: "some title1",
                     status: "OK",
+                    order: 0,
             };
-            const expectedState: ICardGroupModel = {
+            const expectedState: ICardGroupProps = {
                     id: "1",
                     ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
+                    order: 0,
             };
             const resultingState = cardGroupObjectReducer(initialstate, CardGroupActions.changeCardGroupTitle("1", "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);

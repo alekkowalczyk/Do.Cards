@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CardBoardContainer from "../../card/containers/CardBoardContainer";
+import CardBoardContainer from "../../card/containers/cardBoardContainer";
 
 interface ICardBoardPageProps extends React.Props<any> {};
 

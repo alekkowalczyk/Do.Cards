@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ICardProps, CardParent_Card, HoverType, IHoveringCard } from "../model";
+import { ICardProps, CardParent_Card, CardHoverType, IHoveringCard } from "../model";
 import { getEmptyImage } from "react-dnd-html5-backend";
 import CardListContainer from "../containers/cardListContainer";
 

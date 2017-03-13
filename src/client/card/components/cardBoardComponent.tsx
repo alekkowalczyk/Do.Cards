@@ -1,9 +1,9 @@
 import * as React from "react";
-import { ICardGroupModel } from "../model/cardGroupModel";
-import CardGroupContainer from "../containers/CardGroupContainer";
+import { ICardGroupProps } from "../model/cardGroupModel";
+import CardGroupContainer from "../containers/cardGroupContainer";
 
 export interface ICardGroupComponentProps {
-    cardGroups: ICardGroupModel[];
+    cardGroups: ICardGroupProps[];
     addEmptyCardGroup: () => void;
 }
 

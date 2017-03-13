@@ -1,4 +1,4 @@
-import { ICardGroupModel, ICardModel, CardParent_CardGroup } from "../model";
+import { ICardGroupProps, CardModel, CardParent_CardGroup } from "../model";
 import cardObjectReducer from "./cardObjectReducer";
 import { CardActions } from "../actions";
 
@@ -13,18 +13,20 @@ describe("cardObjectReducer", () => {
                         parentType: CardParent_CardGroup,
                         parentId:  "1",
                     };
-            const initialstate: ICardModel = {
+            const initialstate = new CardModel({
                     id: cardId,
+                    order: 0,
                     ui: {},
                     title: "some title1",
                     status: "OK",
-            };
-            const expectedState: ICardModel = {
+            });
+            const expectedState = new CardModel({
                     id: cardId,
+                    order: 0,
                     ui: {},
                     title: "some title1 - CHANGED",
                     status: "OK",
-            };
+            });
             const resultingState = cardObjectReducer(initialstate, CardActions.changeCardTitle(cardId, "some title1 - CHANGED"));
             expect(resultingState).to.deep.equal(expectedState);
         });

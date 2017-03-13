@@ -2,9 +2,8 @@ import * as React from "react";
 import { findDOMNode } from 'react-dom';
 import { DragSource, DragSourceCollector, DragSourceSpec } from "react-dnd";
 import { DropTarget, DropTargetCollector, DropTargetSpec, DropTargetMonitor } from "react-dnd";
-import { ICardProps, CardParent_Card, HoverType, IHoveringCard } from "../model";
+import { ICardProps } from "../model";
 import { getEmptyImage } from "react-dnd-html5-backend";
-import CardListContainer from "../containers/cardListContainer";
 import { ICardComponentProps } from "./cardComponent";
 import CardComponent from "./cardComponent";
 
