@@ -17,9 +17,10 @@ export interface IHoveringCardGroup {
 
 export interface ICardModuleUI {
     hoveringCard: IHoveringCard;
+    hoveringCardGroup: IHoveringCardGroup;
 }
 
 const getEmptyCardModuleUI = (): ICardModuleUI => {
-    return { hoveringCard: {} };
+    return { hoveringCard: {}, hoveringCardGroup: {} };
 };
 export { getEmptyCardModuleUI };

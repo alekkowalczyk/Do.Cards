@@ -1,6 +1,7 @@
 import * as React from "react";
 import { CardParent_CardGroup } from "../model/cardModel";
 import { ICardGroupProps } from "../model/cardGroupModel";
+import { IHoveringCardGroup } from "../model/cardModuleUiModel";
 import CardGroupContainer from "../containers/cardGroupContainer";
 import CardListContainer from "../containers/cardListContainer";
 
@@ -8,13 +9,23 @@ export interface ICardGroupComponentProps {
     displayEmptyCard: boolean;
     subCardGroups: ICardGroupProps[];
     cardGroup: ICardGroupProps;
+    isDragLayer?: boolean;
+    hoveringCardGroup: IHoveringCardGroup | undefined;
+    hoveringAction: (options?: IHoveringCardGroup) => void;
+    hoveringDropAction: (hovering: IHoveringCardGroup) => void;
+    isParentCardGroup: (card: ICardGroupProps) => boolean;
     titleChanged: (newTitle: string) => void;
     addEmptyCard: () => void;
     addSubCardGroup: () => void;
     remove: () => void;
 }
 
-export class CardGroupComponent extends React.Component<ICardGroupComponentProps, {}> {
+interface ICardGroupDragDropConnect{
+    connectDragSource?: (p: any) => any;
+    connectDropTarget?: (p: any) => any;
+}
+
+export class CardGroupComponent extends React.Component<ICardGroupComponentProps & ICardGroupDragDropConnect, {}> {
     public render() {
         const { title, id, parentId } = this.props.cardGroup;
         const subCardGroups: React.HTMLProps<HTMLDivElement> =
@@ -23,15 +34,17 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                             <CardGroupContainer key={idx} cardGroup={cg} />
                         )
                     ;
+        const connectDragSource = this.props.connectDragSource || ((p) => p);
+        const connectDropTarget = this.props.connectDropTarget || ((p) => p);
         const placeholder = id === "-1" ? "Type to add new group..." : "";
-        return  <div className={parentId ? "sub-card-group-element" : "card-group-element"}>
+        return connectDropTarget(<div className={parentId ? "sub-card-group-element" : "card-group-element"}>
                     <div className="card-group-header-host">
                         <div className="card-group-grabber">
-                            <div className="group-grabber">
+                            {connectDragSource(<div className="group-grabber">
                                 <div className="group-grabber-sign">
                                 ≡
                                 </div>
-                            </div>
+                            </div>)}
                         </div>
                         <div className="card-group-header">
                             <div>
@@ -56,7 +69,7 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                                         displayEmptyCard={this.props.displayEmptyCard}
                                         />
                     <div style={{clear:"both"}}></div>
-                </div>;
+                </div>);
     }
 
     private titleChanged(e: React.SyntheticEvent<string>): void {

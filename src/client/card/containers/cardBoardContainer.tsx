@@ -23,7 +23,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
       ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
       CardGroupModel.GetEmpty({
             id: "-1",
-            order: state.cardsRoot.cardGroups.filter(cg => !cg.parentId).length,
+            order: state.cardsRoot.cardGroups.filter(cg => !cg.parentId).length + 1,
       }),
     ],
 });
@@ -34,11 +34,21 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
 
 class CardBoardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
-        const { cardGroups, addEmptyCardGroup } = this.props;
+        const { addEmptyCardGroup } = this.props;
+        const cardGroups = this.props.cardGroups
+                .slice()
+                .sort((a, b) => {
+                    if (a.order >= b.order) {
+                        return 1;
+                    } else if (a.order <= b.order) {
+                        return -1;
+                    }
+                    return 0;
+                });
         return <div>
                     {
                         (cardGroups)
-                        ? <CardBoardComponent cardGroups={cardGroups} 
+                        ? <CardBoardComponent cardGroups={cardGroups}
                                             addEmptyCardGroup={addEmptyCardGroup}  />
                         : <div/>
                     }
