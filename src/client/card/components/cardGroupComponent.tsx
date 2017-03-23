@@ -61,13 +61,18 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                             </div>
                         </div>
                     </div>
-                    <div style={{ float: "right" }}>
-                        { subCardGroups }
-                    </div>
-                    <CardListContainer parentId={this.props.cardGroup.id}
-                                        parentType={CardParent_CardGroup}
-                                        displayEmptyCard={this.props.displayEmptyCard}
-                                        />
+                    {
+                        !this.props.isDragLayer &&
+                        <div style={{ float: "right" }}>
+                            { subCardGroups }
+                        </div>
+                    }
+                    {   !this.props.isDragLayer &&
+                        <CardListContainer parentId={this.props.cardGroup.id}
+                                            parentType={CardParent_CardGroup}
+                                            displayEmptyCard={this.props.displayEmptyCard}
+                                            />
+                    }
                     <div style={{clear:"both"}}></div>
                 </div>);
     }

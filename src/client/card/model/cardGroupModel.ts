@@ -45,4 +45,11 @@ export class CardGroupModel implements ICardGroupProps {
         this.status = props.status;
         this.order = props.order;
     }
+
+    public ChangeOrder(newOrder: number): CardGroupModel {
+        return new CardGroupModel({
+            ...(this as ICardGroupProps),
+            order: newOrder,
+        });
+    }
 }

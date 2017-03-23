@@ -26,6 +26,7 @@ type ConnectedDispatch = {
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     let cards = state.cardsRoot.cards
                 .filter(c => c.id.parentType === ownProps.parentType && c.id.parentId === ownProps.parentId)
+                .slice()
                 .sort((a, b) => {
                     if (a.order >= b.order) {
                         return 1;

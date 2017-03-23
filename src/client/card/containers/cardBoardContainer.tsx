@@ -6,36 +6,21 @@ import { connect } from "react-redux";
 import { CardGroupActions } from "../actions";
 import { CardBoardComponent } from "../components/cardBoardComponent";
 import { Store } from "../../app/";
-import { CardGroupModel } from "../model";
+import { CardGroupModel, IHoveringCardGroup } from "../model";
 import CardDragLayer from "../components/cardDragLayerComponent";
 
 type OwnProps = {}
 
 type ConnectedState = {
     cardGroups: CardGroupModel[],
+    hoveringCardGroup: IHoveringCardGroup,
 };
 type ConnectedDispatch = {
     addEmptyCardGroup: () => void;
 }
 
-const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => ({
-    cardGroups: [
-      ...state.cardsRoot.cardGroups.filter(cg => !cg.parentId),
-      CardGroupModel.GetEmpty({
-            id: "-1",
-            order: state.cardsRoot.cardGroups.filter(cg => !cg.parentId).length + 1,
-      }),
-    ],
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
-    addEmptyCardGroup: () => dispatch(CardGroupActions.addCardGroup("")),
-});
-
-class CardBoardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
-    public render() {
-        const { addEmptyCardGroup } = this.props;
-        const cardGroups = this.props.cardGroups
+const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
+    const cardGroups = state.cardsRoot.cardGroups.filter(cg => !cg.parentId)
                 .slice()
                 .sort((a, b) => {
                     if (a.order >= b.order) {
@@ -45,10 +30,30 @@ class CardBoardContainer extends React.Component<ConnectedState & ConnectedDispa
                     }
                     return 0;
                 });
+    return {
+        cardGroups: [
+            ...cardGroups,
+            CardGroupModel.GetEmpty({
+                    id: "-1",
+                    order: state.cardsRoot.cardGroups.filter(cg => !cg.parentId).length + 1,
+            }),
+        ],
+        hoveringCardGroup: state.cardsRoot.moduleUI.hoveringCardGroup,
+    };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<Store>): ConnectedDispatch => ({
+    addEmptyCardGroup: () => dispatch(CardGroupActions.addCardGroup("")),
+});
+
+class CardBoardContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
+    public render() {
+        const { addEmptyCardGroup, cardGroups, hoveringCardGroup } = this.props;
         return <div>
                     {
                         (cardGroups)
                         ? <CardBoardComponent cardGroups={cardGroups}
+                                            hoveringCardGroupOptions={hoveringCardGroup}
                                             addEmptyCardGroup={addEmptyCardGroup}  />
                         : <div/>
                     }

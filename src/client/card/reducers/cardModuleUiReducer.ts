@@ -4,6 +4,7 @@ import { ICardModuleUI, getEmptyCardModuleUI } from "../model";
 
 type CardModuleAction =
     CardModuleActionDefs.HoveringCardAction |
+    CardModuleActionDefs.HoveringCardGroupAction |
     OtherAction;
 
 const INITIAL_STATE: ICardModuleUI = getEmptyCardModuleUI();
@@ -25,6 +26,21 @@ const cardGroupsReducer = (state: ICardModuleUI = INITIAL_STATE, action: CardMod
                         ...state,
                         hoveringCard: {},
                     };
+            case CardModuleActionConstants.HOVERING_CARDGROUP:
+                if (action.hoverType !== "NONE") {
+                    return {
+                        ...state,
+                        hoveringCardGroup: {
+                            hoverType: action.hoverType,
+                            hoveringOver: action.hoveredOver,
+                            hoveringCardGroup: action.hoveringCardGroup,
+                        },
+                    };
+                }
+                return {
+                    ...state,
+                    hoveringCardGroup: {},
+                };
             default:
                 return state;
     }

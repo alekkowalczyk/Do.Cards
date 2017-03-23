@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { CardGroupActions } from "../actions";
+import { CardGroupActions, CardModuleActions } from "../actions";
 
 import { CardGroupDraggableComponent } from "../components/cardGroupDraggableComponent";
 import { Store } from "../../app/";
@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
     addSubCardGroup: () => dispatch(CardGroupActions.addCardGroup("", ownProps.cardGroup.id)),
     cardGroupTitleChanged: (newTitle) => dispatch(CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
     archiveCardGroup: () => dispatch(CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
-    hoveringAction: (options) => console.log("NOT IMPLEMENTED(1)", options),
+    hoveringAction: (options) => dispatch(CardModuleActions.hoveringCardGroup(options)),
     dropHoveringCardAction: (h) => {
         if (h.hoveringCardGroup && h.hoveringOver && h.hoverType !== "NONE") {
             const movingForward = h.hoveringOver.order > h.hoveringCardGroup.order;

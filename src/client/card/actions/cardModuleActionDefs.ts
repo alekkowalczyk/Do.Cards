@@ -1,5 +1,6 @@
 import { ICardProps } from "../model/cardModel";
-import { CardHoverType } from "../model/cardModuleUiModel";
+import { ICardGroupProps} from "../model/cardGroupModel";
+import { CardHoverType, CardGroupHoverType } from "../model/cardModuleUiModel";
 import * as Constants from "./cardModuleActionConstants";
 
 export type HoveringCardAction = {
@@ -8,3 +9,10 @@ export type HoveringCardAction = {
         hoveredOver?: ICardProps,
         hoverType?: CardHoverType,
     };
+
+export type HoveringCardGroupAction = {
+    type: Constants.HOVERING_CARDGROUP,
+    hoveringCardGroup?: ICardGroupProps,
+    hoveredOver?: ICardGroupProps,
+    hoverType?: CardGroupHoverType,
+};
