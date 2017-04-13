@@ -71,7 +71,6 @@ const dropSpec: DropTargetSpec<ICardGroupComponentProps> = {
                 || hoverType !== props.hoveringCardGroup.hoverType
                 || !hoveringOverSameCardGroup
                 || hoveringCardGroup !== props.hoveringCardGroup.hoveringCardGroup) {
-                    console.log("GROUPHOVER",({ hoverType, hoveringOver, hoveringCardGroup }));
                 props.hoveringAction({ hoverType, hoveringOver, hoveringCardGroup });
             }
         },

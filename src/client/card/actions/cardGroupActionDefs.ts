@@ -23,6 +23,11 @@ export type CardGroupAction = {
     subType: string,
 } & QId;
 
+export type MoveCardGroupAction = {
+    type: Constants.MOVE_CARDGROUP,
+    parentId?: string,
+    order: number,
+} & QId;
 
 // Actions for type CARDGROUP_ACTION (for a single cardgroup/cardgroup object actions)
 export type CardGroupTitleChangedAction = {

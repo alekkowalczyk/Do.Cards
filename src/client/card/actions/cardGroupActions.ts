@@ -50,3 +50,12 @@ export function forceDisplayAddCard(id: string): ActionDefs.ForceDisplayAddCardA
         id: id,
     };
 }
+
+ export function moveCardAction(id: string, parentId: string | undefined, order: number): ActionDefs.MoveCardGroupAction {
+    return {
+        type: Constants.MOVE_CARDGROUP,
+        id: id,
+        parentId: parentId,
+        order: order,
+    };
+ }

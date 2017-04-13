@@ -24,7 +24,7 @@ type ConnectedDispatch = {
     cardGroupTitleChanged: (newTitle: string) => void;
     archiveCardGroup: () => void;
     hoveringAction: (options?: IHoveringCardGroup) => void;
-    dropHoveringCardAction: (hovering: IHoveringCardGroup) => void;
+    dropHoveringCardGroupAction: (hovering: IHoveringCardGroup) => void;
 }
 
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
@@ -55,13 +55,16 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
     cardGroupTitleChanged: (newTitle) => dispatch(CardGroupActions.cardGroupTitleChanged(ownProps.cardGroup.id, newTitle)),
     archiveCardGroup: () => dispatch(CardGroupActions.archiveCardGroup(ownProps.cardGroup.id)),
     hoveringAction: (options) => dispatch(CardModuleActions.hoveringCardGroup(options)),
-    dropHoveringCardAction: (h) => {
+    dropHoveringCardGroupAction: (h) => {
         if (h.hoveringCardGroup && h.hoveringOver && h.hoverType !== "NONE") {
             const movingForward = h.hoveringOver.order > h.hoveringCardGroup.order;
             const newOrder = h.hoverType === "LEFT" ?
                             h.hoveringOver.order - (movingForward ? 1 : 0)
                             : h.hoveringOver.order + (movingForward ? 0 : 1);
-            console.log("NOT IMPLEMENTED(2)", h, newOrder);
+            console.log(h.hoveringCardGroup);
+            dispatch(CardGroupActions.moveCardAction(h.hoveringCardGroup.id,
+                                    h.hoveringOver.parentId,
+                                    newOrder));
         }
     },
 });
@@ -76,7 +79,7 @@ class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispa
                                         hasSubGroups={hasSubCardGroups}
                                     cardGroup={cardGroup}
                                     isParentCardGroup={isParentCard}
-                                    hoveringDropAction={this.props.dropHoveringCardAction}
+                                    hoveringDropAction={this.props.dropHoveringCardGroupAction}
                                     hoveringCardGroup={this.props.hoveringCardGroup}
                                     hoveringAction={this.props.hoveringAction}
                                     titleChanged={cardGroupTitleChanged}

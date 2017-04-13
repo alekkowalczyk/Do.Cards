@@ -11,6 +11,11 @@ export const ARCHIVE_CARDGROUP: ARCHIVE_CARDGROUP = "CardGroup/ARCHIVE_CARDGROUP
 export type CARDGROUP_ACTION = "CardGroup/CARDGROUP_ACTION";
 export const CARDGROUP_ACTION: CARDGROUP_ACTION = "CardGroup/CARDGROUP_ACTION";
 
+// This is not a CARDGROUP_ACTION only a main type, because it alters not only one card
+// by setting the order, but also makes according order changes in subsequent cards
+export type MOVE_CARDGROUP = "CardGroup/MOVE_CARDGROUP";
+export const MOVE_CARDGROUP: MOVE_CARDGROUP = "CardGroup/MOVE_CARDGROUP";
+
 // CardGroup subtypes for CARDGROUP_ACTION (cardgroup object actions):
 export type CARDGROUP_TITLE_CHANGED = "CardGroup/CARDGROUP_TITLE_CHANGED";
 export const CARDGROUP_TITLE_CHANGED: CARDGROUP_TITLE_CHANGED = "CardGroup/CARDGROUP_TITLE_CHANGED";
