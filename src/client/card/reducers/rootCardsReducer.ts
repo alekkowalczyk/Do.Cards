@@ -17,16 +17,6 @@ const rootCardsReducer = (state: IRootCardsModel = INITIAL_STATE, action: OtherA
         cards: cardsReducer(state.cards, action),
         cardGroups: cardGroupsReducer(state.cardGroups, action),
     };
-    console.log("cardListReducer", reducedState.cards
-                                    .slice().sort((a, b) => {
-                                        if (a.order >= b.order) {
-                                            return 1;
-                                        } else if (a.order <= b.order) {
-                                            return -1;
-                                        }
-                                        return 0;
-                                    })
-                                    .map(c => c.order + " (" + c.title + ")").join(" ,"));
     return reducedState;
 };
 export default rootCardsReducer;

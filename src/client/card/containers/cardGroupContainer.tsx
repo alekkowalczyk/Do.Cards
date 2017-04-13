@@ -13,7 +13,7 @@ type OwnProps = {
 }
 type ConnectedState = {
     hasCards: boolean,
-    subCardGroups: ICardGroupProps[],
+    hasSubCardGroups: boolean,
     cardGroup: ICardGroupProps,
     hoveringCardGroup: IHoveringCardGroup,
     isParentCard: (card: ICardGroupProps) => boolean,
@@ -30,7 +30,7 @@ type ConnectedDispatch = {
 const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     return {
         hasCards: state.cardsRoot.cards.some(c => c.id.parentType === CardParent_CardGroup && c.id.parentId === ownProps.cardGroup.id),
-        subCardGroups: state.cardsRoot.cardGroups.filter(cg => cg.parentId === ownProps.cardGroup.id),
+        hasSubCardGroups: state.cardsRoot.cardGroups.some(cg => cg.parentId === ownProps.cardGroup.id),
         cardGroup: ownProps.cardGroup,
         hoveringCardGroup: state.cardsRoot.moduleUI.hoveringCardGroup,
         isParentCard: (parent: ICardGroupProps) => {
@@ -69,16 +69,16 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): Conn
 class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispatch & OwnProps, void> {
     public render() {
         const { hasCards, cardGroup, addEmptyCard,
-            subCardGroups, addSubCardGroup, isParentCard,
+            hasSubCardGroups, addSubCardGroup, isParentCard,
             cardGroupTitleChanged, archiveCardGroup } = this.props;
         return <CardGroupDraggableComponent displayEmptyCard=
-                                        {cardGroup.id !== "-1" && (subCardGroups.length === 0 || hasCards || cardGroup.ui.forceDisplayAddCard === true)}
+                                        {cardGroup.id !== "-1" && (!hasSubCardGroups || hasCards || cardGroup.ui.forceDisplayAddCard === true)}
+                                        hasSubGroups={hasSubCardGroups}
                                     cardGroup={cardGroup}
                                     isParentCardGroup={isParentCard}
                                     hoveringDropAction={this.props.dropHoveringCardAction}
                                     hoveringCardGroup={this.props.hoveringCardGroup}
                                     hoveringAction={this.props.hoveringAction}
-                                    subCardGroups={subCardGroups}
                                     titleChanged={cardGroupTitleChanged}
                                     remove={archiveCardGroup}
                                     addEmptyCard={addEmptyCard}

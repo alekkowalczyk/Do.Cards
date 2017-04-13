@@ -23,6 +23,7 @@ const configureStore = (initialState: Store) => {
                     applyMiddleware(sagaMiddleware,
                         routerMiddleware(browserHistory)));
   sagaMiddleware.run(rootSaga);
+  (<any>window).store = store;
   return store;
 };
 

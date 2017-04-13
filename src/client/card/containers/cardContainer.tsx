@@ -51,7 +51,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps, s: an
             const newOrder = h.hoverType === "TOP" ?
                             h.hoveringOver.order - (movingForward ? 1 : 0)
                             : h.hoveringOver.order + (movingForward ? 0 : 1);
-            console.log(h, newOrder);
             dispatch(CardActions.moveCardAction(h.hoveringCard.id,
                                     h.hoveringOver.id.parentId,
                                     h.hoveringOver.id.parentType,

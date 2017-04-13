@@ -3,13 +3,14 @@ import { CardParent_CardGroup } from "../model/cardModel";
 import { ICardGroupProps } from "../model/cardGroupModel";
 import { IHoveringCardGroup } from "../model/cardModuleUiModel";
 import CardGroupContainer from "../containers/cardGroupContainer";
+import CardGroupListContainer from "../containers/cardGroupListContainer";
 import CardListContainer from "../containers/cardListContainer";
 
 export interface ICardGroupComponentProps {
     displayEmptyCard: boolean;
-    subCardGroups: ICardGroupProps[];
     cardGroup: ICardGroupProps;
     isDragLayer?: boolean;
+    hasSubGroups: boolean;
     hoveringCardGroup: IHoveringCardGroup | undefined;
     hoveringAction: (options?: IHoveringCardGroup) => void;
     hoveringDropAction: (hovering: IHoveringCardGroup) => void;
@@ -28,12 +29,6 @@ interface ICardGroupDragDropConnect{
 export class CardGroupComponent extends React.Component<ICardGroupComponentProps & ICardGroupDragDropConnect, {}> {
     public render() {
         const { title, id, parentId } = this.props.cardGroup;
-        const subCardGroups: React.HTMLProps<HTMLDivElement> =
-                        this.props.subCardGroups.reverse().map((cg, idx) =>
-                            cg &&
-                            <CardGroupContainer key={idx} cardGroup={cg} />
-                        )
-                    ;
         const connectDragSource = this.props.connectDragSource || ((p) => p);
         const connectDropTarget = this.props.connectDropTarget || ((p) => p);
         const placeholder = id === "-1" ? "Type to add new group..." : "";
@@ -62,9 +57,9 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                         </div>
                     </div>
                     {
-                        !this.props.isDragLayer &&
-                        <div style={{ float: "right" }}>
-                            { subCardGroups }
+                        !this.props.isDragLayer && this.props.hasSubGroups &&
+                        <div style={{float: "right"}} >
+                            <CardGroupListContainer parentId={this.props.cardGroup.id} />
                         </div>
                     }
                     {   !this.props.isDragLayer &&

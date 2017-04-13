@@ -60,9 +60,9 @@ export default class CustomDragLayer extends React.Component<any, {}> {
                                     hoveringDropAction={(h) => {}}
                                     hoveringCardGroup={undefined}
                                     cardGroup={item.cardGroup}
-                                    subCardGroups={[]}
                                     displayEmptyCard={false}
                                     isDragLayer={true}
+                                    hasSubGroups={false}
                                      />);
       default:
         return null;

@@ -18,8 +18,7 @@ interface IDropProps {
 }
 
 const dragSpec: DragSourceSpec<ICardGroupComponentProps> = {
-    beginDrag(props, monitor, component) {
-        console.log("Begin Drag");
+    beginDrag(props, monitor, component) {     
         // Return the data describing the dragged item
         const item = { cardGroup: props.cardGroup };
         return item;
@@ -40,22 +39,22 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor): IDragProps 
 
 const dropSpec: DropTargetSpec<ICardGroupComponentProps> = {
         drop: (props: ICardGroupComponentProps, monitor?: DropTargetMonitor, component?: React.Component<ICardGroupComponentProps, any>): Object|void => {
-            console.log("drop", props.hoveringCardGroup);
             if (props.hoveringCardGroup !== undefined) {
                 props.hoveringDropAction(props.hoveringCardGroup);
             }
         },
         hover(props: ICardGroupComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardGroupComponentProps, any>): void {
+            
             if (!monitor.isOver({ shallow: true})) {
                 return;
             }
+            
             const dragItem = monitor.getItem() as any;
             const hoveringCardGroup = dragItem ? dragItem.cardGroup as ICardGroupProps : undefined;
             if (hoveringCardGroup === props.cardGroup) {
                 return;
             }
             if (hoveringCardGroup && props.isParentCardGroup(hoveringCardGroup)) {
-                console.log("ignore because isparent");
                 return;
             }
             const clientOffset = monitor.getClientOffset();
@@ -72,6 +71,7 @@ const dropSpec: DropTargetSpec<ICardGroupComponentProps> = {
                 || hoverType !== props.hoveringCardGroup.hoverType
                 || !hoveringOverSameCardGroup
                 || hoveringCardGroup !== props.hoveringCardGroup.hoveringCardGroup) {
+                    console.log("GROUPHOVER",({ hoverType, hoveringOver, hoveringCardGroup }));
                 props.hoveringAction({ hoverType, hoveringOver, hoveringCardGroup });
             }
         },
