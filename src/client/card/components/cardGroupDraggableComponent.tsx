@@ -44,11 +44,11 @@ const dropSpec: DropTargetSpec<ICardGroupComponentProps> = {
             }
         },
         hover(props: ICardGroupComponentProps, monitor: DropTargetMonitor, component: React.Component<ICardGroupComponentProps, any>): void {
-            
+
             if (!monitor.isOver({ shallow: true})) {
                 return;
             }
-            
+
             const dragItem = monitor.getItem() as any;
             const hoveringCardGroup = dragItem ? dragItem.cardGroup as ICardGroupProps : undefined;
             if (hoveringCardGroup === props.cardGroup) {

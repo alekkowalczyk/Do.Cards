@@ -46,7 +46,7 @@ export class CardGroupModel implements ICardGroupProps {
         this.order = props.order;
     }
 
-    public IsSameParent(parentId: string): boolean {
+    public IsSameParent(parentId: string | undefined): boolean {
         return this.parentId === parentId;
     }
 
@@ -58,7 +58,6 @@ export class CardGroupModel implements ICardGroupProps {
         });
     }
 
-    
     public ChangeOrderAndParent(newOrder: number, newParentId?: string): CardGroupModel {
         console.log("ChangeOrderAndParent", newOrder, newParentId);
         return new CardGroupModel({
