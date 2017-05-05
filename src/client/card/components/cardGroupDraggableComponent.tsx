@@ -51,18 +51,23 @@ const dropSpec: DropTargetSpec<ICardGroupComponentProps> = {
 
             const dragItem = monitor.getItem() as any;
             const hoveringCardGroup = dragItem ? dragItem.cardGroup as ICardGroupProps : undefined;
+
             if (hoveringCardGroup === props.cardGroup) {
+                console.log("A");
                 return;
             }
             if (hoveringCardGroup && props.isParentCardGroup(hoveringCardGroup)) {
+                console.log("B");
                 return;
             }
+
             const clientOffset = monitor.getClientOffset();
             const componentRect = findDOMNode(component).getBoundingClientRect();
             const componentWidth = componentRect.right - componentRect.left;
-            const isLeft = (clientOffset.x - componentRect.width) < (componentWidth / 2);
+            const isLeft = (clientOffset.x - componentRect.left) < (componentWidth / 2);
             const hoveringOver = props.cardGroup;
             const hoverType = (isLeft || hoveringOver.id === "-1") ? "LEFT" : "RIGHT"; // Empty card group always left
+
             const hoveringOverSameCardGroup =
                 !props.hoveringCardGroup ||
                 hoveringOver === props.hoveringCardGroup.hoveringOver ||
