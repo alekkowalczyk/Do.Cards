@@ -55,10 +55,10 @@ class CardListContainer extends React.Component<ConnectedState & ConnectedDispat
         const subProps = {
             cardGroups: cardGroups,
             hoveringAction: this.props.hoveringAction,
-            hoveringCardGroupOptions: this.props.hoveringCardGroup,
-            isSubCardsList: parentId !== null && parentId !== undefined,
+            hoveringCardGroupOptions: this.props.hoveringCardGroup
         };
-        if (subProps.isSubCardsList) {
+        const isSubCardGroupsList = parentId !== null && parentId !== undefined;
+        if (isSubCardGroupsList) {
             return <CardGroupListComponent {...subProps} />;
         } else {
             return <CardGroupListDropableComponent {...subProps} />;

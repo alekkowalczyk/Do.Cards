@@ -48,7 +48,7 @@ export class CardGroupComponent extends React.Component<ICardGroupComponentProps
                             </div>
                             <div>
                                 {   id !== "-1" &&
-                                    <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group</button>
+                                    <button onClick={this.props.addSubCardGroup}><span className="plus">+</span>sub card group...</button>
                                 }
                                 {   id !== "-1" && !this.props.displayEmptyCard &&
                                     <button onClick={this.props.addEmptyCard}><span className="plus">+</span>card</button>
