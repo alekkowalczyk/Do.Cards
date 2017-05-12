@@ -4,8 +4,8 @@ const tslint = require("gulp-tslint");
 const tsc = require("gulp-typescript");
 const sourcemaps = require('gulp-sourcemaps');
 const webpack = require('webpack');
-const WebpackDevServer = require("webpack-dev-server");
 const gulpWebpack = require('webpack-stream');
+const WebpackDevServer = require("webpack-dev-server");
 
 gulp.task("lint", () => gulp.src([
         "src/server/**/**.ts",
