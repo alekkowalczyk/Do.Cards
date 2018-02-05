@@ -40,7 +40,7 @@ const mapStateToProps = (state: Store, ownProps: OwnProps): ConnectedState => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps, s: any): ConnectedDispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<Store>, ownProps: OwnProps): ConnectedDispatch => ({
     editCardTitle: (newTitle: string) => dispatch(CardActions.cardTitleChanged(ownProps.card.id, newTitle)),
     addSubCard: () => dispatch(CardActions.displayEmptySubCardAction(ownProps.card.id)),
     archiveCard: () => dispatch(CardActions.archiveCard(ownProps.card.id)),
@@ -84,4 +84,4 @@ class CardContainer extends React.Component<ConnectedState & ConnectedDispatch &
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)<React.ComponentClass<OwnProps>>(CardContainer);
+)(CardContainer as any);

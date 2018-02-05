@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { Store } from "../rootReducer";
 import CardGroupPage from "./cardBoardPage";
 
-type OwnProps = {}
+type OwnProps = {
+}
 type ConnectedState = {
 };
 type ConnectedDispatch = {
@@ -35,7 +36,11 @@ class App extends React.Component<ConnectedState & ConnectedDispatch & OwnProps,
 }
 
 //export default App;
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(App);
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(App);
+)(App as any);

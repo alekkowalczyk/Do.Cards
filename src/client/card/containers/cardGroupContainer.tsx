@@ -95,7 +95,11 @@ class CardGroupContainer extends React.Component<ConnectedState & ConnectedDispa
 // to the provided react component class.
 // Without it, any place which would want to use this component would
 // require to pass props which are mapped from the store.
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )<React.ComponentClass<OwnProps>>(CardGroupContainer);
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)<React.ComponentClass<OwnProps>>(CardGroupContainer);
+        mapStateToProps,
+        mapDispatchToProps
+    )(CardGroupContainer as any);

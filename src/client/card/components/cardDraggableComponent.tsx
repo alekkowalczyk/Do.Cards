@@ -92,9 +92,6 @@ const dropSourceCollector: DropTargetCollector = (connect, monitor): IDropProps 
 @(DropTarget("card", dropSpec, dropSourceCollector) as any)
 @(DragSource("card", dragSpec, dragSourceCollector) as any)
 export default class CardDraggableComponent extends React.Component<ICardComponentProps, {}> {
-    constructor() {
-        super();
-    }
 
     public componentDidMount() {
         // Use empty image as a drag preview so browsers don't draw it

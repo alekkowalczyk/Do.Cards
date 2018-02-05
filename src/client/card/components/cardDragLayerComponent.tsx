@@ -3,8 +3,9 @@ import { DragLayer } from "react-dnd";
 import CardComponent from "./cardComponent";
 import { CardGroupComponent } from "./cardGroupComponent";
 
+type fixedPosition = "fixed";
 const layerStyles = {
-  position: "fixed",
+  position: "fixed" as fixedPosition,
   pointerEvents: "none",
   zIndex: 500100,
   left: 0,

@@ -22,10 +22,6 @@ interface ICardDragDropConnect{
 }
 
 export default class CardComponent extends React.Component<ICardComponentProps & ICardDragDropConnect, {}> {
-    constructor() {
-        super();
-    }
-
     public render(): any {
         const { card } = this.props;
         const connectDragSource = this.props.connectDragSource || ((p) => p);
